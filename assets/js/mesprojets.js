@@ -1,175 +1,102 @@
-async function retreiveDataMyProjects(){
-  const response = await fetch("http://localhost:5678/api/works")
-  const tableauProjets = await response.json()
-  //console.log(tableauProjets)
+let BTN_TOUSLESITEMS = document.createElement("button")
+let BTN_OBJETS = document.createElement("button")
+let BTN_APPARTEMENTS = document.createElement("button")
+let BTN_HOTELS_RESTAURANTS = document.createElement("button")
 
 
-  //************************* Mes variables et boutons pour les filtres *********************//
 
-  // Var boutons catégories
-  var mainContainerFilterHTML
-  var buttontoutesLesCategories
-  var buttonCategorieObjets
-  var buttonCategorieAppartements
-  var buttonCategorieHotelsEtRestaurants
-
-  mainContainerFilterHTML = document.querySelector(".filter") 
-  buttontoutesLesCategories = document.createElement("button") 
-  buttonCategorieObjets = document.createElement("button")
-  buttonCategorieAppartements = document.createElement("button")
-  buttonCategorieHotelsEtRestaurants = document.createElement("button")
-
-
-  //***************************************** Ma boucle ***********************************//
-
-  for (var i=0;i<tableauProjets.length;i++){
-   //console.log(tableauProjets[i].category.name)
-
-
-  //********************************* Mes filtres *******************************//
-
-  buttontoutesLesCategories.innerText = "Tous les objets"
-
-  if(tableauProjets[i].category.name === "Objets"){
-    buttonCategorieObjets.innerText = tableauProjets[i].category.name
+async function fetchDataAPI() {
+  try {
+    const response = await fetch("http://localhost:5678/api/works");
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    const DATAAPI = await response.json();
+    return DATAAPI; // Retourne les données pour qu'une autre fonction puisse les utiliser
   } 
-  else if (tableauProjets[i].category.name === "Appartements"){
-    buttonCategorieAppartements.innerText = tableauProjets[i].category.name
+  catch (error) {
+    console.error("Erreur lors du fetch :", error.message);
+    return []; // Retourne un tableau vide en cas d'erreur
   }
-  else if (tableauProjets[i].category.name === "Hotels & restaurants"){
-    buttonCategorieHotelsEtRestaurants.innerText = tableauProjets[i].category.name
-  }
-
-  mainContainerFilterHTML.appendChild(buttontoutesLesCategories)
-  mainContainerFilterHTML.appendChild(buttonCategorieObjets)
-  mainContainerFilterHTML.appendChild(buttonCategorieAppartements)
-  mainContainerFilterHTML.appendChild(buttonCategorieHotelsEtRestaurants)
+}
 
 
+async function displayGallery(data){ 
+    let galleryParent  = document.querySelector(".gallery")
+    galleryParent.innerHTML=""
 
-  //********************************* Ma gallerie dynamique *******************************//
-  
-
-
-  //****************************** Tout voir ****************************//
-
-  const mainContainerGalleryHTML = document.querySelector(".gallery")
-
-  const imageHTML = document.createElement("img")
-  imageHTML.src = tableauProjets[i].imageUrl
-
-  const containerfigureHTML = document.createElement("figure")
-  
-  const figureCaptionHTML = document.createElement("figcaption")
-  figureCaptionHTML.innerHTML = tableauProjets[i].title 
-
-  mainContainerGalleryHTML.appendChild(containerfigureHTML)
-  containerfigureHTML.appendChild(imageHTML)
-  containerfigureHTML.appendChild(figureCaptionHTML) 
-
-
-
-  //************************** Tout voir si je clique **********************//
-
-  let tableau = tableauProjets
-  //console.log(tableau)
-
-  buttontoutesLesCategories.addEventListener("click", function(){
-    const recupTout = tableau
-    //console.log(recupTout)
-
-    mainContainerGalleryHTML.innerHTML = ""
-
-    recupTout.forEach(item => {
-    const imageHTML = document.createElement("img")
-    imageHTML.src = item.imageUrl
-
-    const containerfigureHTML = document.createElement("figure")
+    data.forEach(item => {
+      let figureGallery = document.createElement("figure")
     
-    const figureCaptionHTML = document.createElement("figcaption")
-    figureCaptionHTML.innerHTML = item.title 
+      let imgGallery = document.createElement("img")
+      imgGallery.src = item.imageUrl
+   
+      let figureCaptionGallery = document.createElement("figure-caption")
+      figureCaptionGallery.textContent = item.title
 
-    mainContainerGalleryHTML.appendChild(containerfigureHTML)
-    containerfigureHTML.appendChild(imageHTML)
-    containerfigureHTML.appendChild(figureCaptionHTML) 
-  })
-  
-})
-
-//************************** Voir les objets si je clique **********************//
-
-  buttonCategorieObjets.addEventListener("click", function(){
-    const recupObjets = tableau.filter(item => item.category.name === "Objets")
-    recupObjets.innerHTML = tableau
-    //console.log(recupObjets)
-
-    mainContainerGalleryHTML.innerHTML = ""
-
-    recupObjets.forEach(item => {
-      const imageHTML = document.createElement("img")
-      imageHTML.src = item.imageUrl
-  
-      const containerfigureHTML = document.createElement("figure")
-     
-      const figureCaptionHTML = document.createElement("figcaption")
-      figureCaptionHTML.innerHTML = item.title 
-  
-      mainContainerGalleryHTML.appendChild(containerfigureHTML)
-      containerfigureHTML.appendChild(imageHTML)
-      containerfigureHTML.appendChild(figureCaptionHTML) 
-    
+      galleryParent.appendChild(figureGallery)
+      figureGallery.appendChild(imgGallery)
+      figureGallery.appendChild(figureCaptionGallery)
     })
+}  
+
+
+async function displayFilter(){
+  let data = await fetchDataAPI(); 
+
+  let dataUniques = [... new Set(data.map(item => item.category.name))]
+  const filtreObjet = dataUniques[0]
+  const filtreAppartement = dataUniques[1]
+  const filtreHotelEtRestaurant = dataUniques[2]
+  //console.log(dataUniques[1])
+
+  let filterElement = document.querySelector(".filter")
+
+  BTN_TOUSLESITEMS.innerText="Tous"
+  
+  BTN_OBJETS.innerText= filtreObjet
+
+  BTN_APPARTEMENTS.innerText=filtreAppartement
+  
+  BTN_HOTELS_RESTAURANTS.innerText=filtreHotelEtRestaurant
+
+  filterElement.appendChild(BTN_TOUSLESITEMS)
+  filterElement.appendChild(BTN_OBJETS)
+  filterElement.appendChild(BTN_APPARTEMENTS)
+  filterElement.appendChild(BTN_HOTELS_RESTAURANTS)
+}
+displayFilter()
+
+
+
+async function initEvent(){
+  let data = await fetchDataAPI(); 
+  console.log(data)
+
+  let dataObj = data.filter(obj => obj.category.name ==="Objets" )
+  //console.log(dataObj)
+  let dataApp = data.filter(app => app.category.name ==="Appartements" )
+  //console.log(dataApp)
+  let dataHotelRestau = data.filter(hotelRestau => hotelRestau.category.name ==="Hotels & restaurants" )
+  //console.log(dataHotelRestau)
+
+  displayGallery(data)
+
+  BTN_TOUSLESITEMS.addEventListener("click", function() {
+    displayGallery(data)
   })
 
-  //************************** Voir les appartements si je clique **********************//
-
-  buttonCategorieAppartements.addEventListener("click", function(){
-    const recupAppartements = tableau.filter(item => item.category.name === "Appartements")
-    recupAppartements.innerHTML = tableau
-    //console.log(recupAppartements)
-
-    mainContainerGalleryHTML.innerHTML = ""
-
-    recupAppartements.forEach(item => {
-      const imageHTML = document.createElement("img")
-      imageHTML.src = item.imageUrl
-  
-      const containerfigureHTML = document.createElement("figure")
-     
-      const figureCaptionHTML = document.createElement("figcaption")
-      figureCaptionHTML.innerHTML = item.title 
-  
-      mainContainerGalleryHTML.appendChild(containerfigureHTML)
-      containerfigureHTML.appendChild(imageHTML)
-      containerfigureHTML.appendChild(figureCaptionHTML) 
-    
-    })
+  BTN_OBJETS.addEventListener("click", function() {
+    displayGallery(dataObj)
   })
-  
-//************************** Voir les hotels et restaurants si je clique **********************//
 
-  buttonCategorieHotelsEtRestaurants.addEventListener("click", function(){
-    const recupHotelsEtRestaurants = tableau.filter(item => item.category.name === "Hotels & restaurants")
-    recupHotelsEtRestaurants.innerHTML = tableau
-    //console.log(recupHotelsEtRestaurants)
-
-    mainContainerGalleryHTML.innerHTML = ""
-
-    recupHotelsEtRestaurants.forEach(item => {
-      const imageHTML = document.createElement("img")
-      imageHTML.src = item.imageUrl
-  
-      const containerfigureHTML = document.createElement("figure")
-     
-      const figureCaptionHTML = document.createElement("figcaption")
-      figureCaptionHTML.innerHTML = item.title 
-  
-      mainContainerGalleryHTML.appendChild(containerfigureHTML)
-      containerfigureHTML.appendChild(imageHTML)
-      containerfigureHTML.appendChild(figureCaptionHTML) 
-    
-    })
+  BTN_APPARTEMENTS.addEventListener("click", function() {
+    displayGallery(dataApp)
   })
-  
-}}
-retreiveDataMyProjects()
+
+  BTN_HOTELS_RESTAURANTS.addEventListener("click", function() {
+    displayGallery(dataHotelRestau)
+  })
+}
+
+initEvent()
