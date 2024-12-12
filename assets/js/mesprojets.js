@@ -4,7 +4,6 @@ let BTN_APPARTEMENTS = document.createElement("button")
 let BTN_HOTELS_RESTAURANTS = document.createElement("button")
 
 
-
 async function fetchDataAPI() {
   try {
     const response = await fetch("http://localhost:5678/api/works");
