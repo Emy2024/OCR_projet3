@@ -48,10 +48,10 @@ table {
 }
 /** end reset css**/
 body {
-	max-width: 1140px;
 	margin:auto;
 	font-family: 'Work Sans' ;
 	font-size: 14px;
+  background-color: #FFFEF8; 
 }
 .bodyLogin{
 	max-height: 100vh;
@@ -59,7 +59,15 @@ body {
 header {
 	display: flex;
 	justify-content: space-between;
-	margin: 50px 0
+	margin: 50px 0;
+	max-width: 1140px;
+	margin-left: auto;
+	margin-right: auto;
+}
+main {
+	max-width: 1140px;
+	margin: auto;
+	position: relative;
 }
 section {
 	margin: 50px 0
@@ -184,7 +192,7 @@ li:hover {
 
 /************************** Formulaires contact Homepage + login (page login) *******************************/
 .contact {
-width: 50%;
+width: 37%;
 margin: auto;
 }
 
@@ -239,17 +247,11 @@ input[type="submit"]{
 
 
 
-.messageErreurClientEmail{
+.messageErreur{
 	color: red;
 	font-size: 13px;
 	font-weight: bold;
 }
-
-.messageErreurClientPassword{
-	color: red;
-	font-size: 13px;
-	font-weight: bold;
-} 
 
 
 .placeholderError{
@@ -262,21 +264,20 @@ input[type="submit"]{
 
 /************************** Footer Homepage*******************************/
 
+footer{
+	padding: 5px;
+	background-color: rgb(255, 255, 255);
+	width: 100%;
+	display: flex;
+	justify-content: end;
+ 	position: absolute; 
+
+}
+
+
 footer nav ul {
 	display: flex;
 	justify-content: flex-end;
 	margin: 2em;
 }
 
-/************************** Footer Login*******************************/
-
-
-.footerLogin {
-	display: flex;
-	justify-content: flex-end;
-	margin: 2em;
-	position: absolute;
-	bottom: 0;
-	margin-right: 0;
-	width: 1140px;
-}
