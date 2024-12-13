@@ -27,7 +27,6 @@ async function fetchDataAPI(url) {
   }
 }
 
-
 async function displayGallery(data){ 
     let galleryParent  = document.querySelector(".gallery")
     galleryParent.innerHTML=""
@@ -46,7 +45,6 @@ async function displayGallery(data){
       figureGallery.appendChild(figureCaptionGallery)
     })
 }  
-
 
 async function displayFilter(data){
   let dataUniques = [... new Set(data.map(item => item.category.name))]
@@ -70,11 +68,9 @@ async function displayFilter(data){
   filterElement.appendChild(BTN_HOTELS_RESTAURANTS)
 }
 
-
 async function filter(data, filterName){
     displayGallery(data.filter(obj => obj.category.name ===filterName))
 }
-
 
 async function initEvent(data){
   BTN_TOUSLESITEMS.addEventListener("click", function() {
