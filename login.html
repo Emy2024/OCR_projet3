@@ -9,8 +9,8 @@
 	<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Work+Sans&display=swap" rel="stylesheet">
 	<meta name="description" content="">
 	<link rel="stylesheet" href="./assets/css/style.css">
-<!-- 	<script src="./assets/js/login.js"></script> -->
-	<script src="./assets/js/login.js" defer></script> 
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.1/css/all.min.css">
+
 	
 </head>
 <body class="bodyLogin">
@@ -29,17 +29,40 @@
   <section class="contact">
 		<h2>Log in</h2>
 		
-		<form action="#" id="form" class="form">
-
-			<label for="email">Email</label>
-			<input type="email" name="email" id="email" required>
-			<div class="messageErreurClientEmail"></div>
+		<form action="#" id="formLogin" class="form">
+			<div class="labelAndInput">
+				<label for="email">Email<span class="etoile">*</span></label>
+				<div class="inputAndIcon">
+							<input class="inputFied"
+								type="email" 
+								name="email" 
+								id="email" 
+						
+								>
+						<span class="inputIconMail hideIcon">
+							<i class="fa-solid fa-circle-exclamation"></i>
+						</span>
+				</div>
+				<div id="messageErreurClientEmail"></div>
+			</div>
 			
-			<label for="password">Mot de passe</label>
-			<input type="password" name="password" id="password" required>
-			<div class="messageErreurClientPassword"></div>
+			<div class="labelAndInput">
+				<label for="password">Mot de passe<span class="etoile">*</span></label>
+				<div class="inputAndIcon">
+							<input class="inputFied"
+								type="password" 
+								name="password" 
+								id="password" 
+								
+								>
+						<span class="inputIconPassword hideIcon">
+							<i class="fa-solid fa-circle-exclamation"></i>
+						</span>
+				</div>
+				<div id="messageErreurClientPassword"></div>
+			</div>
 			
-			<input type="submit" value="Se connecter" id="submit">
+			<input type="submit" value="Se connecter" id="submit" oninput="submit">
 		</form>
 
 
@@ -48,12 +71,14 @@
 	</section>
 </main>
 
-<footer class="footerLogin">
+<footer>
 	<nav>
 		<ul>
 			<li>Mentions Légales</li>
 		</ul>
 	</nav>
 </footer>
+
+<script src="./assets/js/login.js" defer></script> 
 </body>
 </html>
