@@ -69,7 +69,7 @@ async function displayFilter(data){
 }
 
 async function filter(data, filterName){
-    displayGallery(data.filter(obj => obj.category.name ===filterName))
+  displayGallery(data.filter(obj => obj.category.name ===filterName))
 }
 
 async function initEvent(data){
