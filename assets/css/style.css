@@ -287,6 +287,12 @@ padding: 25px;
 	font-size: 13px;
 	font-weight: bold;
 }
+.messageErreurFetch{
+	color: red;
+	font-size: 13px;
+	font-weight: bold;
+	padding: 5px;
+}
 .placeholderError{
 	background-color: rgba(255, 0, 0, 0.272);
 	border: 1px solid red !important;
@@ -301,6 +307,12 @@ padding: 25px;
 	margin-top: 5px;
 	color: red;
 	font-weight: 700;
+}
+
+#messageErreurFetch{
+	display: flex;
+	justify-content: center;
+	align-items: center;
 }
 
 /************************** Footer Homepage*******************************/
