@@ -1,10 +1,13 @@
-//////////////////////* A REPRENDRE *///////////////////////
 const FORM = document.getElementById("formLogin")
 const SUBMIT = document.getElementById("submit")
 
-const URL_DATA_API_USERS = "http://localhost:5678/api/users/login"
 
-const INPUT_VALUE = document.querySelectorAll("input") // tous mes inputs
+//////////////////////* FETCH *///////////////////////
+const URL_DATA_API_USERS = "http://localhost:5678/api/users/login"
+const ERROR_MESSAGE_FETCH = "Identifiants invalides."
+const FETCH_ID_ERROR = document.getElementById("messageErreurFetch")
+
+//////////////////////* EMAIL *///////////////////////
 const MAIL_ID_INPUT = document.getElementById("email")
 const MAIL_VALUE = document.getElementById("email").value 
 const MAIL_ICON_CLASS_ERROR = document.querySelector(".inputIconMail")
@@ -12,6 +15,7 @@ const MAIL_ID_ERROR = document.getElementById("messageErreurClientEmail")
 const MAIL_ERROR_MESSAGE = "Merci de renseigner un email valide."
 const MAIL_ERROR_MESSAGE_FORMAT = "Merci de renseigner un format d'email correct."
 
+//////////////////////* PASSWORD *///////////////////////
 const PASSWORD_ID_INPUT = document.getElementById("password") 
 const PASSWORD_VALUE = document.getElementById("password").value
 const PASSWORD_ICON_CLASS_ERROR = document.querySelector(".inputIconPassword")
@@ -34,13 +38,13 @@ main()
 FORM.addEventListener("submit", function (event) {
   event.preventDefault(); 
   handleInput()
-  checkData()
+  checkData() 
 });
 
 
 
 
-
+// Fonction pour chaque input du formulaire :
 function handleInput(){
   let emailValue = MAIL_ID_INPUT.value.trim();
   let passwordValue = PASSWORD_ID_INPUT.value.trim();
@@ -80,6 +84,14 @@ function successInput(icon, placeholder, idError){
   idError.classList.remove("messageErreur") 
 }
 
+
+// Si j'ai une erreur - fetch uniquement:
+function errorInputFetch(idError, error){
+  idError.innerHTML = error
+  idError.classList.add("messageErreurFetch") 
+}
+
+
 // Mon expression régulière
 function isMailFormatValid(emailValue) {
   const regularExpressionPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -87,9 +99,7 @@ function isMailFormatValid(emailValue) {
 } 
 
 
-
-
-
+// Fonction fetch :
 async function checkData() {
  
   let retrieveDataFromForm = 
@@ -110,11 +120,10 @@ async function checkData() {
   })
     .then((response) => {
       if (!response.ok) {
-        errorInput(MAIL_ICON_CLASS_ERROR, MAIL_ID_INPUT, MAIL_ID_ERROR, MAIL_ERROR_MESSAGE);
-        errorInput(PASSWORD_ICON_CLASS_ERROR, PASSWORD_ID_INPUT, PASSWORD_ID_ERROR, PASSWORD_ERROR_MESSAGE);
+        errorInputFetch(FETCH_ID_ERROR, ERROR_MESSAGE_FETCH);
       } 
       else {response.json()
-        window.open("index.html");
+        window.location.href="index.html"
       }
     })
 
@@ -132,3 +141,5 @@ async function checkData() {
     // cookie http only ?
     // ouvrir une nouvelle page pour rediriger l'utilisateur vers index.html
 } 
+
+
