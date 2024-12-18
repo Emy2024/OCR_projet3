@@ -337,3 +337,36 @@ footer nav ul {
 
 
 
+
+
+
+
+
+
+
+
+
+/************************** Connexion : homepage *******************************/
+
+.head_connexion_on{
+	display: flex;
+	background-color: black !important;
+	max-width: 100%;
+	height: 50px;
+}
+
+.containerEditionMode{
+display: flex;
+}
+
+.modeEdition{
+	color: white;
+}
+
+.modifier{
+	color: black;
+	font-size: medium;
+	font-weight: 100;
+	padding-left: 15px;
+}
+
