@@ -31,7 +31,6 @@ main()
 
 
 // Quand je clique, il se passe ...
-
 function isFormSent(){
 FORM.addEventListener("submit", function (event) {
   event.preventDefault(); 
