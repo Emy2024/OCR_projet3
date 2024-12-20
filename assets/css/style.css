@@ -396,8 +396,11 @@ footer nav ul {
 .modal_backgroundOverlay{
 	background-color: rgba(0, 0, 0, 0.377);
 	position: fixed;
+	display: flex;
+	justify-content: center;
+	align-items: center;
 	width: 100%;
-	height: 100vh;
+	height: 100%;
 	top: 0;
 	bottom: 0;
 	left: 0;
@@ -417,9 +420,6 @@ footer nav ul {
 	justify-content: center;
 	position: absolute;
 	margin: auto;
-	top: 30%;
-	left: 0;
-	right: 0;
 }
 
 .modal_GaleriePhotoSubContainer{
@@ -428,7 +428,6 @@ footer nav ul {
 	text-align: center;
 	width: 65%;
 	padding: 40px;
-	/* background-color: yellow; */
 }
 
 .modal_CloseModal{
@@ -448,12 +447,14 @@ footer nav ul {
 }
 
 .modal_ThumbnailPhotos{
-	display: flex;
-	width: 100%;
-	height: 150px;
-	margin-top: 25px;
-	background-color: blueviolet;
+	flex: 1;
+	margin: 8px;
+	display: grid;
+	grid-template-columns: repeat(3, 1fr);
+	gap: 4px;
+	background-color: red;
 }
+
 
 .modal_Line{
 	width: 100%;
