@@ -403,6 +403,7 @@ footer nav ul {
 	left: 0;
 	right: 0;
 	z-index: 1;
+	box-sizing: border-box;
 }
 
 .modal_GaleriePhoto{
@@ -415,22 +416,58 @@ footer nav ul {
 	align-items: center;
 	justify-content: center;
 	position: absolute;
-	top: 50%;
+	margin: auto;
+	top: 30%;
+	left: 0;
+	right: 0;
 }
 
 .modal_GaleriePhotoSubContainer{
 	display: flex;
 	flex-direction: column;
 	text-align: center;
-	width: 80%;
+	width: 70%;
 	padding: 15px;
-	background-color: yellow;
+	/* background-color: yellow; */
 }
 
 .modal_CloseModal{
-	color: red;
+	color: black;
 	margin-left: auto;
+	cursor: pointer;
 }
+
 .modal_Title{
 	font-size: large;
 }
+
+.modal_Line{
+	width: 100%;
+	height: 1px;
+	border-top: rgb(214, 214, 214) solid 1px;
+	margin-top: 15px;
+}
+
+.modal_btn{
+	margin-top: 15px;
+	border: 0;
+	width: 50%;
+	background-color: #1D6154;
+	color: #FFFEF8;
+	padding: 1em;
+	border: #1D6154 1px solid;
+	border-radius: 25px;
+	margin: 5px;
+	font-family: 'Syne';
+	font-weight: 700;
+	margin: auto;
+	margin-top: 15px;
+}
+
+.modal_btn:hover{
+	background-color: white ;
+	color: #1D6154;
+	cursor: pointer;
+}
+
+
