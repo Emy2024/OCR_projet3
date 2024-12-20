@@ -1,8 +1,10 @@
+let a_modifier = document.createElement("a")
+a_modifier.id = "a_modifier"
+
 function main(){
   if (sessionStorage.getItem("token")) {
     createElementModeEdition()
     createElementModifier() 
-    createModale()
   }
  else (console.log("error"))
 }
@@ -21,11 +23,9 @@ function createElementModeEdition(){
   sous_div_modeEdition.appendChild(icon_modeEdition)
 }
 
-
 function createElementModifier(){
   let id_mesProjets = document.getElementById("mesProjets")
 
-  let a_modifier = document.createElement("a")
   a_modifier.href='index.html'
   let i_modifier_icone = document.createElement("i")
  
@@ -34,11 +34,18 @@ function createElementModifier(){
 
   id_mesProjets.appendChild(a_modifier)
   a_modifier.appendChild(i_modifier_icone)
-
 }
 
 
-function createModale(){
+document.getElementById("a_modifier").addEventListener("click", function(event){
+  event.stopPropagation()
+  //modaleTemplate()
+  alert("ça marche")
+})
+
+
+
+function modaleTemplate(){
   let modal_location = document.getElementById("modal")
   let modal_backgroundOverlay = document.createElement("div")
   modal_backgroundOverlay.classList.add("modal_backgroundOverlay")
@@ -58,6 +65,10 @@ function createModale(){
 
   let modal_ThumbnailPhotos = document.createElement("div")
   modal_ThumbnailPhotos.classList.add("modal_ThumbnailPhotos")
+  modal_ThumbnailPhotos.src = ""
+
+  //let modal_Photo = document.createElement('img')
+  //modal_Photo.classList.add("modal_Photo")
 
   let modal_Line = document.createElement("div")
   modal_Line.classList.add("modal_Line")
@@ -73,7 +84,26 @@ function createModale(){
   modal_GaleriePhoto.appendChild(modal_Title)
   modal_GaleriePhotoSubContainer.appendChild(modal_Title)
   modal_GaleriePhotoSubContainer.appendChild(modal_ThumbnailPhotos)
+  //modal_ThumbnailPhotos.appendChild(modal_Photo)
   modal_GaleriePhotoSubContainer.appendChild(modal_Line)
   modal_GaleriePhotoSubContainer.appendChild(modal_btn)
 }
+
+
+
+// NB : Emma : je peux créer une boîte modale qui a les propriétés identiques :
+// fond gris, box blanche, croix, titre, contenu (le seul truc qui change) trait, bouton.
+// Donc en paramètre de ma fonction, j'ai function modale(contenu)
+
+
+
+/* function displayGallery(){
+
+}
+ */
+
+
+
+
+
 
