@@ -46,18 +46,24 @@ function modale(){
   modal_GaleriePhoto.classList.add("modal_GaleriePhoto")
   let modal_GaleriePhotoSubContainer = document.createElement("div")
   modal_GaleriePhotoSubContainer.classList.add("modal_GaleriePhotoSubContainer")
+  
   let modal_CloseModal = document.createElement("p")
   modal_CloseModal.innerHTML = "x"
+  modal_CloseModal.href = "#"
   modal_CloseModal.classList.add("modal_CloseModal")
+
   let modal_Title = document.createElement("p")
   modal_Title.innerHTML = "Galerie photo"
   modal_Title.classList = "modal_Title"
 
+  //let modal_ThumbnailPhotos = documents.createElement("div")
 
-/*   
-  let modal_backgroundOverlay = document.createElement("div")
-  modal_backgroundOverlay.classList.add("modal_backgroundOverlay") */
+  let modal_Line = document.createElement("div")
+  modal_Line.classList.add("modal_Line")
 
+  let modal_btn = document.createElement("button")
+  modal_btn.classList.add("modal_btn")
+  modal_btn.innerHTML="Ajoutez une photo"
 
   modal_location.appendChild(modal_backgroundOverlay)
   modal_backgroundOverlay.appendChild(modal_GaleriePhoto)
@@ -65,4 +71,6 @@ function modale(){
   modal_GaleriePhotoSubContainer.appendChild(modal_CloseModal)
   modal_GaleriePhoto.appendChild(modal_Title)
   modal_GaleriePhotoSubContainer.appendChild(modal_Title)
+  modal_GaleriePhotoSubContainer.appendChild(modal_Line)
+  modal_GaleriePhotoSubContainer.appendChild(modal_btn)
 }
