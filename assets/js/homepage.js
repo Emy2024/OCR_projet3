@@ -2,7 +2,7 @@ function main(){
   if (sessionStorage.getItem("token")) {
     createElementModeEdition()
     createElementModifier() 
-    modale()
+    createModale()
   }
  else (console.log("error"))
 }
@@ -38,7 +38,7 @@ function createElementModifier(){
 }
 
 
-function modale(){
+function createModale(){
   let modal_location = document.getElementById("modal")
   let modal_backgroundOverlay = document.createElement("div")
   modal_backgroundOverlay.classList.add("modal_backgroundOverlay")
@@ -56,7 +56,8 @@ function modale(){
   modal_Title.innerHTML = "Galerie photo"
   modal_Title.classList = "modal_Title"
 
-  //let modal_ThumbnailPhotos = documents.createElement("div")
+  let modal_ThumbnailPhotos = document.createElement("div")
+  modal_ThumbnailPhotos.classList.add("modal_ThumbnailPhotos")
 
   let modal_Line = document.createElement("div")
   modal_Line.classList.add("modal_Line")
@@ -67,10 +68,12 @@ function modale(){
 
   modal_location.appendChild(modal_backgroundOverlay)
   modal_backgroundOverlay.appendChild(modal_GaleriePhoto)
+  modal_GaleriePhoto.appendChild(modal_CloseModal)
   modal_GaleriePhoto.appendChild(modal_GaleriePhotoSubContainer)
-  modal_GaleriePhotoSubContainer.appendChild(modal_CloseModal)
   modal_GaleriePhoto.appendChild(modal_Title)
   modal_GaleriePhotoSubContainer.appendChild(modal_Title)
+  modal_GaleriePhotoSubContainer.appendChild(modal_ThumbnailPhotos)
   modal_GaleriePhotoSubContainer.appendChild(modal_Line)
   modal_GaleriePhotoSubContainer.appendChild(modal_btn)
 }
+
