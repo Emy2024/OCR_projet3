@@ -1,10 +1,23 @@
-let a_modifier = document.createElement("a")
-a_modifier.id = "a_modifier"
+let BTN_MODIFIER = document.createElement("a")
+BTN_MODIFIER.id = "a_modifier"
+
+let MODAL_TITLE = document.createElement("p")
+let MODAL_MAIN_CONTENT = document.createElement("div")
+let MODAL_BTN = document.createElement("button")
+
+const MODALE_1_MAIN_CONTENT = document.createElement("div")
+MODALE_1_MAIN_CONTENT.innerHTML="yyyyyyyyyyyyyyyyyyyyy"
+
+const MODALE_2_ET_3_MAIN_CONTENT = document.createElement("div")
+MODALE_2_ET_3_MAIN_CONTENT.innerHTML="xxxxxxxxxxxxxxxxx"
 
 function main(){
   if (sessionStorage.getItem("token")) {
     createElementModeEdition()
     createElementModifier() 
+    // modaleFirstStep(title, content, button) :
+    modaleTemplate("Galerie photo", MODALE_1_MAIN_CONTENT, "Ajouter une photo")
+    modaleTemplate("Ajout photo", MODALE_2_ET_3_MAIN_CONTENT, "Valider")
   }
  else (console.log("error"))
 }
@@ -26,74 +39,61 @@ function createElementModeEdition(){
 function createElementModifier(){
   let id_mesProjets = document.getElementById("mesProjets")
 
-  a_modifier.href='index.html'
+  BTN_MODIFIER.href='index.html'
   let i_modifier_icone = document.createElement("i")
  
   i_modifier_icone.classList.add("fa-regular", "fa-pen-to-square")
-  a_modifier.classList.add("a_modifier")
+  BTN_MODIFIER.classList.add("btn_modifier")
 
-  id_mesProjets.appendChild(a_modifier)
-  a_modifier.appendChild(i_modifier_icone)
+  id_mesProjets.appendChild(BTN_MODIFIER)
+  BTN_MODIFIER.appendChild(i_modifier_icone)
 }
 
 
-document.getElementById("a_modifier").addEventListener("click", function(event){
+/* document.getElementById("a_modifier").addEventListener("click", function(event){
   event.stopPropagation()
-  //modaleTemplate()
-  alert("ça marche")
+  
 })
+ */
 
 
 
-function modaleTemplate(){
+function modaleTemplate(title, content, button){
   let modal_location = document.getElementById("modal")
   let modal_backgroundOverlay = document.createElement("div")
   modal_backgroundOverlay.classList.add("modal_backgroundOverlay")
-  let modal_GaleriePhoto = document.createElement("div")
-  modal_GaleriePhoto.classList.add("modal_GaleriePhoto")
-  let modal_GaleriePhotoSubContainer = document.createElement("div")
-  modal_GaleriePhotoSubContainer.classList.add("modal_GaleriePhotoSubContainer")
-  
+  let modal_WhiteBackground = document.createElement("div")
+  modal_WhiteBackground.classList.add("modal_WhiteBackground")
+  let modal_SubContainer = document.createElement("div")
+  modal_SubContainer.classList.add("modal_SubContainer")
   let modal_CloseModal = document.createElement("p")
   modal_CloseModal.innerHTML = "x"
   modal_CloseModal.href = "#"
   modal_CloseModal.classList.add("modal_CloseModal")
 
-  let modal_Title = document.createElement("p")
-  modal_Title.innerHTML = "Galerie photo"
-  modal_Title.classList = "modal_Title"
+  MODAL_TITLE.innerHTML = title
+  MODAL_TITLE.classList.add("modal_title") //mon titre qui change
 
-  let modal_ThumbnailPhotos = document.createElement("div")
-  modal_ThumbnailPhotos.classList.add("modal_ThumbnailPhotos")
-  modal_ThumbnailPhotos.src = ""
-
-  //let modal_Photo = document.createElement('img')
-  //modal_Photo.classList.add("modal_Photo")
+  MODAL_MAIN_CONTENT = content
+  MODAL_MAIN_CONTENT.classList.add("modal_Content") //mon content qui change
 
   let modal_Line = document.createElement("div")
   modal_Line.classList.add("modal_Line")
 
-  let modal_btn = document.createElement("button")
-  modal_btn.classList.add("modal_btn")
-  modal_btn.innerHTML="Ajoutez une photo"
+  MODAL_BTN.classList.add("modal_btn")
+  MODAL_BTN.innerHTML= button //mon boutton qui change
 
   modal_location.appendChild(modal_backgroundOverlay)
-  modal_backgroundOverlay.appendChild(modal_GaleriePhoto)
-  modal_GaleriePhoto.appendChild(modal_CloseModal)
-  modal_GaleriePhoto.appendChild(modal_GaleriePhotoSubContainer)
-  modal_GaleriePhoto.appendChild(modal_Title)
-  modal_GaleriePhotoSubContainer.appendChild(modal_Title)
-  modal_GaleriePhotoSubContainer.appendChild(modal_ThumbnailPhotos)
-  //modal_ThumbnailPhotos.appendChild(modal_Photo)
-  modal_GaleriePhotoSubContainer.appendChild(modal_Line)
-  modal_GaleriePhotoSubContainer.appendChild(modal_btn)
+  modal_backgroundOverlay.appendChild(modal_WhiteBackground)
+  modal_WhiteBackground.appendChild(modal_CloseModal)
+  modal_WhiteBackground.appendChild(modal_SubContainer)
+  modal_SubContainer.appendChild(MODAL_TITLE)
+  modal_SubContainer.appendChild(MODAL_MAIN_CONTENT)
+  modal_SubContainer.appendChild(modal_Line)
+  modal_SubContainer.appendChild(MODAL_BTN)
 }
 
 
-
-// NB : Emma : je peux créer une boîte modale qui a les propriétés identiques :
-// fond gris, box blanche, croix, titre, contenu (le seul truc qui change) trait, bouton.
-// Donc en paramètre de ma fonction, j'ai function modale(contenu)
 
 
 
