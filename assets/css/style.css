@@ -372,7 +372,7 @@ footer nav ul {
 
 /************ Logo et text "modifier" au niveau du h2 Mes Projets ************/
 
-.a_modifier{
+.btn_modifier{
 	align-items: center;
 	color: black;
 	font-size: large;
@@ -380,7 +380,7 @@ footer nav ul {
 	padding-left: 20px;
 }
 
-.a_modifier ::after{
+.btn_modifier ::after{
 	content: "modifier";
 	font-size: medium;
 	font-weight: 100;
@@ -409,7 +409,7 @@ footer nav ul {
 	box-sizing: border-box;
 }
 
-.modal_GaleriePhoto{
+.modal_WhiteBackground{
 	background-color: white;
 	width: 35%;
 	border-radius: 10px;
@@ -422,7 +422,7 @@ footer nav ul {
 	margin: auto;
 }
 
-.modal_GaleriePhotoSubContainer{
+.modal_SubContainer{
 	display: flex;
 	flex-direction: column;
 	text-align: center;
@@ -442,11 +442,11 @@ footer nav ul {
 	font-weight: 300;
 }
 
-.modal_Title{
+.modal_title{
 	font-size: large;
 }
 
-.modal_ThumbnailPhotos{
+.modal_Content{
 	flex: 1;
 	margin: 8px;
 	display: grid;
