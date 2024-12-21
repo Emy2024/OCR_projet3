@@ -446,15 +446,15 @@ footer nav ul {
 	font-size: large;
 }
 
-.modal_Content{
+
+
+.modale_1_main_content{
 	flex: 1;
-	margin: 8px;
 	display: grid;
 	grid-template-columns: repeat(3, 1fr);
 	gap: 4px;
 	background-color: red;
 }
-
 
 .modal_Line{
 	width: 100%;
@@ -485,4 +485,7 @@ footer nav ul {
 	cursor: pointer;
 }
 
+.modal_closed{
+	display: none;
+}
 
