@@ -13,14 +13,15 @@ let MODAL_BTN = document.createElement("button")
 
 let MODAL_CLOSEMODAL = document.createElement("p")
 
-/* const MODALE_2_ET_3_MAIN_CONTENT = document.createElement("div")
-MODALE_2_ET_3_MAIN_CONTENT.innerHTML="xxxxxxxxxxxxxxxxx" */
+let MODALE_1_MAIN_CONTENT = document.createElement("div")
+let MODALE_2_MAIN_CONTENT = document.createElement("div")
 
 function main(){
   if (sessionStorage.getItem("token")) {
     createElementModeEdition()
     createElementModifier() 
     initModale()
+    initSecondModale()
   }
  else (console.log("error"))
 }
@@ -85,10 +86,22 @@ function initModale(){
   BTN_MODIFIER.addEventListener("click", function(event){
     event.preventDefault()
     
-    const modale_1_main_content = document.createElement("div")
-    modale_1_main_content.classList.add("modale_1_main_content")
-    /* modale_1_main_content.scr=xxxx */ //Ici, mettre la galerie photos 
-    modaleTemplate("Galerie photo", modale_1_main_content, "Ajouter une photo")
+    MODALE_1_MAIN_CONTENT.classList.add("modale_1_main_content") 
+    MODALE_1_MAIN_CONTENT.innerHTML="ici, créer galerie photos"
+
+    modaleTemplate("Galerie photo", MODALE_1_MAIN_CONTENT, "Ajouter une photo")
+  })
+}
+
+function initSecondModale(){
+  MODAL_BTN.addEventListener("click", function(event){
+    event.preventDefault()
+    
+    MODALE_1_MAIN_CONTENT.innerHTML =""
+
+    MODALE_2_MAIN_CONTENT.innerHTML="ici, créer 2ème interface" // ici, créer la 2ème interface avec formulaire
+    
+    modaleTemplate("Ajout photo", MODALE_2_MAIN_CONTENT, "Valider")
   })
 }
 
