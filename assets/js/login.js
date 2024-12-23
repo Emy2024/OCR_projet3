@@ -114,18 +114,23 @@ async function postData() {
     },
     body: payload, 
   })
-  .then(response => response.json())
+  .then(response => {
+    if (!response.ok) {
+      throw new Error(`Erreur HTTP :  ${response.status}`)
+    }
+    return response.json();
+  })
   .then(data => {
     console.log(data)
     sessionStorage.setItem("token", data.token)
-    window.location.href="index.html"
+    window.open("index.html")
   })
- 
   .catch(error => {
     console.error("Erreur", error)
     errorInputFetch(FETCH_ID_ERROR, ERROR_MESSAGE_FETCH)
   })   
 }
+
 
 
 
