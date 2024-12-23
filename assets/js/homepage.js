@@ -1,3 +1,7 @@
+import { fetchDataAPI } from "./fetchPortfolio.js";
+const URL_API = "http://localhost:5678/api/works" 
+let DATA = await fetchDataAPI(URL_API) 
+
 let BTN_MODIFIER = document.createElement("a")
 BTN_MODIFIER.id = "a_modifier"
 
@@ -15,12 +19,15 @@ let MODAL_CLOSEMODAL = document.createElement("p")
 
 let MODALE_1_MAIN_CONTENT = document.createElement("div")
 let MODALE_2_MAIN_CONTENT = document.createElement("div")
+let MODALE_2_MAIN_CONTENT_UPLOAD = document.createElement("div")
+let MODALE_2_MAIN_CONTENT_FORM = document.createElement("form")
 
 function main(){
   if (sessionStorage.getItem("token")) {
     createElementModeEdition()
     createElementModifier() 
-    initModale()
+    
+    initFirstModale()
     initSecondModale()
   }
  else (console.log("error"))
@@ -82,28 +89,86 @@ function modaleTemplate(title, content, button){
 }
 
 
-function initModale(){
+function initFirstModale(){
   BTN_MODIFIER.addEventListener("click", function(event){
     event.preventDefault()
-    
-    MODALE_1_MAIN_CONTENT.classList.add("modale_1_main_content") 
-    MODALE_1_MAIN_CONTENT.innerHTML="ici, créer galerie photos"
-
-    modaleTemplate("Galerie photo", MODALE_1_MAIN_CONTENT, "Ajouter une photo")
+    contentFirstModale()   
   })
 }
+
+
+{/* <i class="fa-solid fa-trash" style="color: #ffffff;"></i> */}
+
+
+
+//Ici, ajouter bouton supprimer sur chaque photo (onEach ?)
+function contentFirstModale(){
+  
+  MODALE_2_MAIN_CONTENT.innerHTML =""
+
+  modaleTemplate("Galerie photo", MODALE_1_MAIN_CONTENT, "Ajouter une photo")
+
+  let dataTable = []
+  dataTable = DATA
+
+  for (let i=0;i <dataTable.length;i++){
+    let dataTableImages = dataTable[i].imageUrl
+    //console.log(dataTableImages)
+    
+    MODALE_1_MAIN_CONTENT.classList.add("modale_1_main_content") 
+
+    let modale_1_divForBinIcone = document.createElement("div")
+    modale_1_divForBinIcone.classList.add("modale_1_divForBinIcone")
+
+    let modale_1_galleryImage = document.createElement('img')
+    modale_1_galleryImage.classList.add("modale_1_galleryImage")
+    modale_1_galleryImage.src = dataTableImages
+
+
+    MODALE_1_MAIN_CONTENT.appendChild(modale_1_galleryImage) 
+
+} 
+
+}
+
+
 
 function initSecondModale(){
   MODAL_BTN.addEventListener("click", function(event){
     event.preventDefault()
-    
     MODALE_1_MAIN_CONTENT.innerHTML =""
-
-    MODALE_2_MAIN_CONTENT.innerHTML="ici, créer 2ème interface" // ici, créer la 2ème interface avec formulaire
-    
-    modaleTemplate("Ajout photo", MODALE_2_MAIN_CONTENT, "Valider")
+    contentSecondModale()
   })
 }
+
+
+
+function contentSecondModale(){
+  modaleTemplate("Ajout photo", MODALE_2_MAIN_CONTENT, "Valider")
+  
+  MODALE_2_MAIN_CONTENT_UPLOAD.classList.add("modale_2_container_upload")
+  MODALE_2_MAIN_CONTENT_FORM.classList.add("modale_2_form")
+
+  contentSecondModaleForm("Titre ", "text")
+  contentSecondModaleForm("Catégorie ", "select")
+
+  MODALE_2_MAIN_CONTENT.appendChild(MODALE_2_MAIN_CONTENT_UPLOAD) 
+  MODALE_2_MAIN_CONTENT.appendChild(MODALE_2_MAIN_CONTENT_FORM)
+}
+
+
+function contentSecondModaleForm(nameLabel, typeInput){
+
+  let modale_2_container_label = document.createElement("label")
+  modale_2_container_label.innerHTML= nameLabel
+  let modale_2_container_input = document.createElement("input")
+  modale_2_container_input.type = typeInput; 
+
+
+  MODALE_2_MAIN_CONTENT_FORM.appendChild(modale_2_container_label)
+  MODALE_2_MAIN_CONTENT_FORM.appendChild(modale_2_container_input)
+}
+
 
 function closeModale(){
   MODAL_CLOSEMODAL.addEventListener("click", function() {
