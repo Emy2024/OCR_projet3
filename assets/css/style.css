@@ -448,20 +448,11 @@ footer nav ul {
 
 
 
-.modale_1_main_content{
-	flex: 1;
-	display: grid;
-	grid-template-columns: repeat(5, 1fr);
-	gap: 4px;
-	background-color: red;
-	margin-top: 20px;
-}
-
 .modal_Line{
 	width: 100%;
 	height: 1px;
 	border-top: rgb(214, 214, 214) solid 1px;
-	margin-top: 15px;
+	margin-top: 42px;
 }
 
 .modal_btn{
@@ -490,3 +481,75 @@ footer nav ul {
 	display: none;
 }
 
+
+
+
+
+
+
+
+.modale_1_main_content{
+ gap: 4px; 
+	margin-top: 20px;
+	width: 100%;
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: flex-start;
+	background-color: rgba(255, 255, 0, 0);
+}
+
+
+.modale_1_galleryImage{
+	height: 89px;
+	/* margin-top: 25px; */
+	position: relative;
+}
+
+
+.modale_1_divForBinIcone{
+ 	max-width: 100%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	background-color: rgb(0, 0, 0);
+	width:22px;
+	height:22px;
+	z-index: 999; 
+
+}
+
+.modale_1_binIcone{
+	z-index: 999;
+	color: white;
+	position: absolute;
+}
+
+
+
+
+
+
+
+
+
+
+
+.modale_2_container_upload{
+	display: flex;
+	flex-direction: column;
+	background-color: #E8F1F6;
+	max-width: 100%;
+	height: 150px;
+	margin-top: 20px;
+}
+
+
+.modale_2_form{
+	display: flex;
+	flex-direction: column;
+	background-color: rgba(255, 0, 0, 0);
+	max-width: 100%;
+	height: 150px;
+	margin-top: 20px;
+	text-align: left !important;
+}
