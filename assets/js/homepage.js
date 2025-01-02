@@ -75,7 +75,6 @@ function modaleTemplate(title, content, button){
  
   MODAL_LINE.classList.add("modal_Line")
 
-  MODAL_BTN.classList.add("modal_btn")
   MODAL_BTN.innerHTML= button //mon button qui change
 
   MODAL_LOCATION.appendChild(MODAL_BACKGROUND_OVERLAY)
@@ -126,7 +125,8 @@ function contentFirstModale(){
 
 
     MODALE_1_MAIN_CONTENT.appendChild(modale_1_galleryImage) 
-
+    MODAL_BTN.classList.remove("modal_btn_not_activated")
+    MODAL_BTN.classList.add("modal_btn")
 } 
 
 }
@@ -162,14 +162,20 @@ function contentSecondModale(){
 
 
   MODALE_2_MAIN_CONTENT_FORM.classList.add("modale_2_form")
+
+
   contentSecondModaleForm("Titre ", "input")
   contentSecondModaleForm("Catégorie ", "select")
+  
 
   MODALE_2_MAIN_CONTENT.appendChild(MODALE_2_MAIN_CONTENT_UPLOAD) 
   MODALE_2_MAIN_CONTENT_UPLOAD.appendChild(modale_2_main_content_upload_icon) 
   MODALE_2_MAIN_CONTENT_UPLOAD.appendChild(modale_2_main_content_upload_btn) 
   MODALE_2_MAIN_CONTENT_UPLOAD.appendChild(modale_2_main_content_upload_paragraph) 
   MODALE_2_MAIN_CONTENT.appendChild(MODALE_2_MAIN_CONTENT_FORM)
+
+  MODAL_BTN.classList.remove("modal_btn")
+  MODAL_BTN.classList.add("modal_btn_not_activated")
 }
 
 
@@ -177,8 +183,6 @@ function contentSecondModaleForm(nameLabel, typeInput){
   let modale_2_container_label = document.createElement("label")
   modale_2_container_label.innerHTML= nameLabel
   let modale_2_container_input = document.createElement(typeInput)
-
-
 
   MODALE_2_MAIN_CONTENT_FORM.appendChild(modale_2_container_label)
   MODALE_2_MAIN_CONTENT_FORM.appendChild(modale_2_container_input)
