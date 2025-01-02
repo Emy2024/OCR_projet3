@@ -99,22 +99,19 @@ function initFirstModale(){
 }
 
 
-{/* <i class="fa-solid fa-trash" style="color: #ffffff;"></i> */}
+/* <i class="fa-solid fa-trash" style="color: #ffffff;"></i> */
 
 
 
-//Ici, ajouter bouton supprimer sur chaque photo (onEach ?)
+//Ici, ajouter bouton supprimer sur chaque photo (onEach ?) 
 function contentFirstModale(){
   
   MODALE_2_MAIN_CONTENT.innerHTML =""
 
   modaleTemplate("Galerie photo", MODALE_1_MAIN_CONTENT, "Ajouter une photo")
 
-  let dataTable = []
-  dataTable = DATA
-
-  for (let i=0;i <dataTable.length;i++){
-    let dataTableImages = dataTable[i].imageUrl
+  for (let i=0;i <DATA.length;i++){
+    let dataTableImages = DATA[i].imageUrl
     //console.log(dataTableImages)
     
     MODALE_1_MAIN_CONTENT.classList.add("modale_1_main_content") 
@@ -126,14 +123,12 @@ function contentFirstModale(){
     modale_1_galleryImage.classList.add("modale_1_galleryImage")
     modale_1_galleryImage.src = dataTableImages
 
-
     MODALE_1_MAIN_CONTENT.appendChild(modale_1_galleryImage) 
     MODAL_BTN.classList.remove("modal_btn_not_activated")
     MODAL_BTN.classList.add("modal_btn")
-} 
+  } 
 
 }
-
 
 
 function initSecondModale(){
@@ -217,12 +212,12 @@ function contentSecondModaleForm(){
 
 
 
-
-
 function closeModale(){
   MODAL_CLOSEMODAL.addEventListener("click", function() {
     MODAL_CLOSEMODAL.classList.remove("modal_CloseModal")
     MODAL_BACKGROUND_OVERLAY.classList.add("modal_closed")
+    MODALE_1_MAIN_CONTENT.innerHTML =""
+    MODALE_2_MAIN_CONTENT.innerHTML =""
   })
 } 
 closeModale()
