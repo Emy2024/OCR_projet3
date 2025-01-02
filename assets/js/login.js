@@ -124,7 +124,7 @@ async function postData() {
   .then(data => {
     console.log(data)
     sessionStorage.setItem("token", data.token)
-    window.open("index.html")
+    window.open("index.html","_self")
   })
   .catch(error => {
     console.error("Erreur", error)
