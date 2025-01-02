@@ -471,13 +471,34 @@ footer nav ul {
 	margin-top: 15px;
 }
 
-.modal_btn:hover{
+.modal_btn_not_activated {
+	margin-top: 15px;
+	border: 0;
+	width: 50%;
+	background-color: #A7A7A7;
+	color: #FFFEF8;
+	padding: 1em;
+	border: #A7A7A7 1px solid;
+	border-radius: 25px;
+	margin: 5px;
+	font-family: 'Syne';
+	font-weight: 700;
+	margin: auto;
+	margin-top: 15px;
+}
+
+.modal_btn_not_activated:hover {
+	background-color: #A7A7A7;
+	color: #FFFEF8;
+}
+
+.modal_btn:hover {
 	background-color: white ;
 	color: #1D6154;
 	cursor: pointer;
 }
 
-.modal_closed{
+.modal_closed {
 	display: none;
 }
 
@@ -597,4 +618,12 @@ footer nav ul {
 	box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
 	padding: 15px;
 	margin: 15px 0px;
+}
+
+.modale_2_form select{
+	border: none;
+	box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
+	padding: 15px;
+	margin: 15px 0px;
+	background-color: white;
 }
