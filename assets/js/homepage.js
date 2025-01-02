@@ -155,14 +155,14 @@ function contentSecondModale(){
 
   modale_2_main_content_upload_btn.innerHTML = "+ Ajouter photo"
   modale_2_main_content_upload_btn.classList.add("modale_2_main_content_upload_btn")
-  modale_2_main_content_upload_btn.href='index.html'
+  //modale_2_main_content_upload_btn.href='index.html'
 
   modale_2_main_content_upload_paragraph.innerHTML = "jpg, png : 4mo max"
   modale_2_main_content_upload_paragraph.classList.add("modale_2_main_content_upload_paragraph")
 
 
   MODALE_2_MAIN_CONTENT_FORM.classList.add("modale_2_form")
-  contentSecondModaleForm("Titre ", "text")
+  contentSecondModaleForm("Titre ", "input")
   contentSecondModaleForm("Catégorie ", "select")
 
   MODALE_2_MAIN_CONTENT.appendChild(MODALE_2_MAIN_CONTENT_UPLOAD) 
@@ -174,16 +174,18 @@ function contentSecondModale(){
 
 
 function contentSecondModaleForm(nameLabel, typeInput){
-
   let modale_2_container_label = document.createElement("label")
   modale_2_container_label.innerHTML= nameLabel
-  let modale_2_container_input = document.createElement("input")
-  modale_2_container_input.type = typeInput; 
+  let modale_2_container_input = document.createElement(typeInput)
+
 
 
   MODALE_2_MAIN_CONTENT_FORM.appendChild(modale_2_container_label)
   MODALE_2_MAIN_CONTENT_FORM.appendChild(modale_2_container_input)
 }
+
+
+
 
 
 
