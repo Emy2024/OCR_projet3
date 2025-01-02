@@ -191,20 +191,21 @@ function contentSecondModaleForm(){
   let modale_2_container_select_1 = document.createElement("select")
   modale_2_container_select_1.id ='modale_2_container_select_1'
 
- // Extraction des données pour les différentes catégories :
-  let data_categories_table = [] 
-  data_categories_table = DATA_CATEGORIES
-  for (let i =0; i < data_categories_table.length;i++){
+  // Au click, extraction de la data : //
+  modale_2_container_select_1.addEventListener("click", function(){
+    let data_categories_table = [] 
+    data_categories_table = DATA_CATEGORIES
+    for (let i =0; i < data_categories_table.length;i++){
     let categories_uniques = data_categories_table[i].name
     let modale_2_container_select_1_option = document.createElement("option");
 
     modale_2_container_select_1_option.value = categories_uniques
     modale_2_container_select_1_option.textContent = categories_uniques
     modale_2_container_select_1.appendChild(modale_2_container_select_1_option)
-
     //console.log(categories_uniques)
-  }
-
+    }
+  })
+ 
 
   MODALE_2_MAIN_CONTENT_FORM.appendChild(modale_2_container_label_1)
   MODALE_2_MAIN_CONTENT_FORM.appendChild(modale_2_container_input_1)
