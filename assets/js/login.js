@@ -1,37 +1,21 @@
 const FORM = document.getElementById("formLogin")
 const SUBMIT = document.getElementById("submit")
 
-
-//////////////////////* FETCH *///////////////////////
+// Mon fetch
 const URL_DATA_API_USERS = "http://localhost:5678/api/users/login"
 const ERROR_MESSAGE_FETCH = "Identifiants invalides."
 const FETCH_ID_ERROR = document.getElementById("messageErreurFetch")
 
-//////////////////////* EMAIL *///////////////////////
-const MAIL_ID_INPUT = document.getElementById("email")
-const MAIL_ICON_CLASS_ERROR = document.querySelector(".inputIconMail")
-const MAIL_ID_ERROR = document.getElementById("messageErreurClientEmail")
-const MAIL_ERROR_MESSAGE = "Merci de renseigner un email valide."
-const MAIL_ERROR_MESSAGE_FORMAT = "Merci de renseigner un format d'email correct."
-
-//////////////////////* PASSWORD *///////////////////////
-const PASSWORD_ID_INPUT = document.getElementById("password") 
-const PASSWORD_ICON_CLASS_ERROR = document.querySelector(".inputIconPassword")
-const PASSWORD_ID_ERROR = document.getElementById("messageErreurClientPassword")
-const PASSWORD_ERROR_MESSAGE = "Merci de renseigner un mot de passe valide."
-const PASSWORD_ERROR_MESSAGE_TOO_SHORT = "Le mot de passe doit contenir 6 caractères minimum."
-
 
 // Mon point d'entrée
 function main(){
-  isFormSent()
+  initEvents()
 }
 main()
 
 
-
 // Quand je clique, il se passe ...
-function isFormSent(){
+function initEvents(){
 FORM.addEventListener("submit", function (event) {
   event.preventDefault(); 
   handleInput()
@@ -39,30 +23,41 @@ FORM.addEventListener("submit", function (event) {
 });
 }
 
-
 // Fonction pour chaque input du formulaire :
 function handleInput(){
-  let emailValue = MAIL_ID_INPUT.value.trim()
-  let passwordValue = PASSWORD_ID_INPUT.value.trim()
+  const mail_id_input = document.getElementById("email") 
+  const mail_icon_class_error = document.querySelector(".inputIconMail") 
+  const mail_id_error = document.getElementById("messageErreurClientEmail") 
+  const mail_error_message = "Merci de renseigner un email valide."
+  const mail_error_message_format = "Merci de renseigner un format d'email correct."
+
+  const password_id_input = document.getElementById("password") 
+  const password_icon_class_error = document.querySelector(".inputIconPassword")
+  const password_id_error = document.getElementById("messageErreurClientPassword")
+  const password_error_message = "Merci de renseigner un mot de passe valide."
+  const password_error_message_too_short = "Le mot de passe doit contenir 6 caractères minimum."
+
+  let emailValue = mail_id_input.value.trim()
+  let passwordValue = password_id_input.value.trim()
   //console.log(emailValue)
 
   if (emailValue === ""){
-    errorInput(MAIL_ICON_CLASS_ERROR, MAIL_ID_INPUT, MAIL_ID_ERROR, MAIL_ERROR_MESSAGE)
+    errorInput(mail_icon_class_error, mail_id_input, mail_id_error, mail_error_message)
   } else if (!isMailFormatValid(emailValue)){
-    errorInput(MAIL_ICON_CLASS_ERROR, MAIL_ID_INPUT, MAIL_ID_ERROR,MAIL_ERROR_MESSAGE_FORMAT)
+    errorInput(mail_icon_class_error, mail_id_input, mail_id_error,mail_error_message_format)
   } else {
-    successInput(MAIL_ICON_CLASS_ERROR, MAIL_ID_INPUT, MAIL_ID_ERROR)
+    successInput(mail_icon_class_error, mail_id_input, mail_id_error)
   }
 
   if (passwordValue === ""){
-    errorInput(PASSWORD_ICON_CLASS_ERROR, PASSWORD_ID_INPUT, PASSWORD_ID_ERROR, PASSWORD_ERROR_MESSAGE)
+    errorInput(password_icon_class_error, password_id_input, password_id_error, password_error_message)
   } else if (passwordValue.length <6) {
-    errorInput(PASSWORD_ICON_CLASS_ERROR, PASSWORD_ID_INPUT, PASSWORD_ID_ERROR, PASSWORD_ERROR_MESSAGE_TOO_SHORT)
+    errorInput(password_icon_class_error, password_id_input, password_id_error, password_error_message_too_short)
   } else {
-    successInput(PASSWORD_ICON_CLASS_ERROR, PASSWORD_ID_INPUT, PASSWORD_ID_ERROR)
+    successInput(password_icon_class_error, password_id_input, password_id_error)
   }
+  return false
 }
-
 
 
 // Si j'ai une erreur :
@@ -73,7 +68,6 @@ function errorInput(icon, placeholder, idError, error){
   idError.classList.add("messageErreur") 
 }
 
-
 // Si je n'ai pas d'erreurs :
 function successInput(icon, placeholder, idError){
   icon.classList.add("hideIcon")
@@ -81,7 +75,6 @@ function successInput(icon, placeholder, idError){
   idError.innerHTML = ""
   idError.classList.remove("messageErreur") 
 }
-
 
 // Si j'ai une erreur - fetch uniquement:
 function errorInputFetch(idError, error){
@@ -101,8 +94,8 @@ async function postData() {
 
   let retrieveDataFromForm = 
   {
-    email: document.getElementById("email").value,
-    password: document.getElementById("password").value
+    email: document.getElementById("email").value.trim(),
+    password: document.getElementById("password").value.trim()
   }
     // Ma charge utile que je convertis en JSON :
   const payload = JSON.stringify(retrieveDataFromForm)
@@ -123,7 +116,7 @@ async function postData() {
   })
   .then(data => {
     console.log(data)
-    sessionStorage.setItem("token", data.token)
+    localStorage.setItem("token", data.token)
     window.open("index.html","_self")
   })
   .catch(error => {
