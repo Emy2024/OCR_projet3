@@ -1,45 +1,44 @@
 import { fetchDataAPI } from "./fetchPortfolio.js";
+
 const URL_API = "http://localhost:5678/api/works" 
 let DATA = await fetchDataAPI(URL_API) 
 
-let DATA_CATEGORIES = await fetchDataAPI("http://localhost:5678/api/categories") 
-console.log("Mes catégories récupérées : ", DATA_CATEGORIES)
+let URL_DATA_CATEGORIES = await fetchDataAPI("http://localhost:5678/api/categories") 
+console.log("Mes catégories récupérées : ", URL_DATA_CATEGORIES)
 
-let BTN_MODIFIER = document.createElement("a")
-BTN_MODIFIER.id = "a_modifier"
 
-let MODAL_SUBCONTAINER = document.createElement("div")
-let MODAL_LOCATION = document.getElementById("modal")
+let BTN_OPEN_MODAL_DISPLAY_GALLERY = document.createElement("a")
+BTN_OPEN_MODAL_DISPLAY_GALLERY.id = "a_modifier"
+let BTN_LOGIN = document.querySelector(".login")
+
 let MODAL_BACKGROUND_OVERLAY = document.createElement("div")
-let MODAL_WHITE_BACKGROUND = document.createElement("div")
-let MODAL_LINE = document.createElement("div")
-
-let MODAL_TITLE = document.createElement("p")
-let MODAL_MAIN_CONTENT = document.createElement("div")
 let MODAL_BTN = document.createElement("button")
+let MODAL_CLOSE = document.createElement("p")
 
-let MODAL_CLOSEMODAL = document.createElement("p")
+let MODAL_CONTENT_DISPLAY_GALLERY = document.createElement("div")
 
-let MODALE_1_MAIN_CONTENT = document.createElement("div")
-let MODALE_2_MAIN_CONTENT = document.createElement("div")
-let MODALE_2_MAIN_CONTENT_UPLOAD = document.createElement("div")
-let MODALE_2_MAIN_CONTENT_FORM = document.createElement("form")
+let MODAL_CONTENT_UPDATE_GALLERY = document.createElement("div")
+let MODAL_CONTENT_UPDATE_GALLERY_FORM = document.createElement("form")
+
 
 function main(){
-  if (sessionStorage.getItem("token")) {
+  if (localStorage.getItem("token")) {
+    createLogout()
     createElementModeEdition()
     createElementModifier() 
-    
-    initFirstModale()
-    initSecondModale()
+    initEvents(DATA)
   }
  else (console.log("error"))
 }
 main()
 
+function createLogout(){
+  BTN_LOGIN.innerHTML = "logout"
+  BTN_LOGIN.classList.add("logout")
+}
+
 function createElementModeEdition(){
   let id_modeEdition = document.querySelector("#divModeEdition")
-
   let sous_div_modeEdition = document.createElement("div") 
   let icon_modeEdition = document.createElement("i")
   
@@ -53,182 +52,193 @@ function createElementModeEdition(){
 function createElementModifier(){
   let id_mesProjets = document.getElementById("mesProjets")
 
-  BTN_MODIFIER.href='index.html'
+  BTN_OPEN_MODAL_DISPLAY_GALLERY.href='index.html'
   let i_modifier_icone = document.createElement("i")
  
   i_modifier_icone.classList.add("fa-regular", "fa-pen-to-square")
-  BTN_MODIFIER.classList.add("btn_modifier")
+  BTN_OPEN_MODAL_DISPLAY_GALLERY.classList.add("modifier_btn")
 
-  id_mesProjets.appendChild(BTN_MODIFIER)
-  BTN_MODIFIER.appendChild(i_modifier_icone)
+  id_mesProjets.appendChild(BTN_OPEN_MODAL_DISPLAY_GALLERY)
+  BTN_OPEN_MODAL_DISPLAY_GALLERY.appendChild(i_modifier_icone)
 }
 
-function modaleTemplate(title, content, button){
-  MODAL_BACKGROUND_OVERLAY.classList.add("modal_backgroundOverlay")
-  MODAL_WHITE_BACKGROUND.classList.add("modal_WhiteBackground")
-  MODAL_SUBCONTAINER.classList.add("modal_SubContainer")
-  MODAL_CLOSEMODAL.innerHTML = "x"
-  MODAL_CLOSEMODAL.classList.add("modal_CloseModal")
+
+// sortis de la fonction modalTemplate
+let modal_white_background = document.createElement("div")
+let modal_line = document.createElement("div")
+let modal_title = document.createElement("p")
+let modal_subcontainer = document.createElement("div")
+let modal_main_content = document.createElement("div")
+
+function modalTemplate(title, contentModal, button){
+
+  let modal_location = document.getElementById("modal")
+
+  modal_main_content = contentModal //mon content qui change
+
   MODAL_BACKGROUND_OVERLAY.classList.remove("modal_closed")
+  MODAL_BACKGROUND_OVERLAY.classList.add("modal_backgroundOverlay")
+  MODAL_CLOSE.classList.add("modal_CloseModal")
+  modal_subcontainer.classList.add("modal_SubContainer")
+  modal_white_background.classList.add("modal_WhiteBackground")
+  modal_title.classList.add("modal_title") //mon titre qui change
+  modal_title.innerHTML = title
+  modal_line.classList.add("modal_Line")
 
-  MODAL_TITLE.innerHTML = title
-  MODAL_TITLE.classList.add("modal_title") //mon titre qui change
-
-  MODAL_MAIN_CONTENT = content //mon content qui change
- 
-  MODAL_LINE.classList.add("modal_Line")
-
+  MODAL_CLOSE.innerHTML = "x"
   MODAL_BTN.innerHTML= button //mon button qui change
 
-  MODAL_LOCATION.appendChild(MODAL_BACKGROUND_OVERLAY)
-  MODAL_BACKGROUND_OVERLAY.appendChild(MODAL_WHITE_BACKGROUND)
-  MODAL_WHITE_BACKGROUND.appendChild(MODAL_CLOSEMODAL)
-  MODAL_WHITE_BACKGROUND.appendChild(MODAL_SUBCONTAINER)
-  MODAL_SUBCONTAINER.appendChild(MODAL_TITLE)
-  MODAL_SUBCONTAINER.appendChild(MODAL_MAIN_CONTENT)
-  MODAL_SUBCONTAINER.appendChild(MODAL_LINE)
-  MODAL_SUBCONTAINER.appendChild(MODAL_BTN)
+  modal_location.appendChild(MODAL_BACKGROUND_OVERLAY)
+  MODAL_BACKGROUND_OVERLAY.appendChild(modal_white_background)
+  modal_white_background.appendChild(MODAL_CLOSE)
+  modal_white_background.appendChild(modal_subcontainer)
+  modal_subcontainer.appendChild(modal_title)
+  modal_subcontainer.appendChild(modal_main_content)
+  modal_subcontainer.appendChild(modal_line)
+  modal_subcontainer.appendChild(MODAL_BTN)
 }
 
-
-function initFirstModale(){
-  BTN_MODIFIER.addEventListener("click", function(event){
-    event.preventDefault()
-    contentFirstModale()   
+async function initEvents(){
+  BTN_LOGIN.addEventListener("click", function(){
+    localStorage.removeItem("token")
+    window.open("index.html","_self")
   })
-}
 
+  // Première modal
+  BTN_OPEN_MODAL_DISPLAY_GALLERY.addEventListener("click", function(event){
+    event.preventDefault() 
+    constructionModalDisplayGallery()
+  })
 
-/* <i class="fa-solid fa-trash" style="color: #ffffff;"></i> */
-
-
-
-//Ici, ajouter bouton supprimer sur chaque photo (onEach ?) 
-function contentFirstModale(){
-  
-  MODALE_2_MAIN_CONTENT.innerHTML =""
-
-  modaleTemplate("Galerie photo", MODALE_1_MAIN_CONTENT, "Ajouter une photo")
-
-  for (let i=0;i <DATA.length;i++){
-    let dataTableImages = DATA[i].imageUrl
-    //console.log(dataTableImages)
-    
-    MODALE_1_MAIN_CONTENT.classList.add("modale_1_main_content") 
-
-    let modale_1_divForBinIcone = document.createElement("div")
-    modale_1_divForBinIcone.classList.add("modale_1_divForBinIcone")
-
-    let modale_1_galleryImage = document.createElement('img')
-    modale_1_galleryImage.classList.add("modale_1_galleryImage")
-    modale_1_galleryImage.src = dataTableImages
-
-    MODALE_1_MAIN_CONTENT.appendChild(modale_1_galleryImage) 
-    MODAL_BTN.classList.remove("modal_btn_not_activated")
-    MODAL_BTN.classList.add("modal_btn")
-  } 
-
-}
-
-
-function initSecondModale(){
+  // Seconde modal
   MODAL_BTN.addEventListener("click", function(event){
     event.preventDefault()
-    MODALE_1_MAIN_CONTENT.innerHTML =""
-    MODALE_2_MAIN_CONTENT_FORM.innerHTML =""
-    contentSecondModale()
+    constructionModalUpdateGallery()
+  })
+
+  MODAL_CLOSE.addEventListener("click", function() {
+    MODAL_CLOSE.classList.remove("modal_CloseModal")
+    MODAL_BACKGROUND_OVERLAY.classList.add("modal_closed")
   })
 }
 
 
-function contentSecondModale(){
-  modaleTemplate("Ajout photo", MODALE_2_MAIN_CONTENT, "Valider")
+// Première modal
+async function constructionModalDisplayGallery(){
+
+  MODAL_CONTENT_UPDATE_GALLERY.innerHTML = ""
+
+  modalTemplate("Galerie photo", MODAL_CONTENT_DISPLAY_GALLERY, "Ajouter une photo")
   
-  MODALE_2_MAIN_CONTENT_UPLOAD.classList.add("modale_2_main_content_upload")
-  let modale_2_main_content_upload_icon = document.createElement("i")
-  let modale_2_main_content_upload_btn = document.createElement("button")
-  let modale_2_main_content_upload_paragraph = document.createElement("p")
+  MODAL_CONTENT_DISPLAY_GALLERY.classList.add("modal_content_display_gallery") 
+
+  for (let i=0;i <DATA.length;i++){
+    let containerGallery = document.createElement('div')
+    let containerImage = document.createElement('div')
+    let image = document.createElement('img')
+    let a_trash = document.createElement("a")
+    let i_trash = document.createElement("i")
+
+    containerGallery.classList.add("containerGallery")
+    containerImage.classList.add("containerImage")
+    image.classList.add("image")
+    a_trash.classList.add("a_trash") 
+    i_trash.classList.add("fa-solid", "fa-trash", "i_trash") 
+
+    image.src = DATA[i].imageUrl
+    
+    // Ici, ajouter la suppression de données Fetch DELETE
+
+    MODAL_CONTENT_DISPLAY_GALLERY.appendChild(containerGallery)
+    containerGallery.appendChild(containerImage)
+    containerGallery.appendChild(a_trash)
+    a_trash.appendChild(i_trash)
+    containerImage.appendChild(image)
+  } 
+
+  MODAL_BTN.classList.remove("modal_btn_not_activated")
+  MODAL_BTN.classList.add("modal_btn")
+}
+
+// Seconde modal
+function constructionModalUpdateGallery(){
   
-  modale_2_main_content_upload_icon.classList.add("fa-regular", "fa-image", "modale_2_main_content_upload_icon")
+  MODAL_CONTENT_DISPLAY_GALLERY.innerHTML = ""
 
-  modale_2_main_content_upload_btn.innerHTML = "+ Ajouter photo"
-  modale_2_main_content_upload_btn.classList.add("modale_2_main_content_upload_btn")
-  //modale_2_main_content_upload_btn.href='index.html'
+  modalTemplate("Ajout photo", MODAL_CONTENT_UPDATE_GALLERY, "Valider")
+  
+  let MODAL_CONTENT_UPDATE_GALLERY_UPLOAD = document.createElement("div")
+  MODAL_CONTENT_UPDATE_GALLERY_UPLOAD.classList.add("modal_content_update_gallery_upload") 
+  MODAL_CONTENT_UPDATE_GALLERY_FORM.innerHTML =""
+  MODAL_CONTENT_UPDATE_GALLERY_FORM.classList.add("modale_2_form")
 
-  modale_2_main_content_upload_paragraph.innerHTML = "jpg, png : 4mo max"
-  modale_2_main_content_upload_paragraph.classList.add("modale_2_main_content_upload_paragraph")
+  let modal_content_update_gallery_upload_icon = document.createElement("i")
+  let modal_content_update_gallery_upload_btn = document.createElement("button")
+  let modal_content_update_gallery_upload_paragraph = document.createElement("p")
+  
+  modal_content_update_gallery_upload_icon.classList.add("fa-regular", "fa-image", "modal_content_update_gallery_upload_icon") 
 
+  modal_content_update_gallery_upload_btn.innerHTML = "+ Ajouter photo"
+  modal_content_update_gallery_upload_btn.classList.add("modal_content_update_gallery_upload_btn")
 
-  MODALE_2_MAIN_CONTENT_FORM.classList.add("modale_2_form")
+  modal_content_update_gallery_upload_paragraph.innerHTML = "jpg, png : 4mo max"
+  modal_content_update_gallery_upload_paragraph.classList.add("modal_content_update_gallery_upload_paragraph") 
 
-  contentSecondModaleForm()
+  updateContentForm()
 
-  MODALE_2_MAIN_CONTENT.appendChild(MODALE_2_MAIN_CONTENT_UPLOAD) 
-  MODALE_2_MAIN_CONTENT_UPLOAD.appendChild(modale_2_main_content_upload_icon) 
-  MODALE_2_MAIN_CONTENT_UPLOAD.appendChild(modale_2_main_content_upload_btn) 
-  MODALE_2_MAIN_CONTENT_UPLOAD.appendChild(modale_2_main_content_upload_paragraph) 
-  MODALE_2_MAIN_CONTENT.appendChild(MODALE_2_MAIN_CONTENT_FORM)
+  MODAL_CONTENT_UPDATE_GALLERY.appendChild(MODAL_CONTENT_UPDATE_GALLERY_UPLOAD) 
+  MODAL_CONTENT_UPDATE_GALLERY_UPLOAD.appendChild(modal_content_update_gallery_upload_icon) 
+  MODAL_CONTENT_UPDATE_GALLERY_UPLOAD.appendChild(modal_content_update_gallery_upload_btn) 
+  MODAL_CONTENT_UPDATE_GALLERY_UPLOAD.appendChild(modal_content_update_gallery_upload_paragraph) 
+  MODAL_CONTENT_UPDATE_GALLERY.appendChild(MODAL_CONTENT_UPDATE_GALLERY_FORM)
 
   MODAL_BTN.classList.remove("modal_btn")
   MODAL_BTN.classList.add("modal_btn_not_activated")
 }
 
 
-function contentSecondModaleForm(){
-  let modale_2_container_label_1 = document.createElement("label")
-  modale_2_container_label_1.innerHTML= "Titre"
+function updateContentForm(){
+  let updateContentForm_label_1 = document.createElement("label")
+  updateContentForm_label_1.innerHTML= "Titre"
 
-  let modale_2_container_input_1 = document.createElement("input")
+  let updateContentForm_input = document.createElement("input")
 
-  let modale_2_container_label_2 = document.createElement("label")
-  modale_2_container_label_2.innerHTML= "Catégorie"
+  let updateContentForm_label_2 = document.createElement("label")
+  updateContentForm_label_2.innerHTML= "Catégorie"
 
-  let modale_2_container_select_1 = document.createElement("select")
-  modale_2_container_select_1.id ='modale_2_container_select_1'
+  let updateContentForm_select = document.createElement("select")
+  updateContentForm_select.id ='modale_2_container_select_1'
+  
+  let categories_uniques = []
 
-  // Au click, extraction de la data : //
-  modale_2_container_select_1.addEventListener("click", function(){
-    let data_categories_table = [] 
-    data_categories_table = DATA_CATEGORIES
-    for (let i =0; i < data_categories_table.length;i++){
-    let categories_uniques = data_categories_table[i].name
-    let modale_2_container_select_1_option = document.createElement("option");
+  // Au click, extraction des catégories
+  updateContentForm_select.addEventListener("click", function(){
+  
+    categories_uniques.textContent = ""
+    
+    for (let i =0; i < URL_DATA_CATEGORIES.length;i++){
+    categories_uniques = URL_DATA_CATEGORIES[i].name
+    let updateContentForm_select_option = document.createElement("option"); 
 
-    modale_2_container_select_1_option.value = categories_uniques
-    modale_2_container_select_1_option.textContent = categories_uniques
-    modale_2_container_select_1.appendChild(modale_2_container_select_1_option)
-    //console.log(categories_uniques)
+    updateContentForm_select_option.value = categories_uniques
+    updateContentForm_select_option.textContent = categories_uniques
+    updateContentForm_select.appendChild(updateContentForm_select_option)
     }
   })
  
+  MODAL_CONTENT_UPDATE_GALLERY_FORM.appendChild(updateContentForm_label_1)
+  MODAL_CONTENT_UPDATE_GALLERY_FORM.appendChild(updateContentForm_input)
 
-  MODALE_2_MAIN_CONTENT_FORM.appendChild(modale_2_container_label_1)
-  MODALE_2_MAIN_CONTENT_FORM.appendChild(modale_2_container_input_1)
-
-  MODALE_2_MAIN_CONTENT_FORM.appendChild(modale_2_container_label_2)
-  MODALE_2_MAIN_CONTENT_FORM.appendChild(modale_2_container_select_1)
+  MODAL_CONTENT_UPDATE_GALLERY_FORM.appendChild(updateContentForm_label_2)
+  MODAL_CONTENT_UPDATE_GALLERY_FORM.appendChild(updateContentForm_select)
 
 }
 
 
-
-function closeModale(){
-  MODAL_CLOSEMODAL.addEventListener("click", function() {
-    MODAL_CLOSEMODAL.classList.remove("modal_CloseModal")
-    MODAL_BACKGROUND_OVERLAY.classList.add("modal_closed")
-    MODALE_1_MAIN_CONTENT.innerHTML =""
-    MODALE_2_MAIN_CONTENT.innerHTML =""
-  })
-} 
-closeModale()
 
   /* modaleTemplate("Ajout photo", MODALE_2_ET_3_MAIN_CONTENT, "Valider") */
 
 
-/* function displayGallery(){
-
-}
- */
 
 
 
