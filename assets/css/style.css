@@ -114,6 +114,8 @@ li:hover {
 	font-weight: bolder;
 }
 
+
+
 /************************** Introduction *******************************/
 
 #introduction {
@@ -372,7 +374,7 @@ footer nav ul {
 
 /************ Logo et text "modifier" au niveau du h2 Mes Projets ************/
 
-.btn_modifier{
+.modifier_btn{
 	align-items: center;
 	color: black;
 	font-size: large;
@@ -380,7 +382,7 @@ footer nav ul {
 	padding-left: 20px;
 }
 
-.btn_modifier ::after{
+.modifier_btn ::after{
 	content: "modifier";
 	font-size: medium;
 	font-weight: 100;
@@ -393,7 +395,9 @@ footer nav ul {
 /************ Background overlay modal ************/
 
 
-.modal_backgroundOverlay{
+/** OK **/
+
+.modale-overlay{
 	background-color: rgba(0, 0, 0, 0.377);
 	position: fixed;
 	display: flex;
@@ -409,20 +413,119 @@ footer nav ul {
 	box-sizing: border-box;
 }
 
-.modal_WhiteBackground{
-	background-color: white;
-	width: 35%;
-	border-radius: 10px;
-	height: auto;
+
+.modale{
+	background-color: rgb(255, 255, 255);
 	display: flex;
 	flex-direction: column;
 	align-items: center;
 	justify-content: center;
-	position: absolute;
 	margin: auto;
+	border-radius: 10px;
+	padding: 25px;
+	position: fixed;
+	top: 40%;
+	left: 30%;
+	width: 35%;
+	z-index: 2;
 }
 
-.modal_SubContainer{
+.modaleTitle{
+	font-size: large;
+}
+
+.modaleLine{
+	width: 100%;
+	height: 1px;
+	border-top: rgb(214, 214, 214) solid 1px;
+	margin-top: 42px;
+}
+
+.modaleButton{
+	border: 0;
+	width: 50%;
+	background-color: #1D6154;
+	color: #FFFEF8;
+	padding: 1em;
+	border: #1D6154 1px solid;
+	border-radius: 25px;
+	font-family: 'Syne';
+	font-weight: 700;
+	margin: auto;
+	margin-top: 32px;
+}
+
+.modaleButton:hover {
+	background-color: white ;
+	color: #1D6154;
+	cursor: pointer;
+}
+
+.modaleCloseButton {
+	position: absolute;
+	top: 0;
+	right: 0;
+	padding: 15px 25px;
+	font-size: large;
+	font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif !important;
+	cursor: pointer;
+}
+
+
+.galleryContainer_modale{
+	gap: 4px; 
+	margin-top: 20px;
+	width: 100%;
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: flex-start;
+	background-color: rgba(255, 255, 0, 0);
+	z-index: 20;
+ }
+
+.containerImage{
+	width: 50%;
+	z-index: 10;
+ }
+
+.image{
+	height: 89px;
+}
+
+.modaleMainContent{
+	background-color: yellow;
+	width: 100%;
+	height: auto;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	margin-top: 25px;
+}
+
+ .modalePreviousButton{
+	position: absolute;
+	left: 0;
+	top:0;
+	padding: 25px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.modal_subcontainer{
 	display: flex;
 	flex-direction: column;
 	text-align: center;
@@ -432,44 +535,28 @@ footer nav ul {
 
 .modal_CloseModal{
 	color: black;
-	margin-left: auto;
 	cursor: pointer;
-	position: absolute;
-	top: 25px;
-	right: 25px;
 	font-size: 17px;
 	font-family: 'Syne';
 	font-weight: 300;
+	margin-left: auto;
+	margin-right: 25px;
+	margin-top: 25px;
 }
 
-.modal_title{
-	font-size: large;
-}
 
 
-
-.modal_Line{
-	width: 100%;
-	height: 1px;
-	border-top: rgb(214, 214, 214) solid 1px;
-	margin-top: 42px;
-}
-
-.modal_btn{
-	margin-top: 15px;
-	border: 0;
-	width: 50%;
-	background-color: #1D6154;
-	color: #FFFEF8;
-	padding: 1em;
-	border: #1D6154 1px solid;
-	border-radius: 25px;
-	margin: 5px;
+.btn_modal_previous{
+	color: black;
+	cursor: pointer;
+	font-size: 47px;
 	font-family: 'Syne';
-	font-weight: 700;
-	margin: auto;
-	margin-top: 15px;
+	font-weight: 300;
+	margin-left: auto;
+	margin-right: 25px;
+	margin-top: 25px;
 }
+
 
 .modal_btn_not_activated {
 	margin-top: 15px;
@@ -492,15 +579,6 @@ footer nav ul {
 	color: #FFFEF8;
 }
 
-.modal_btn:hover {
-	background-color: white ;
-	color: #1D6154;
-	cursor: pointer;
-}
-
-.modal_closed {
-	display: none;
-}
 
 
 
@@ -509,53 +587,56 @@ footer nav ul {
 
 
 
-.modale_1_main_content{
- gap: 4px; 
-	margin-top: 20px;
-	width: 100%;
+
+
+
+
+.containerGallery{
 	display: flex;
-	flex-wrap: wrap;
-	justify-content: flex-start;
-	background-color: rgba(255, 255, 0, 0);
-}
-
-
-.modale_1_galleryImage{
-	height: 89px;
-	/* margin-top: 25px; */
 	position: relative;
 }
 
-
-.modale_1_divForBinIcone{
- 	max-width: 100%;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	background-color: rgb(0, 0, 0);
-	width:22px;
-	height:22px;
-	z-index: 999; 
-
+.containerImage{
+	position: relative;
 }
 
-.modale_1_binIcone{
+.image{
+	height: 89px;
+}
+
+.a_trash{
 	z-index: 999;
-	color: white;
 	position: absolute;
+	top: 5px;
+	right: 3px;
+	width: 25px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	cursor: pointer;
+}
+
+.i_trash_test{
+	background-color: yellow;
+}
+
+.i_trash{
+	background-color: rgb(0, 0, 0);
+	padding: 3px;
+	color: white;
+	border-radius: 5px;
+	font-size: small;
+}
+
+
+.logout{
+	cursor: pointer;
 }
 
 
 
 
-
-
-
-
-
-
-
-.modale_2_main_content_upload{
+.modal_content_update_gallery_upload{
 	position: relative;
 	display: flex;
 	flex-direction: column;
@@ -568,7 +649,7 @@ footer nav ul {
 }
 
 
-.modale_2_main_content_upload_icon{
+.modal_content_update_gallery_upload_icon{
 	position: absolute;
 	top: 12%;
 	color: #b9c5cc;
@@ -576,7 +657,7 @@ footer nav ul {
 	font-size: 88px;
 }
 
-.modale_2_main_content_upload_btn{
+.modal_content_update_gallery_upload_btn{
 	position: absolute;
 	align-items: center;
 	top: 60%;
@@ -592,7 +673,7 @@ footer nav ul {
 	cursor: pointer;
 }
 
-.modale_2_main_content_upload_paragraph{
+.modal_content_update_gallery_upload_paragraph{
 	margin-top: 15px;
 	position: absolute;
 	align-items: center;
