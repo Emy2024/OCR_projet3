@@ -16,14 +16,28 @@
 
 <body>
 <div id="divModeEdition"></div>
-<div id="modal"></div>
+
+<div id="modale_overlay">
+	<div id="modale">
+
+		<p id="modaleCloseButton"></p>
+		
+		<p id="modaleTitle"></p>
+		<div id="modaleMainContent"></div>
+		<div id="modaleLine"></div>
+		<button id="modaleButton"></button>
+
+		<i id="modalePreviousButton"></i>
+	</div>
+</div>
+
 <header>
 	<h1>Sophie Bluel <span>Architecte d'intérieur</span></h1>
 	<nav>
 		<ul>
 			<li>projets</li>
 			<li>contact</li>
-			<li><a href="login.html">login</a></li>
+			<li class="btn_loginLogout"><a href="login.html">login</a></li>
 			<li><img src="./assets/icons/instagram.png" alt="Instagram"></li>
 		</ul>
 	</nav>
@@ -41,7 +55,7 @@
 		</article>
 	</section>
 	<section id="portfolio">
-		<h2 id="mesProjets">Mes Projets</h2>
+		<h2 id="createButtonModifier">Mes Projets</h2>
 		<div class="filter">
 		</div>
 		<div class="gallery"></div>
