@@ -130,17 +130,19 @@ async function displayGalleryModale(){
 
   for(let i=0;i <DATA.length;i++){
     let containerImage = document.createElement("div")
+    containerImage.classList.add("containerImage") 
     let trashElement = document.createElement("a")
-
     let trashIcon = document.createElement("i")
-
-    containerImage.classList.add("containerImage")    
+  
     let image = document.createElement("img")
     image.src = DATA[i].imageUrl
+    let imageId = DATA[i].id
     image.classList.add("galleryContainer_modale_image")    
     //console.log(image)
     trashElement.classList.add("trashElement") 
     trashIcon.classList.add("fa-solid", "fa-trash", "trashIcon") 
+    trashIcon.dataset.id = image.id // pour chaque icon, met un id et associe-le à un id de l'image
+    //console.log(trashIcon)
 
     modaleMainContent.appendChild(galleryContainer_modale)
     galleryContainer_modale.appendChild(containerImage)
@@ -150,9 +152,26 @@ async function displayGalleryModale(){
   }
 }
 
-function initDeletePicture(){
-  
-}
+
+
+/* trashElement.addEventListener("click", function(){
+  fetch(`http://localhost:5678/api/works${imageId}`, {
+      method: 'DELETE',
+  })
+  .then(response => {
+      if (!response.ok) {
+          throw new Error(`Erreur lors de la suppression de l'image : ${response.statusText}`);
+      }
+
+      image.remove();
+      console.log(`Photo ${imageId} supprimée avec succès.`);
+  })
+  .catch(error => {
+      console.error('Une erreur s\'est produite:', error);
+  });
+
+})
+ */
 
 
 function initAdminButtonNextModale(){
