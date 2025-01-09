@@ -424,9 +424,8 @@ footer nav ul {
 	flex-direction: column;
 	align-items: center;
 	justify-content: center;
-	margin: auto;
 	border-radius: 10px;
-	padding: 45px;
+	padding: 55px;
 	position: fixed;
 	width: 28%;
 	z-index: 2;
@@ -447,7 +446,7 @@ footer nav ul {
 	margin-top: 42px;
 }
 
-.modaleButton{
+.modaleButton_active{
 	border: 0;
 	width: 50%;
 	background-color: #1D6154;
@@ -461,21 +460,45 @@ footer nav ul {
 	margin-top: 32px;
 }
 
-.modaleButton:hover {
+.modaleButton_active:hover {
 	background-color: white ;
 	color: #1D6154;
 	cursor: pointer;
+}
+
+.modaleButton_inactive{
+	border: 0;
+	width: 50%;
+	background-color: #A7A7A7;
+	color: white;
+	padding: 1em;
+	border: #A7A7A7 1px solid;
+	border-radius: 25px;
+	font-family: 'Syne';
+	font-weight: 700;
+	margin: auto;
+	margin-top: 32px;
 }
 
 .modaleCloseButton {
 	position: absolute;
 	top: 0;
 	right: 0;
-	padding: 15px 25px;
+	padding: 35px 40px;
 	font-size: large;
 	font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif !important;
 	cursor: pointer;
 }
+
+
+.previousButton{
+	position: absolute;
+	top: 0;
+  left: 0;
+	padding: 35px 40px;
+	cursor: pointer;
+}
+
 
 
 .galleryContainer_modale{
@@ -573,7 +596,6 @@ footer nav ul {
 	flex-direction: column;
 	background-color: rgba(255, 0, 0, 0);
 	max-width: 100%;
-	margin-top: 20px;
 	text-align: left !important;
 }
 
@@ -592,6 +614,15 @@ footer nav ul {
 	background-color: white;
 }
 
+.modaleUpload_btn_input{
+	display: none;
+}
+
+.paragraphErrorEmptyFields{
+	padding: 5px 0;
+	color: red;
+	text-align: center;
+}
 
 .trashElement{
 	z-index: 999;
@@ -613,8 +644,6 @@ footer nav ul {
 	border-radius: 5px;
 	font-size: small;
 }
-
-
 
 
 
