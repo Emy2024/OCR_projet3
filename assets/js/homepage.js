@@ -12,14 +12,25 @@ function main(){
     listenerAdminLogout()
     createAdminModeEdition()
     createAdminButtonOpenModale()
-    listenerAdminCloseModale(modaleCloseButton)
+    initEvents()
     //listenerAdminCloseModale(modale_overlay)
-    listenerAdminButtonOpenModale()
   }
  else (console.log("error"))
 } 
 main()
 
+//C'est ici que j'initialise tous mes évènements.
+function initEvents(){
+  let modaleCloseButton = document.getElementById("modaleCloseButton")
+  modaleCloseButton.addEventListener("click", function(){
+    toggleModale()
+  })
+
+  BTN_OPENMODALE.addEventListener("click", function(event){
+    event.preventDefault()
+    handleAdminButtonOpenModale()
+  })
+}
 
 function createAdminLogout(){
   BTN_LOGIN.innerHTML = "logout"
@@ -59,12 +70,6 @@ function createAdminButtonOpenModale(){
   BTN_OPENMODALE.appendChild(modifier_icone)
 }
 
-function listenerAdminButtonOpenModale(){
-  BTN_OPENMODALE.addEventListener("click", function(event){
-    event.preventDefault()
-    handleAdminButtonOpenModale()
-  })
-}   
 
 function handleAdminButtonOpenModale(){
   displayOverlayModale()
@@ -74,16 +79,20 @@ function handleAdminButtonOpenModale(){
   listenerAdminButtonNextModale()
 }
 
-function listenerAdminCloseModale(trigger){
-  trigger.addEventListener("click", function(){
-    let modale = document.getElementById("modale")
+function toggleModale(){
+  let modale = document.getElementById("modale")
+  let modale_overlay = document.getElementById("modale_overlay")
+  if (modale.classList.contains("modale")){
     modale.classList.remove("modale")
     modale.classList.add("modale_inactive")
-    
-    let modale_overlay = document.getElementById("modale_overlay")
     modale_overlay.classList.remove("modale_overlay_active") 
-  })
+  } else {
+    modale.classList.add("modale")
+    modale.classList.remove("modale_inactive")
+    modale_overlay.classList.add("modale_overlay_active") 
+  }
 }
+
 
 function listenerAdminButtonNextModale(){
   let modaleButton = document.getElementById("modaleButton")
@@ -166,12 +175,16 @@ async function displayGalleryModale(){
   
     let image = document.createElement("img")
     image.src = DATA[i].imageUrl
-    //image.id = DATA[i].id
-    let imageId = DATA[i].id
+    image.id = DATA[i].id
+    //let imageId = DATA[i].id
     image.classList.add("galleryContainer_modale_image")    
     trashElement.classList.add("trashElement") 
     trashIcon.classList.add("fa-solid", "fa-trash", "trashIcon") 
     trashIcon.dataset.id = image.id  //pour chaque icon, met un id et associe-le à un id de l'image
+
+    trashElement.addEventListener("click", function(event){
+      removeImage(event)
+    })
 
     modaleMainContent.appendChild(galleryContainer_modale)
     galleryContainer_modale.appendChild(containerImage)
@@ -180,6 +193,10 @@ async function displayGalleryModale(){
     trashElement.appendChild(trashIcon)
   }
   
+}
+
+function removeImage(event){
+  console.log(event.target.dataset.id)
 }
 
 function listenerAdminButtonValidateUploadModale(){
