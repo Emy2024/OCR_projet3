@@ -374,7 +374,7 @@ footer nav ul {
 
 /************ Logo et text "modifier" au niveau du h2 Mes Projets ************/
 
-.modifier_btn{
+.modale_open_button{
 	align-items: center;
 	color: black;
 	font-size: large;
@@ -382,7 +382,7 @@ footer nav ul {
 	padding-left: 20px;
 }
 
-.modifier_btn ::after{
+.modale_open_button ::after{
 	content: "modifier";
 	font-size: medium;
 	font-weight: 100;
@@ -413,12 +413,11 @@ footer nav ul {
 	box-sizing: border-box;
 }
 
-.modale_overlay{
+.modale_overlay_inactive{
 	display: none;
 }
 
-
-.modale{
+.modale_active{
 	background-color: rgb(255, 255, 255);
 	display: flex;
 	flex-direction: column;
@@ -446,7 +445,7 @@ footer nav ul {
 	margin-top: 42px;
 }
 
-.modaleButton_active{
+.modaleMainButton_active{
 	border: 0;
 	width: 50%;
 	background-color: #1D6154;
@@ -460,13 +459,13 @@ footer nav ul {
 	margin-top: 32px;
 }
 
-.modaleButton_active:hover {
+.modaleMainButton_active:hover {
 	background-color: white ;
 	color: #1D6154;
 	cursor: pointer;
 }
 
-.modaleButton_inactive{
+.modaleMainButton_inactive{
 	border: 0;
 	width: 50%;
 	background-color: #A7A7A7;
@@ -480,7 +479,7 @@ footer nav ul {
 	margin-top: 32px;
 }
 
-.modaleCloseButton {
+.modale_close_button_active {
 	position: absolute;
 	top: 0;
 	right: 0;
@@ -491,7 +490,11 @@ footer nav ul {
 }
 
 
-.previousButton{
+.modale_close_button_inactive {
+	display: none;
+}
+
+.modalePreviousButton{
 	position: absolute;
 	top: 0;
   left: 0;
