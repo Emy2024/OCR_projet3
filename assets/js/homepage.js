@@ -29,28 +29,15 @@ function initEvents(){
   MODALE_OPEN_BUTTON.addEventListener("click", function(event){
     event.preventDefault()
     toggleModale()
-    handleModaleCloseButton()
+    displayModaleCloseButton()
     handleModaleMainButton()
-    createContentModale("Galerie photo")
+    createFixedContentModale()
+    createTitleModale()
     displayGalleryModale()
   })
-  
-   let modaleCloseButton = document.getElementById("modaleCloseButton")
-   modaleCloseButton.addEventListener("click", function(event){
-    event.preventDefault()
-    toggleModale()
-  }) 
 
-  let modaleMainButton = document.getElementById("modaleMainButton")
-  modaleMainButton.addEventListener("click", function(event){
-    event.preventDefault()
-  })
 
-/*   let modalePreviousButton = document.getElementById("modalePreviousButton")
-  modalePreviousButton.addEventListener("click", function(event){
-    event.preventDefault()
-    handleModalePreviousButton()
-  })   */
+
 }
 
 // Création du contenu du bouton Logout
@@ -87,13 +74,20 @@ function createButtonOpenModale(){
   MODALE_OPEN_BUTTON.appendChild(modifier_icone)
 }
 
-//////////////////////* A partir d'ici, reprendre*//////////////////////////
+//////////////////////* Etat 1 / état 2 //////////////////////////
+function createTitleModale(){
+  let modaleMainButton = document.getElementById("modaleMainButton")
+  let modaleTitle = document.getElementById("modaleTitle")
+  modaleTitle.classList.add("modaleTitle")
+  modaleTitle.innerHTML = "Galerie photo"
+  
+  modaleMainButton.addEventListener("click", function(event){
+    event.preventDefault
+    modaleTitle.innerHTML = "Ajout photo"
+  })
+}
 
-function createContentModale(titleModale){
-    let modaleTitle = document.getElementById("modaleTitle")
-    modaleTitle.classList.add("modaleTitle")
-    modaleTitle.innerHTML = titleModale
-
+function createFixedContentModale(){
     let modaleMainContent = document.getElementById("modaleMainContent")
     modaleMainContent.classList.add("modaleMainContent")
     
@@ -108,17 +102,21 @@ function createContentModale(titleModale){
 
 async function displayGalleryModale(){
     let modaleMainContent = document.getElementById("modaleMainContent")
-
     let galleryContainer_modale = document.createElement("div")
-    galleryContainer_modale.classList.add("galleryContainer_modale")
-    
+    galleryContainer_modale.classList.add("galleryContainer_modale_active")
+    galleryContainer_modale.classList.remove("galleryContainer_modale_inactive")
+    let containerImage
+    let trashElement 
+    let trashIcon
+    let image
+
     for(let i=0;i <DATA.length;i++){
-      let containerImage = document.createElement("div")
+      containerImage = document.createElement("div")
       containerImage.classList.add("containerImage") 
-      let trashElement = document.createElement("a")
-      let trashIcon = document.createElement("i")
+      trashElement = document.createElement("a")
+      trashIcon = document.createElement("i")
     
-      let image = document.createElement("img")
+      image = document.createElement("img")
       image.src = DATA[i].imageUrl
       image.id = DATA[i].id
       //let imageId = DATA[i].id
@@ -136,9 +134,22 @@ async function displayGalleryModale(){
       containerImage.appendChild(image)
       containerImage.appendChild(trashElement)
       trashElement.appendChild(trashIcon)
-    }
-}
+    } 
 
+/*     let modaleMainButton = document.getElementById("modaleMainButton")
+    modaleMainButton.addEventListener("click", function(event){
+      event.preventDefault()
+      galleryContainer_modale.classList.remove("galleryContainer_modale_active")
+      galleryContainer_modale.classList.add("galleryContainer_modale_inactive")
+    })
+
+    let modale_close_button = document.getElementById("modaleCloseButton")
+    modale_close_button.addEventListener("click", function(event){
+      event.preventDefault()
+      galleryContainer_modale.classList.remove("galleryContainer_modale_active")
+      galleryContainer_modale.classList.add("galleryContainer_modale_inactive")
+    }) */
+}
 
 // Gérer l'affichage ou non de la modale selon Manu
 /* function toggleModale(){
@@ -158,7 +169,7 @@ async function displayGalleryModale(){
 function toggleModale(){
   let modale = document.getElementById("modale")
   let modale_overlay = document.getElementById("modale_overlay")
-  if (modale.classList.contains("modale")){
+  if (modale.classList.contains("modale_active")){
     modale.classList.add("modale_inactive")
     modale_overlay.classList.add("modale_overlay_inactive") 
   } else {
@@ -170,29 +181,52 @@ function toggleModale(){
 }
 
 // Comportement du bouton fermé dans la modale
-function handleModaleCloseButton(){
+function displayModaleCloseButton(){
   let modale_close_button = document.getElementById("modaleCloseButton")
   modale_close_button.classList.add("modale_close_button_active")
-} 
+}  
+
+
+
+
 
 // Comportement du bouton principal de la modale
 function handleModaleMainButton(){
   let modaleMainButton = document.getElementById("modaleMainButton")
-  modaleMainButton.classList.add("modaleMainButton_active")
   modaleMainButton.innerHTML = "Ajouter une photo"
+  modaleMainButton.classList.remove("modaleMainButton_inactive")
+  modaleMainButton.classList.add("modaleMainButton_active")
+  modaleMainButton.addEventListener("click", function(event){
+    event.preventDefault()
+    modaleMainButton.innerHTML = "Valider"
+    modaleMainButton.classList.remove("modaleMainButton_active")
+    modaleMainButton.classList.add("modaleMainButton_inactive")
+  })
 }
 
+// Comportement du bouton précédent (état 1 / état 2)
+function modalePreviousButtonInactif(){
+let modalePreviousButton = document.getElementById("modalePreviousButton")
+modalePreviousButton.classList.add("modalePreviousButton_inactive")
+ modalePreviousButton.classList.remove("modalePreviousButton_active")
+}
+
+
+function modalePreviousButtonActif(){
+  let modalePreviousButton = document.getElementById("modalePreviousButton")
+  modalePreviousButton.classList.remove("modalePreviousButton_inactive")
+  modalePreviousButton.classList.add("modalePreviousButton_active")
+}
+
+
+
+
+
+
+
+
+
 /* 
-function handleModalePreviousButton(){
-  displayOverlayModale()
-  displayModale()
-  createContentModale("Ajout photo")
-  displayGalleryModale()
-} 
-
-
-
-
 
 function removeImage(event){
   console.log(event.target.dataset.id)
