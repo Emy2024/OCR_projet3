@@ -4,14 +4,13 @@ import { fetchDataAPI, fetchCategoryAPI } from "./fetchPortfolio.js";
 let DATA = await fetchDataAPI() 
 
 let BTN_LOGIN = document.querySelector(".btn_loginLogout")
-let BTN_OPENMODALE = document.createElement("a")
+let MODALE_OPEN_BUTTON = document.createElement("a")
 
 function main(){
   if (localStorage.getItem("token")) {
     createAdminLogout()
-    listenerAdminLogout()
     createAdminModeEdition()
-    createAdminButtonOpenModale()
+    createButtonOpenModale()
     initEvents()
     //listenerAdminCloseModale(modale_overlay)
   }
@@ -21,29 +20,46 @@ main()
 
 //C'est ici que j'initialise tous mes évènements.
 function initEvents(){
-  let modaleCloseButton = document.getElementById("modaleCloseButton")
-  modaleCloseButton.addEventListener("click", function(){
-    toggleModale()
+  BTN_LOGIN.addEventListener("click", function(){
+    localStorage.removeItem("token")
+    window.open("index.html","_self")
+    createAdminLogout()
   })
 
-  BTN_OPENMODALE.addEventListener("click", function(event){
+  MODALE_OPEN_BUTTON.addEventListener("click", function(event){
     event.preventDefault()
-    handleAdminButtonOpenModale()
+    toggleModale()
+    handleModaleCloseButton()
+    handleModaleMainButton()
+    createContentModale("Galerie photo")
+    displayGalleryModale()
   })
+  
+   let modaleCloseButton = document.getElementById("modaleCloseButton")
+   modaleCloseButton.addEventListener("click", function(event){
+    event.preventDefault()
+    toggleModale()
+  }) 
+
+  let modaleMainButton = document.getElementById("modaleMainButton")
+  modaleMainButton.addEventListener("click", function(event){
+    event.preventDefault()
+  })
+
+/*   let modalePreviousButton = document.getElementById("modalePreviousButton")
+  modalePreviousButton.addEventListener("click", function(event){
+    event.preventDefault()
+    handleModalePreviousButton()
+  })   */
 }
 
+// Création du contenu du bouton Logout
 function createAdminLogout(){
   BTN_LOGIN.innerHTML = "logout"
   BTN_LOGIN.classList.add("logout")
 }
 
-async function listenerAdminLogout(){
-  BTN_LOGIN.addEventListener("click", function(){
-    localStorage.removeItem("token")
-    window.open("index.html","_self")
-  })
-}
-
+// Création de l'icône Mode Edition
 function createAdminModeEdition(){
   let id_modeEdition = document.querySelector("#divModeEdition")
   let sous_div_modeEdition = document.createElement("div") 
@@ -56,164 +72,136 @@ function createAdminModeEdition(){
   sous_div_modeEdition.appendChild(icon_modeEdition)
 }
 
-function createAdminButtonOpenModale(){
-  let retriveId = document.getElementById("createButtonModifier")
+// Création du bouton d'ouverture de la modale
+function createButtonOpenModale(){
+  let retriveId = document.getElementById("modale_open_button")
 
-  BTN_OPENMODALE.href='index.html'
-  BTN_OPENMODALE.id = "a_modifier"
-  BTN_OPENMODALE.classList.add("modifier_btn")
+  MODALE_OPEN_BUTTON.href='index.html'
+  MODALE_OPEN_BUTTON.id = "a_modifier"
+  MODALE_OPEN_BUTTON.classList.add("modale_open_button")
 
   let modifier_icone = document.createElement("i")
   modifier_icone.classList.add("fa-regular", "fa-pen-to-square")
 
-  retriveId.appendChild(BTN_OPENMODALE)
-  BTN_OPENMODALE.appendChild(modifier_icone)
+  retriveId.appendChild(MODALE_OPEN_BUTTON)
+  MODALE_OPEN_BUTTON.appendChild(modifier_icone)
+}
+
+//////////////////////* A partir d'ici, reprendre*//////////////////////////
+
+function createContentModale(titleModale){
+    let modaleTitle = document.getElementById("modaleTitle")
+    modaleTitle.classList.add("modaleTitle")
+    modaleTitle.innerHTML = titleModale
+
+    let modaleMainContent = document.getElementById("modaleMainContent")
+    modaleMainContent.classList.add("modaleMainContent")
+    
+    let modaleLine = document.getElementById("modaleLine")
+    modaleLine.classList.add("modaleLine")
+    
+    let modaleCloseButton = document.getElementById("modaleCloseButton")
+    modaleCloseButton.innerHTML = "x"
+    modaleCloseButton.classList.add("modaleCloseButton")
+} 
+
+
+async function displayGalleryModale(){
+    let modaleMainContent = document.getElementById("modaleMainContent")
+
+    let galleryContainer_modale = document.createElement("div")
+    galleryContainer_modale.classList.add("galleryContainer_modale")
+    
+    for(let i=0;i <DATA.length;i++){
+      let containerImage = document.createElement("div")
+      containerImage.classList.add("containerImage") 
+      let trashElement = document.createElement("a")
+      let trashIcon = document.createElement("i")
+    
+      let image = document.createElement("img")
+      image.src = DATA[i].imageUrl
+      image.id = DATA[i].id
+      //let imageId = DATA[i].id
+      image.classList.add("galleryContainer_modale_image")    
+      trashElement.classList.add("trashElement") 
+      trashIcon.classList.add("fa-solid", "fa-trash", "trashIcon") 
+      trashIcon.dataset.id = image.id  //pour chaque icon, met un id et associe-le à un id de l'image
+
+      trashElement.addEventListener("click", function(event){
+        removeImage(event)
+      })
+
+      modaleMainContent.appendChild(galleryContainer_modale)
+      galleryContainer_modale.appendChild(containerImage)
+      containerImage.appendChild(image)
+      containerImage.appendChild(trashElement)
+      trashElement.appendChild(trashIcon)
+    }
 }
 
 
-function handleAdminButtonOpenModale(){
-  displayOverlayModale()
-  displayModale()
-  createContentModale("Galerie photo")
-  displayGalleryModale()
-  listenerAdminButtonNextModale()
-}
-
-function toggleModale(){
+// Gérer l'affichage ou non de la modale selon Manu
+/* function toggleModale(){
   let modale = document.getElementById("modale")
   let modale_overlay = document.getElementById("modale_overlay")
   if (modale.classList.contains("modale")){
     modale.classList.remove("modale")
-    modale.classList.add("modale_inactive")
     modale_overlay.classList.remove("modale_overlay_active") 
   } else {
     modale.classList.add("modale")
-    modale.classList.remove("modale_inactive")
     modale_overlay.classList.add("modale_overlay_active") 
+  }
+} */
+
+
+//Si la modale contient la classe modale, alors tu me retires la classe.
+function toggleModale(){
+  let modale = document.getElementById("modale")
+  let modale_overlay = document.getElementById("modale_overlay")
+  if (modale.classList.contains("modale")){
+    modale.classList.add("modale_inactive")
+    modale_overlay.classList.add("modale_overlay_inactive") 
+  } else {
+    modale.classList.add("modale_active")
+    modale_overlay.classList.add("modale_overlay_active") 
+    modale.classList.remove("modale_inactive")
+    modale_overlay.classList.remove("modale_overlay_inactive") 
   }
 }
 
+// Comportement du bouton fermé dans la modale
+function handleModaleCloseButton(){
+  let modale_close_button = document.getElementById("modaleCloseButton")
+  modale_close_button.classList.add("modale_close_button_active")
+} 
 
-function listenerAdminButtonNextModale(){
-  let modaleButton = document.getElementById("modaleButton")
-  modaleButton.classList.add("modaleButton_active")
-  modaleButton.innerHTML = "Ajouter une photo"
-  modaleButton.addEventListener("click", function(event){
-    event.preventDefault()
-    handleAdminButtonNextModale()
-  })
+// Comportement du bouton principal de la modale
+function handleModaleMainButton(){
+  let modaleMainButton = document.getElementById("modaleMainButton")
+  modaleMainButton.classList.add("modaleMainButton_active")
+  modaleMainButton.innerHTML = "Ajouter une photo"
 }
 
-function handleAdminButtonNextModale(){
-  displayOverlayModale()
-  displayModale()
-  createContentModale("Ajout photo")
-  listenerAdminButtonNextModale("Ajouter une photo")
-  displayAddPictureAndFormModale()
-}
-
-function listenerAdminButtonPreviousModale(){
-  let previousButton = document.getElementById("modalePreviousButton")
-  previousButton.classList.add("fa-solid", "fa-arrow-left", "previousButton")
-  previousButton.addEventListener("click", function(event){
-    event.preventDefault()
-    handleAdminButtonPreviousModale()
-  })
-}
-
-function handleAdminButtonPreviousModale(){
+/* 
+function handleModalePreviousButton(){
   displayOverlayModale()
   displayModale()
   createContentModale("Ajout photo")
   displayGalleryModale()
 } 
 
-function displayOverlayModale(){
-  let modale_overlay = document.getElementById("modale_overlay")
-  modale_overlay.classList.add("modale_overlay_active") 
-}
 
-function displayModale(){
-  let modale = document.getElementById("modale")
-  modale.classList.add("modale")
-  modale.classList.remove("modale_inactive")
-}
 
-function createContentModale(titleModale){
-  let modaleTitle = document.getElementById("modaleTitle")
-  modaleTitle.classList.add("modaleTitle")
-  modaleTitle.innerHTML = titleModale
 
-  let modaleMainContent = document.getElementById("modaleMainContent")
-  modaleMainContent.classList.add("modaleMainContent")
-  modaleMainContent.innerHTML = ""
-  
-  let modaleLine = document.getElementById("modaleLine")
-  modaleLine.classList.add("modaleLine")
-  
-  let modaleCloseButton = document.getElementById("modaleCloseButton")
-  modaleCloseButton.innerHTML = "x"
-  modaleCloseButton.classList.add("modaleCloseButton")
-}
-
-async function displayGalleryModale(){
-  
-  let previousButton = document.getElementById("modalePreviousButton")
-  previousButton.classList.remove("fa-solid", "fa-arrow-left", "previousButton")
-
-  let modaleMainContent = document.getElementById("modaleMainContent")
-
-  let galleryContainer_modale = document.createElement("div")
-  galleryContainer_modale.classList.add("galleryContainer_modale")
-  galleryContainer_modale.innerHTML=""
-  
-  for(let i=0;i <DATA.length;i++){
-    let containerImage = document.createElement("div")
-    containerImage.classList.add("containerImage") 
-    let trashElement = document.createElement("a")
-    let trashIcon = document.createElement("i")
-  
-    let image = document.createElement("img")
-    image.src = DATA[i].imageUrl
-    image.id = DATA[i].id
-    //let imageId = DATA[i].id
-    image.classList.add("galleryContainer_modale_image")    
-    trashElement.classList.add("trashElement") 
-    trashIcon.classList.add("fa-solid", "fa-trash", "trashIcon") 
-    trashIcon.dataset.id = image.id  //pour chaque icon, met un id et associe-le à un id de l'image
-
-    trashElement.addEventListener("click", function(event){
-      removeImage(event)
-    })
-
-    modaleMainContent.appendChild(galleryContainer_modale)
-    galleryContainer_modale.appendChild(containerImage)
-    containerImage.appendChild(image)
-    containerImage.appendChild(trashElement)
-    trashElement.appendChild(trashIcon)
-  }
-  
-}
 
 function removeImage(event){
   console.log(event.target.dataset.id)
-}
-
-function listenerAdminButtonValidateUploadModale(){
-  let modaleButton = document.getElementById("modaleButton")
-  modaleButton.classList.add("modaleButton_inactive")
-  modaleButton.innerHTML = "Ajouter une photo"
-  modaleButton.addEventListener("click", function(event){
-    event.preventDefault()
-    handleAdminButtonNextModale()
-  })
 }
 
 function displayAddPictureAndFormModale(){
   listenerAdminButtonPreviousModale()
   displayUploadPictureModale()
   displayUploadFormModale()
-  listenerAdminButtonValidateUploadModale()
 }
 
 function displayUploadPictureModale(){
@@ -303,8 +291,8 @@ async function extractCategory(trigger){
 }
 
 function listenerError(){
-  let buttonModale = document.getElementById("modaleButton")
-  buttonModale.addEventListener("Click", function(){
+  let buttonMainModale = document.getElementById("modaleMainButton")
+  buttonMainModale.addEventListener("Click", function(){
     alert("error!")
 })
 }
@@ -316,4 +304,4 @@ function errorEmptyFields(){
     paragraphErrorEmptyFields.innerHTML = "Merci de compléter tous les champs !"
     paragraphErrorEmptyFields.classList.add("paragraphErrorEmptyFields")
   }
-}
+} */
