@@ -494,7 +494,7 @@ footer nav ul {
 	display: none;
 }
 
-.modalePreviousButton{
+.modalePreviousButton_active{
 	position: absolute;
 	top: 0;
   left: 0;
@@ -502,19 +502,24 @@ footer nav ul {
 	cursor: pointer;
 }
 
+.modalePreviousButton_inactive{
+	display: none;
+}
 
-
-.galleryContainer_modale{
+.galleryContainer_modale_active{
 	gap: 5px; 
 	margin-top: 20px;
 	width: 100%;
 	display: flex;
 	flex-wrap: wrap;
-
 	background-color: rgba(255, 255, 0, 0);
 	z-index: 20;
  }
 
+
+ .galleryContainer_modale_inactive{
+	display: none;
+ }
 
 .galleryContainer_modale_image{
 	height: 109px;
@@ -530,11 +535,15 @@ footer nav ul {
 	margin-top: 25px;
 }
 
- .modalePreviousButton{
+ .modalePreviousButton_active{
 	position: absolute;
 	left: 0;
 	top:0;
 	padding: 25px;
+}
+
+.modalePreviousButton_inactive{
+	display: none;
 }
 
 .modaleUpload{
