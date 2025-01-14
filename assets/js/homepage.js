@@ -28,16 +28,36 @@ function initEvents(){
 
   MODALE_OPEN_BUTTON.addEventListener("click", function(event){
     event.preventDefault()
-    toggleModale()
-    displayModaleCloseButton()
-    handleModaleMainButton()
+    modaleOverlay("modale_overlay_active","modale_overlay_inactive")
+    modale("modale_active","modale_inactive")
     createFixedContentModale()
-    createTitleModale()
+    modaleTitle("Galerie photo")
     displayGalleryModale()
+    modaleCloseButton()
+    modalePreviousButton("modalePreviousButton_inactive","modalePreviousButton_active")
+    modaleMainButtonContent("Ajouter une photo", "modaleMainButton_inactive", "modaleMainButton_active");
   })
 
+  let modaleMainButton = document.getElementById("modaleMainButton")
+  modaleMainButton.addEventListener("click", function(event){
+    event.preventDefault
+    modaleTitle("Ajout photo")
+    modaleMainButtonContent("Valider", "modaleMainButton_active", "modaleMainButton_inactive");
+    modalePreviousButton("modalePreviousButton_active","modalePreviousButton_inactive")
+  })
 
+  let modale_close_button = document.getElementById("modaleCloseButton")
+    modale_close_button.addEventListener("click", function(){
+      modaleOverlay("modale_overlay_inactive","modale_overlay_active")
+      modale("modale_inactive","modale_active")
+  })
 
+  let modale_previous_button = document.getElementById("modalePreviousButton")
+  modale_previous_button.addEventListener("click", function(){
+    modaleTitle("Galerie photo")
+    displayGalleryModale()
+    modaleMainButtonContent("Ajouter une photo", "modaleMainButton_inactive", "modaleMainButton_active");
+  })
 }
 
 // Création du contenu du bouton Logout
@@ -74,18 +94,21 @@ function createButtonOpenModale(){
   MODALE_OPEN_BUTTON.appendChild(modifier_icone)
 }
 
-//////////////////////* Etat 1 / état 2 //////////////////////////
-function createTitleModale(){
-  let modaleMainButton = document.getElementById("modaleMainButton")
+
+function modaleTitle(text){
   let modaleTitle = document.getElementById("modaleTitle")
+  modaleTitle.innerHTML = text
   modaleTitle.classList.add("modaleTitle")
-  modaleTitle.innerHTML = "Galerie photo"
-  
-  modaleMainButton.addEventListener("click", function(event){
-    event.preventDefault
-    modaleTitle.innerHTML = "Ajout photo"
-  })
 }
+
+
+//////////////////////* Etat 1 / état 2 //////////////////////////
+
+// Comportement du bouton fermé dans la modale
+function modaleCloseButton(){
+  let modale_close_button = document.getElementById("modaleCloseButton")
+  modale_close_button.classList.add("modale_close_button_active")
+}  
 
 function createFixedContentModale(){
     let modaleMainContent = document.getElementById("modaleMainContent")
@@ -166,56 +189,61 @@ async function displayGalleryModale(){
 
 
 //Si la modale contient la classe modale, alors tu me retires la classe.
-function toggleModale(){
+/* function toggleModale(){
   let modale = document.getElementById("modale")
   let modale_overlay = document.getElementById("modale_overlay")
+  
   if (modale.classList.contains("modale_active")){
     modale.classList.add("modale_inactive")
     modale_overlay.classList.add("modale_overlay_inactive") 
   } else {
-    modale.classList.add("modale_active")
-    modale_overlay.classList.add("modale_overlay_active") 
     modale.classList.remove("modale_inactive")
     modale_overlay.classList.remove("modale_overlay_inactive") 
+    modale.classList.add("modale_active")
+    modale_overlay.classList.add("modale_overlay_active") 
   }
+} */
+
+
+function modaleOverlay(classToAdd, classToRemove){
+  let modale_overlay = document.getElementById("modale_overlay")
+  modale_overlay.classList.add(classToAdd)
+  modale_overlay.classList.remove(classToRemove)
 }
 
-// Comportement du bouton fermé dans la modale
-function displayModaleCloseButton(){
-  let modale_close_button = document.getElementById("modaleCloseButton")
-  modale_close_button.classList.add("modale_close_button_active")
-}  
-
-
-
-
-
-// Comportement du bouton principal de la modale
-function handleModaleMainButton(){
-  let modaleMainButton = document.getElementById("modaleMainButton")
-  modaleMainButton.innerHTML = "Ajouter une photo"
-  modaleMainButton.classList.remove("modaleMainButton_inactive")
-  modaleMainButton.classList.add("modaleMainButton_active")
-  modaleMainButton.addEventListener("click", function(event){
-    event.preventDefault()
-    modaleMainButton.innerHTML = "Valider"
-    modaleMainButton.classList.remove("modaleMainButton_active")
-    modaleMainButton.classList.add("modaleMainButton_inactive")
-  })
+function modale(classToAdd,classToRemove){
+  let modale = document.getElementById("modale")
+  modale.classList.add(classToAdd)
+  modale.classList.remove(classToRemove)
 }
 
-// Comportement du bouton précédent (état 1 / état 2)
-function modalePreviousButtonInactif(){
+
+/* function hideModale(){
+  let modale = document.getElementById("modale")
+  let modale_overlay = document.getElementById("modale_overlay")
+  modale.classList.remove("modale_active")
+  modale.classList.add("modale_inactive")
+
+  modale_overlay.classList.remove("modale_overlay_active")
+  modale_overlay.classList.add("modale_overlay_inactive")
+}
+ */
+
+// Gestion du bouton principal de la modale (état 1 / état 2) :
+function modaleMainButtonContent(text, classToRemove, classToAdd) {
+  const modaleMainButton = document.getElementById("modaleMainButton");
+  modaleMainButton.innerHTML = text;
+  modaleMainButton.classList.remove(classToRemove);
+  modaleMainButton.classList.add(classToAdd);
+}
+
+// Gestion du bouton précédent (état 1 modalePreviousButton_inactive / état 2 modalePreviousButton_active) :
+function modalePreviousButton(classToAdd,classToRemove){
 let modalePreviousButton = document.getElementById("modalePreviousButton")
-modalePreviousButton.classList.add("modalePreviousButton_inactive")
- modalePreviousButton.classList.remove("modalePreviousButton_active")
-}
-
-
-function modalePreviousButtonActif(){
-  let modalePreviousButton = document.getElementById("modalePreviousButton")
-  modalePreviousButton.classList.remove("modalePreviousButton_inactive")
-  modalePreviousButton.classList.add("modalePreviousButton_active")
+  modalePreviousButton.classList.add("fa-solid", "fa-arrow-left")
+  modalePreviousButton.classList.add(classToAdd)
+  modalePreviousButton.classList.remove(classToRemove)
+  
 }
 
 
