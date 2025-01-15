@@ -1,5 +1,6 @@
 import { fetchDataAPI, fetchCategoryAPI } from "./fetchPortfolio.js";
 let DATA = await fetchDataAPI() 
+let DATA_CATEGORY = await fetchCategoryAPI() 
 
 let BTN_LOGIN = document.querySelector(".btn_loginLogout")
 let MODALE_OPEN_BUTTON = document.createElement("a")
@@ -39,6 +40,7 @@ function initEvents(){
     modalePreviousButton()
     modaleMainButtonContent();
     createUploadModale("uploadModale_inactive", "uploadModale_active")
+    createUploadModaleFORM("formModale_inactive", "formModale_active")
   })
 
   // Ce que je vois quand je clique sur le bouton principal de la modale
@@ -50,6 +52,7 @@ function initEvents(){
     modalePreviousButton()
     createGalleryModale("galleryContainer_modale_inactive", "galleryContainer_modale_active")
     createUploadModale("uploadModale_active", "uploadModale_inactive")
+    createUploadModaleFORM("formModale_active", "formModale_inactive")
   })
 
   // Ce que je vois quand je clique sur le bouton "fermé" de la modale
@@ -68,6 +71,7 @@ function initEvents(){
     modalePreviousButton()
     modaleCloseButton()
     createUploadModale("uploadModale_inactive", "uploadModale_active")
+    createUploadModaleFORM("formModale_inactive", "formModale_active")
   })
 }
 
@@ -233,20 +237,20 @@ function modalePreviousButton(){
   }
 }
 
-  
+
 // Création de la partie upload dans la modale (hors formulaire)
 function createUploadModale(classToAdd, classToRemove){
   let upload_modale = document.getElementById("upload_modale")
-  //upload_modale.innerHTML = ""
+  upload_modale.innerHTML = ""
   upload_modale.classList.add(classToAdd) 
   upload_modale.classList.remove(classToRemove) 
 
   let upload_modale_icon = document.createElement("i")
   upload_modale_icon.classList.add("fa-regular", "fa-image", "upload_modale_icon") 
   
-  let upload_modale_button_input = document.createElement("input")
-  upload_modale_button_input.type = "file"
-  upload_modale_button_input.classList.add("upload_modale_button_input")
+  let upload_modale__input = document.createElement("input")
+  upload_modale__input.type = "file"
+  upload_modale__input.classList.add("upload_modale__input")
 
   let upload_modale_button = document.createElement("button")
   upload_modale_button.innerHTML = "+ Ajouter photo"
@@ -254,14 +258,62 @@ function createUploadModale(classToAdd, classToRemove){
 
   //listenerUploadImage(modaleUpload_btn, modaleUpload_btn_input)
 
-  let uploadModale_paragraph = document.createElement("p")
-  uploadModale_paragraph.innerHTML = "jpg, png : 4mo max"
-  uploadModale_paragraph.classList.add("uploadModale_paragraph") 
+  let upload_modale_paragraph = document.createElement("p")
+  upload_modale_paragraph.innerHTML = "jpg, png : 4mo max"
+  upload_modale_paragraph.classList.add("upload_modale_paragraph") 
+
 
   upload_modale.appendChild(upload_modale_icon)
   upload_modale.appendChild(upload_modale_button)
-  upload_modale.appendChild(uploadModale_paragraph)
+  upload_modale.appendChild(upload_modale_paragraph)
+
 } 
+
+function createUploadModaleFORM(classToAdd, classToRemove){
+  let upload_modale_form = document.getElementById("upload_modale_form")
+  upload_modale_form.innerHTML = ""
+  upload_modale_form.classList.add(classToAdd) 
+  upload_modale_form.classList.remove(classToRemove) 
+ 
+  let modaleForm_title_label = document.createElement("label")
+  modaleForm_title_label.innerHTML= "Titre"
+  modaleForm_title_label.classList.add("modaleForm_label")
+
+  let modaleForm_title_input = document.createElement("input")
+  modaleForm_title_input.classList.add("modaleForm_input")
+
+  let modaleForm_title_category = document.createElement("label")
+  modaleForm_title_category.innerHTML= "Catégorie"
+  modaleForm_title_category.classList.add("modaleForm_label")
+
+  let modaleForm_selectCategory = document.createElement("select")
+  modaleForm_selectCategory.classList.add("modaleForm_input")
+
+  modaleForm_selectCategory.addEventListener("click", function(event){  
+    event.preventDefault()
+    extractCategoryModale(modaleForm_selectCategory)
+  })
+
+  upload_modale_form.appendChild(modaleForm_title_label)
+  upload_modale_form.appendChild(modaleForm_title_input)
+  upload_modale_form.appendChild(modaleForm_title_category)
+  upload_modale_form.appendChild(modaleForm_selectCategory) 
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -275,60 +327,25 @@ function createUploadModale(classToAdd, classToRemove){
 
 
 
-/* async function uploadFormModale(addClass, removeClass){
-  let modaleMainContent = document.getElementById("modaleMainContent")
-  let modaleForm = document.createElement("form")
-  modaleForm.classList.add(addClass)
-  modaleForm.classList.remove(removeClass)
-
-  let updateContentForm_title = document.createElement("label")
-  updateContentForm_title.innerHTML= "Titre"
-
-  let updateContentForm_input = document.createElement("input")
-
-  let updateContentForm_category = document.createElement("label")
-  updateContentForm_category.innerHTML= "Catégorie"
-
-  let updateContentForm_select = document.createElement("select")
-
-  listenerCategory(updateContentForm_select)
-  extractCategoryModale(updateContentForm_select)
-
-  modaleMainContent.appendChild(modaleForm)
-  modaleForm.appendChild(updateContentForm_title)
-  modaleForm.appendChild(updateContentForm_input)
-  modaleForm.appendChild(updateContentForm_category)
-  modaleForm.appendChild(updateContentForm_select)
-} */
 
 
 
 
 
-/* function listenerCategory(trigger){
-  trigger.addEventListener("click", function(event){  
-    event.preventDefault()
-  })
-} */
+async function extractCategoryModale(select_button){
+  let category = ""
+  let modaleForm_category = ""
+  for (let i =0; i < DATA_CATEGORY.length;i++){
+    category = DATA_CATEGORY[i].name
+    //console.log(category)
+    modaleForm_category = document.createElement("option");
+    modaleForm_category.value = category
+    modaleForm_category.textContent = category
+    select_button.appendChild(modaleForm_category) 
+    //console.log(modaleForm_category)
+  }  
+}
 
-
-
-
-
-
-/* async function extractCategoryModale(trigger){
-  let data_api_category = await fetchCategoryAPI()
-  let category = []
-  category.innerHTML = ""
-    
-  for (let i =0; i < data_api_category.length;i++){
-    category = data_api_category[i].name
-    let updateContentForm_select_option = document.createElement("option"); 
-    updateContentForm_select_option.value = category
-    updateContentForm_select_option.textContent = category
-    trigger.appendChild(updateContentForm_select_option)
-  }
-} */
 
 
 
