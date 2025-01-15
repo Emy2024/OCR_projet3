@@ -392,11 +392,14 @@ footer nav ul {
 }
 
 
-/************ Background overlay modal ************/
+/************ Logout ************/
+
+.logout{
+	cursor: pointer;
+}
 
 
-/** OK **/
-
+/*********** Modale & overlay ***********/
 .modale_overlay_active{
 	background-color: rgba(0, 0, 0, 0.377);
 	position: fixed;
@@ -434,6 +437,8 @@ footer nav ul {
 	display: none;
 }
 
+/*********** Modale Title and line ***********/
+
 .modaleTitle{
 	font-size: large;
 }
@@ -442,8 +447,10 @@ footer nav ul {
 	width: 100%;
 	height: 1px;
 	border-top: rgb(214, 214, 214) solid 1px;
-	margin-top: 42px;
+	margin-top: 29px;
 }
+
+/*********** Modale Main button ***********/
 
 .modaleMainButton_active{
 	border: 0;
@@ -479,6 +486,7 @@ footer nav ul {
 	margin-top: 32px;
 }
 
+/*********** Modale Close Button ***********/
 .modale_close_button_active {
 	position: absolute;
 	top: 0;
@@ -489,42 +497,27 @@ footer nav ul {
 	cursor: pointer;
 }
 
-
 .modale_close_button_inactive {
 	display: none;
 }
 
-.modalePreviousButton_active{
+/*********** Modale Previous Button ***********/
+
+.modale_previous_button_active{
+	color: black;
+	cursor: pointer;
+	font-size: 14px;
 	position: absolute;
 	top: 0;
-  left: 0;
+	left: 0;
 	padding: 35px 40px;
-	cursor: pointer;
 }
 
-.modalePreviousButton_inactive{
+.modale_previous_button_inactive {
 	display: none;
 }
 
-.galleryContainer_modale_active{
-	gap: 5px; 
-	margin-top: 20px;
-	width: 100%;
-	display: flex;
-	flex-wrap: wrap;
-	background-color: rgba(255, 255, 0, 0);
-	z-index: 20;
- }
-
-
- .galleryContainer_modale_inactive{
-	display: none;
- }
-
-.galleryContainer_modale_image{
-	height: 109px;
-}
-
+/*********** Modale Main Content ***********/
 .modaleMainContent{
 	width: 100%;
 	height: auto;
@@ -539,21 +532,60 @@ footer nav ul {
 	display: none;
 }
 
- .modalePreviousButton_active{
-	position: absolute;
-	left: 0;
-	top:0;
-	padding: 25px;
-}
+/*********** Modale Gallery + trash elements ***********/
+.galleryContainer_modale_active{
+	gap: 5px; 
+	margin-top: 20px;
+	width: 100%;
+	display: flex;
+	flex-wrap: wrap;
+	background-color: rgba(255, 255, 0, 0);
+	z-index: 20;
+ }
 
-.modalePreviousButton_inactive{
+ .galleryContainer_modale_inactive{
 	display: none;
+ }
+
+.galleryContainer_modale_image{
+	height: 109px;
 }
 
-.uploadModale_active{
+.containerImage{
 	position: relative;
+}
+
+.image{
+	height: 89px;
+}
+
+
+.trashElement{
+	z-index: 999;
+	position: absolute;
+	top: 5px;
+	right: 3px;
+	width: 25px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	cursor: pointer;
+}
+
+.trashIcon{
+	background-color: rgb(0, 0, 0);
+	padding: 3px;
+	color: white;
+	border-radius: 5px;
+	font-size: small;
+}
+
+
+/*********** Modale Upload container***********/
+.uploadModale_active{
 	display: flex;
 	flex-direction: column;
+	position: relative;
 	align-items: center;
 	background-color: #E8F1F6;
 	width: 100%;
@@ -565,6 +597,8 @@ footer nav ul {
 .uploadModale_inactive{
 	display: none;
 }
+
+/*********** Modale Upload ***********/
 
 .upload_modale_icon{
 	position: absolute;
@@ -590,8 +624,7 @@ footer nav ul {
 	cursor: pointer;
 }
 
-
-.uploadModale_paragraph{
+.upload_modale_paragraph{
 	margin-top: 15px;
 	position: absolute;
 	align-items: center;
@@ -602,35 +635,38 @@ footer nav ul {
 	color: #444444;
 }
 
-/* .modaleForm{
-	display: flex;
-	flex-direction: column;
-	width: 100%;
-	padding-top: 25px;
-} */
-
-
-.modaleForm_active{
+/*********** Modale Upload ***********/
+.formModale_active{
 	display: flex;
 	flex-direction: column;
 	background-color: rgba(255, 0, 0, 0);
 	width: 100%;
 	text-align: left !important;
-	padding-top: 15px;
+	padding-top: 8px;
 }
 
-.modaleForm_inactive{
+.formModale_inactive{
 	display: none;
 }
 
-.modaleForm_active input{
-	border: none;
-	box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
-	padding: 15px;
-	margin: 15px 0px;
+/*********** Modale Upload FORM ***********/
+
+.upload_modale_form_inactive{
+	display: none;
+}
+.upload_modale_form_active{
+	display: flex;
+	flex-direction: column;
+	width: 100%;
 }
 
-.modaleForm_active select{
+.modaleForm_label{
+	color: #3D3D3D;
+	padding-top: 25px;
+	padding-bottom: 2px;
+}
+
+.modaleForm_input{
 	border: none;
 	box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
 	padding: 15px;
@@ -638,9 +674,16 @@ footer nav ul {
 	background-color: white;
 }
 
-.modaleUpload_btn_input{
-	display: none;
-}
+
+
+
+
+
+
+
+
+
+
 
 .paragraphErrorEmptyFields{
 	padding: 5px 0;
@@ -648,71 +691,6 @@ footer nav ul {
 	text-align: center;
 }
 
-.trashElement{
-	z-index: 999;
-	position: absolute;
-	top: 5px;
-	right: 3px;
-	width: 25px;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	cursor: pointer;
-}
-
-
-.trashIcon{
-	background-color: rgb(0, 0, 0);
-	padding: 3px;
-	color: white;
-	border-radius: 5px;
-	font-size: small;
-}
-
-
-.modale_previous_button_active{
-	color: black;
-	cursor: pointer;
-	font-size: 14px;
-	position: absolute;
-	top: 0;
-	left: 0;
-	padding: 35px 40px;
-}
-
-
-.modale_previous_button_inactive {
-	display: none;
-}
-
-
-
-
-
-
-
-
-
-.modal_CloseModal{
-	color: black;
-	cursor: pointer;
-	font-size: 17px;
-	font-family: 'Syne';
-	font-weight: 300;
-	margin-left: auto;
-	margin-right: 25px;
-	margin-top: 25px;
-}
-
-
-
-
-
-
-.modal_btn_not_activated:hover {
-	background-color: #A7A7A7;
-	color: #FFFEF8;
-}
 
 
 
@@ -725,26 +703,6 @@ footer nav ul {
 
 
 
-
-
-.containerGallery{
-	display: flex;
-	position: relative;
-}
-
-.containerImage{
-	position: relative;
-}
-
-.image{
-	height: 89px;
-}
-
-
-
-.logout{
-	cursor: pointer;
-}
 
 
 
