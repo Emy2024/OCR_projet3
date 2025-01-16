@@ -293,49 +293,28 @@ function createUploadModaleFORM(classToAdd, classToRemove){
   let modaleForm_selectCategory = document.createElement("select")
   modaleForm_selectCategory.classList.add("modaleForm_input")
 
-
-
-/*   modaleForm_selectCategory.addEventListener("click", function(event){  
-    event.preventDefault()
-    extractCategoryModale(modaleForm_selectCategory)
-  }) */
-
-  modaleForm_selectCategory.addEventListener("click", function(event){  
-    event.preventDefault()
-      for (let i =0; i < DATA_CATEGORY.length;i++){
-        let category = DATA_CATEGORY[i].name
-        let modaleForm_category_option = document.createElement("option");
-        modaleForm_category_option.value = category
-        modaleForm_category_option.textContent = category
-        modaleForm_selectCategory.appendChild(modaleForm_category_option) 
-        //console.log(modaleForm_category)
-      }  
-  })
+  extractCategoryModale(modaleForm_selectCategory)
 
   upload_modale_form.appendChild(modaleForm_title_label)
   upload_modale_form.appendChild(modaleForm_title_input)
   upload_modale_form.appendChild(modaleForm_title_category)
   upload_modale_form.appendChild(modaleForm_selectCategory) 
-  upload_modale_form.appendChild(modaleForm_selectCategory) 
 }
 
 
-/* async function extractCategoryModale(name_button){
-  let category 
-  let modaleForm_category_option
- 
-    for (let i =0; i < DATA_CATEGORY.length;i++){
-      category = DATA_CATEGORY[i].name
-      //console.log(category)
-      modaleForm_category_option = document.createElement("option");
-      modaleForm_category_option.value = category
-      modaleForm_category_option.textContent = category
-      name_button.appendChild(modaleForm_category_option) 
-      //console.log(modaleForm_category)
-    }  
-   
+
+
+ async function extractCategoryModale(parentElement){
+    let category = ""
+      for (let i = 0; i < DATA_CATEGORY.length; i++) {
+        category = DATA_CATEGORY[i].name;
+        let modaleForm_category_option = document.createElement("option")
+        modaleForm_category_option.value = category;
+        modaleForm_category_option.textContent = category;    
+        parentElement.appendChild(modaleForm_category_option);  
+  }
 }
- */
+
 
 
 
