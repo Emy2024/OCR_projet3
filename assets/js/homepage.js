@@ -10,6 +10,8 @@ function main(){
     createAdminLogout()
     createAdminModeEdition()
     createButtonOpenModale()
+    modale("modale_inactive", "modale_active")
+    modaleCloseButton()
     initEvents()
   }
  else {
@@ -134,9 +136,11 @@ function modaleTitle(text){
 function modaleCloseButton(){
   let modale = document.getElementById("modale")
   let modale_close_button = document.getElementById("modaleCloseButton")
-  if (modale.classList.contains("modale_active")){
-    modale_close_button.classList.add("modale_close_button_active")
+  if (modale.classList.contains("modale_inactive")){
+    modale_close_button.classList.remove("modale_close_button_active")
+    modale_close_button.classList.add("modale_close_button_inactive")
   } else {
+    modale_close_button.classList.add("modale_close_button_active")
     modale_close_button.classList.remove("modale_close_button_inactive")
   }
 }  
@@ -289,63 +293,49 @@ function createUploadModaleFORM(classToAdd, classToRemove){
   let modaleForm_selectCategory = document.createElement("select")
   modaleForm_selectCategory.classList.add("modaleForm_input")
 
-  modaleForm_selectCategory.addEventListener("click", function(event){  
+
+
+/*   modaleForm_selectCategory.addEventListener("click", function(event){  
     event.preventDefault()
     extractCategoryModale(modaleForm_selectCategory)
+  }) */
+
+  modaleForm_selectCategory.addEventListener("click", function(event){  
+    event.preventDefault()
+      for (let i =0; i < DATA_CATEGORY.length;i++){
+        let category = DATA_CATEGORY[i].name
+        let modaleForm_category_option = document.createElement("option");
+        modaleForm_category_option.value = category
+        modaleForm_category_option.textContent = category
+        modaleForm_selectCategory.appendChild(modaleForm_category_option) 
+        //console.log(modaleForm_category)
+      }  
   })
 
   upload_modale_form.appendChild(modaleForm_title_label)
   upload_modale_form.appendChild(modaleForm_title_input)
   upload_modale_form.appendChild(modaleForm_title_category)
   upload_modale_form.appendChild(modaleForm_selectCategory) 
+  upload_modale_form.appendChild(modaleForm_selectCategory) 
 }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/*  function listenerUploadImage(button, buttonInput){
-  button.addEventListener("click", function(){
-    buttonInput.click()
-  })
-} */
-
-
-
-
-
-
-
-
-
-async function extractCategoryModale(select_button){
-  let category = ""
-  let modaleForm_category = ""
-  for (let i =0; i < DATA_CATEGORY.length;i++){
-    category = DATA_CATEGORY[i].name
-    //console.log(category)
-    modaleForm_category = document.createElement("option");
-    modaleForm_category.value = category
-    modaleForm_category.textContent = category
-    select_button.appendChild(modaleForm_category) 
-    //console.log(modaleForm_category)
-  }  
+/* async function extractCategoryModale(name_button){
+  let category 
+  let modaleForm_category_option
+ 
+    for (let i =0; i < DATA_CATEGORY.length;i++){
+      category = DATA_CATEGORY[i].name
+      //console.log(category)
+      modaleForm_category_option = document.createElement("option");
+      modaleForm_category_option.value = category
+      modaleForm_category_option.textContent = category
+      name_button.appendChild(modaleForm_category_option) 
+      //console.log(modaleForm_category)
+    }  
+   
 }
-
+ */
 
 
 
