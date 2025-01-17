@@ -1,3 +1,4 @@
+import { fetchDataAPI } from "./fetchPortfolio.js";
 const URL_API = "http://localhost:5678/api/works" 
 const BTN_TOUSLESITEMS = document.createElement("button")
 const BTN_OBJETS = document.createElement("button")
@@ -12,20 +13,6 @@ async function main(){
   await initEvent(data)
 }
 main()
-
-async function fetchDataAPI(url) {
-  try {
-    const response = await fetch(url);
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
-    }
-    return await response.json();
-  } 
-  catch (error) {
-    console.error("Erreur lors du fetch :", error.message);
-    return []; 
-  }
-}
 
 async function displayGallery(data){ 
     let galleryParent  = document.querySelector(".gallery")
