@@ -543,15 +543,15 @@ footer nav ul {
 	z-index: 20;
  }
 
- .galleryContainer_modale_inactive{
+.galleryContainer_modale_inactive{
 	display: none;
  }
 
-.galleryContainer_modale_image{
+.imageModale{
 	height: 109px;
 }
 
-.containerImage{
+.containerImageModale{
 	position: relative;
 }
 
@@ -560,7 +560,7 @@ footer nav ul {
 }
 
 
-.trashElement{
+.trashElementModale{
 	z-index: 999;
 	position: absolute;
 	top: 5px;
@@ -572,7 +572,7 @@ footer nav ul {
 	cursor: pointer;
 }
 
-.trashIcon{
+.trashIconModale{
 	background-color: rgb(0, 0, 0);
 	padding: 3px;
 	color: white;
@@ -677,14 +677,84 @@ footer nav ul {
 
 
 
+/*********** Modale Upload FORM - suppression image ***********/
 
+.modaleOverlayDivDeletePicture{
+	position: fixed;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	background-color: #3d3d3dca;
+	z-index: 110;
+}
 
+.modaleDivDeletePicture {
+	position: absolute;
+	background-color: rgb(255, 255, 255);
+	min-height: 100px;
+	width: 60%;
+	z-index: 111;
+	padding: 35px;
+	border-radius: 15px;
+}
 
+.modaleContainerButtonDeleteAnswer{
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+	width: 100%;
+	margin-top: 15px;
+}
 
-.paragraphErrorEmptyFields{
-	padding: 5px 0;
-	color: red;
+.buttonYesDeleteAnswer{
+	padding: 10px;
+	width: 45%;
+	background-color: tomato;
+	border: 0 solid ;
+	border-radius: 15px;
+	color: white;
+	margin: 0px 15px;
+	font-size: medium;
+	line-height: 20px;
+}
+
+.buttonYesDeleteAnswer:hover{
+	background-color: white;
+	border: 1px solid tomato;
+	color: tomato;
+	cursor: pointer;
+}
+
+.buttonNoDeleteAnswer{
+	padding: 10px;
+	width: 45%;
+	background-color: #1D6154;
+	border: 0 solid ;
+	border-radius: 15px;
+	color: white;
+	margin: 0px 15px;
+	font-size: medium;
+	line-height: 20px;
+	cursor: pointer;
+}
+
+.buttonNoDeleteAnswer:hover{
+	background-color: white;
+	color: #1D6154;
+	border: 1px solid #1D6154;
+}
+
+.modaleDeleteQuestionTitle{
+	font-size: large;
 	text-align: center;
+	line-height: 20px;
+}
+
+.modaleDeleteQuestionParagraph{
+	font-size: medium;
+	padding-top: 15px;
+	line-height: 20px;
 }
 
 
@@ -696,6 +766,21 @@ footer nav ul {
 
 
 
+
+
+
+
+
+
+
+
+
+
+.paragraphErrorEmptyFields{
+	padding: 5px 0;
+	color: red;
+	text-align: center;
+}
 
 
 
