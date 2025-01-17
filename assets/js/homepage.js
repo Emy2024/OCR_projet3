@@ -3,7 +3,6 @@ import { fetchDataAPI, fetchCategoryAPI, imageDelete } from "./fetchPortfolio.js
 let DATA = await fetchDataAPI() 
 let DATA_CATEGORY = await fetchCategoryAPI() 
 
-
 let BTN_LOGIN = document.querySelector(".btn_loginLogout")
 let MODALE_OPEN_BUTTON = document.createElement("a")
 
@@ -40,7 +39,7 @@ function initEvents(){
   // Clique sur le bouton principal de la modale pour afficher un nouveau contenu
   let modaleMainButton = document.getElementById("modaleMainButton")
   modaleMainButton.addEventListener("click", function(event){
-    event.preventDefault()
+    event.stopPropagation()
     showEditGalleryModale()
   })
 
@@ -51,9 +50,19 @@ function initEvents(){
     location.reload()
   })
 
+  //************************************en cours *****************************/
+  let modale_overlay = document.getElementById("modale_overlay")
+  modale_overlay.addEventListener("click", function(event){
+    event.stopPropagation()
+    let modale = document.getElementById("modale")
+    modale.classList.replace("modale_active", "modale_inactive")
+    modale_overlay.classList.replace("modale_overlay_active", "modale_overlay_inactive")
+  })
+
   // Clique sur le bouton "précédent" de la modale et affiche son contenu
   let modale_previous_button = document.getElementById("modalePreviousButton")
-  modale_previous_button.addEventListener("click", function(){
+  modale_previous_button.addEventListener("click", function(event){
+    event.stopPropagation()
     showGalleryModale()
   })
 }
@@ -191,6 +200,7 @@ async function createGalleryModale(classToAdd, classToRemove){
       trashIconModale.dataset.id = imageModale.id  //pour chaque icon, met un id et associe-le à un id de l'image
 
       trashElementModale.addEventListener("click", function(event){
+        event.stopPropagation()
         let modaleOverlayDivDeletePicture = document.createElement("div")
         modaleOverlayDivDeletePicture.classList.add("modaleOverlayDivDeletePicture")
         let modaleDivDeletePicture = document.createElement("div")
@@ -218,7 +228,8 @@ async function createGalleryModale(classToAdd, classToRemove){
         modaleContainerButtonDeleteAnswer.appendChild(buttonYesDeleteAnswer)
         modaleContainerButtonDeleteAnswer.appendChild(buttonNoDeleteAnswer)
 
-        buttonYesDeleteAnswer.addEventListener("click", function(){
+        buttonYesDeleteAnswer.addEventListener("click", function(event){
+          event.stopPropagation()
           let containerId = event.target.closest('.containerImageModale'); //remonte jusqu'au bouton parent le plus proche pour récupérer l'id
           console.log("Si je clique sur le trash, l'id de la photo est : ", event.target.dataset.id)
           console.log("Si je clique sur l'image, l'id du container de l'image est : ", containerId)
@@ -233,7 +244,8 @@ async function createGalleryModale(classToAdd, classToRemove){
           modaleContainerButtonDeleteAnswer.removeChild(buttonNoDeleteAnswer)
         })
 
-        buttonNoDeleteAnswer.addEventListener("click", function(){
+        buttonNoDeleteAnswer.addEventListener("click", function(event){
+          event.stopPropagation()
           modale.removeChild(modaleOverlayDivDeletePicture)
           modale.removeChild(modaleDivDeletePicture)
           modaleDivDeletePicture.removeChild(modaleDeleteQuestionTitle)
