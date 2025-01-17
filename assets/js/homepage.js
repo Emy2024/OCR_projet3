@@ -1,4 +1,4 @@
-import { fetchDataAPI, fetchCategoryAPI, fetchDelete } from "./fetchPortfolio.js";
+import { fetchDataAPI, fetchCategoryAPI, imageDelete } from "./fetchPortfolio.js";
 let DATA = await fetchDataAPI() 
 let DATA_CATEGORY = await fetchCategoryAPI() 
 
@@ -33,16 +33,7 @@ function initEvents(){
   // Ce que je vois quand je clique sur le bouton pour ouvrir la modale
   MODALE_OPEN_BUTTON.addEventListener("click", function(event){
     event.preventDefault()
-    modaleOverlay("modale_overlay_active", "modale_overlay_inactive")
-    modale("modale_active", "modale_inactive")
-    createFixedContentModale()
-    modaleTitle("Galerie photo")
-    createGalleryModale("galleryContainer_modale_active", "galleryContainer_modale_inactive")
-    modaleCloseButton()
-    modalePreviousButton()
-    modaleMainButtonContent();
-    createUploadModale("uploadModale_inactive", "uploadModale_active")
-    createUploadModaleFORM("formModale_inactive", "formModale_active")
+    showGalleryModale()
   })
 
   // Ce que je vois quand je clique sur le bouton principal de la modale
@@ -111,6 +102,22 @@ function createButtonOpenModale(){
   MODALE_OPEN_BUTTON.appendChild(modifier_icone)
 }
 
+function showGalleryModale(){
+  modaleOverlay("modale_overlay_active", "modale_overlay_inactive")
+  modale("modale_active", "modale_inactive")
+  createFixedContentModale()
+  modaleTitle("Galerie photo")
+  createGalleryModale("galleryContainer_modale_active", "galleryContainer_modale_inactive")
+  modaleCloseButton()
+  modalePreviousButton()
+  modaleMainButtonContent();
+  createUploadModale("uploadModale_inactive", "uploadModale_active")
+  createUploadModaleFORM("formModale_inactive", "formModale_active")
+}
+
+
+
+
 // Comportement de l'arrière plan de la modale
 function modaleOverlay(classToAdd, classToRemove){
   let modale_overlay = document.getElementById("modale_overlay")
@@ -173,6 +180,7 @@ async function createGalleryModale(classToAdd, classToRemove){
     for(let i=0;i <DATA.length;i++){
       containerImage = document.createElement("div")
       containerImage.classList.add("containerImage") 
+      containerImage.id = "containerImageModale_"+DATA[i].id
       trashElement = document.createElement("a")
       trashIcon = document.createElement("i")
     
@@ -189,7 +197,7 @@ async function createGalleryModale(classToAdd, classToRemove){
 
       trashElement.addEventListener("click", function(event){
         console.log("Si je clique sur le trash, l'id de la photo est : ", event.target.dataset.id)
-        fetchDelete(event.target.dataset.id, image)
+        imageDelete(event.target.dataset.id, image)
       }) 
 
       galleryContainer_modale.appendChild(containerImage)
