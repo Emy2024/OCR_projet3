@@ -17,9 +17,10 @@ main()
 async function displayGallery(data){ 
     let galleryParent  = document.querySelector(".gallery")
     galleryParent.innerHTML=""
-
+  
     data.forEach(item => {
       let figureGallery = document.createElement("figure")
+      figureGallery.id = "mainFigure_"+item.id
     
       let imgGallery = document.createElement("img")
       imgGallery.src = item.imageUrl
