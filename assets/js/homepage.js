@@ -1,4 +1,4 @@
-import { fetchDataAPI, fetchCategoryAPI } from "./fetchPortfolio.js";
+import { fetchDataAPI, fetchCategoryAPI, fetchDelete } from "./fetchPortfolio.js";
 let DATA = await fetchDataAPI() 
 let DATA_CATEGORY = await fetchCategoryAPI() 
 
@@ -178,16 +178,19 @@ async function createGalleryModale(classToAdd, classToRemove){
     
       image = document.createElement("img")
       image.src = DATA[i].imageUrl
-      image.id = DATA[i].id
-      //let imageId = DATA[i].id
-      image.classList.add("galleryContainer_modale_image")    
+      //console.log(image.src)
+      image.id = DATA[i].id // tous les id de mes images
+  
+      image.classList.add("galleryContainer_modale_image")  
+
       trashElement.classList.add("trashElement") 
       trashIcon.classList.add("fa-solid", "fa-trash", "trashIcon") 
       trashIcon.dataset.id = image.id  //pour chaque icon, met un id et associe-le à un id de l'image
 
       trashElement.addEventListener("click", function(event){
-        removeImage(event)
-      })
+        console.log("Si je clique sur le trash, l'id de la photo est : ", event.target.dataset.id)
+        fetchDelete(event.target.dataset.id, image)
+      }) 
 
       galleryContainer_modale.appendChild(containerImage)
       containerImage.appendChild(image)
@@ -195,19 +198,6 @@ async function createGalleryModale(classToAdd, classToRemove){
       trashElement.appendChild(trashIcon)
     }
 }
-
-// Gérer l'affichage ou non de la modale selon Manu
-/* function toggleModale(){
-  let modale = document.getElementById("modale")
-  let modale_overlay = document.getElementById("modale_overlay")
-  if (modale.classList.contains("modale")){
-    modale.classList.remove("modale")
-    modale_overlay.classList.remove("modale_overlay_active") 
-  } else {
-    modale.classList.add("modale")
-    modale_overlay.classList.add("modale_overlay_active") 
-  }
-} */
 
 // Gestion du bouton principal de la modale en fonction du titre de la modale :
 function modaleMainButtonContent() {
@@ -241,8 +231,7 @@ function modalePreviousButton(){
   }
 }
 
-
-// Création de la partie upload dans la modale (hors formulaire)
+// Création de la partie upload dans la modale
 function createUploadModale(classToAdd, classToRemove){
   let upload_modale = document.getElementById("upload_modale")
   upload_modale.innerHTML = ""
@@ -252,27 +241,60 @@ function createUploadModale(classToAdd, classToRemove){
   let upload_modale_icon = document.createElement("i")
   upload_modale_icon.classList.add("fa-regular", "fa-image", "upload_modale_icon") 
   
-  let upload_modale__input = document.createElement("input")
-  upload_modale__input.type = "file"
-  upload_modale__input.classList.add("upload_modale__input")
-
   let upload_modale_button = document.createElement("button")
   upload_modale_button.innerHTML = "+ Ajouter photo"
   upload_modale_button.classList.add("upload_modale_button")
+
+ // input.type="file" va créer automatiquement un bouton Browser.Je dois donc le cacher
+  let upload_modale_input = document.createElement("input")
+  upload_modale_input.type = "file" 
+  upload_modale_input.accept="image/*"
+  upload_modale_input.style.display = 'none'
+  upload_modale_input.id ="upload_modale_input_id"
+
+  let previewNewPicture = document.createElement("div")
+
+  //J'assigne mon nouveau bouton à l'input caché et je lis le fichier
+  upload_modale_button.addEventListener("click", function(){
+    let input = document.getElementById("upload_modale_input_id")
+    input.click()
+
+    let file = input.files[0] // récupère le fichier sélectionné
+    
+    if (file && file.type.startsWith('image/')) {  // Vérifie que c'est une image
+      let reader = new FileReader() // Crée le lecteur de fichier
+      
+      reader.onload = function(event){
+        let newImage = document.createElement('img')
+        newImage.src = event.target.result
+        upload_modale.appendChild(previewNewPicture)
+
+        previewNewPicture = ""
+        previewNewPicture.appendChild(img)
+      }
+    }
+    })
+ /*   
+    reader.onload = function(event) {
+      let img = document.createElement('img')
+      img.src = event.target.result
+      upload_modale.appendChild(img) 
+    } */
+
 
   //listenerUploadImage(modaleUpload_btn, modaleUpload_btn_input)
 
   let upload_modale_paragraph = document.createElement("p")
   upload_modale_paragraph.innerHTML = "jpg, png : 4mo max"
   upload_modale_paragraph.classList.add("upload_modale_paragraph") 
-
-
   upload_modale.appendChild(upload_modale_icon)
   upload_modale.appendChild(upload_modale_button)
+  upload_modale_button.appendChild(upload_modale_input)
   upload_modale.appendChild(upload_modale_paragraph)
 
 } 
 
+// Création de la partie form upload dans la modale (formulaire)
 function createUploadModaleFORM(classToAdd, classToRemove){
   let upload_modale_form = document.getElementById("upload_modale_form")
   upload_modale_form.innerHTML = ""
@@ -301,17 +323,14 @@ function createUploadModaleFORM(classToAdd, classToRemove){
   upload_modale_form.appendChild(modaleForm_selectCategory) 
 }
 
-
-
-
+// Extraction des catégories pour la partie form upload dans la modale (formulaire)
  async function extractCategoryModale(parentElement){
-    let category = ""
-      for (let i = 0; i < DATA_CATEGORY.length; i++) {
-        category = DATA_CATEGORY[i].name;
-        let modaleForm_category_option = document.createElement("option")
-        modaleForm_category_option.value = category;
-        modaleForm_category_option.textContent = category;    
-        parentElement.appendChild(modaleForm_category_option);  
+  for (let i = 0; i < DATA_CATEGORY.length; i++) {
+    let category = DATA_CATEGORY[i].name;
+    let modaleForm_category_option = document.createElement("option")
+    modaleForm_category_option.value = category
+    modaleForm_category_option.textContent = category   
+    parentElement.appendChild(modaleForm_category_option)
   }
 }
 
@@ -324,21 +343,10 @@ function createUploadModaleFORM(classToAdd, classToRemove){
 
 
 
-/* 
 
-function removeImage(event){
-  console.log(event.target.dataset.id)
-}
- */
 
 
 /* 
-function listenerError(){
-  let buttonMainModale = document.getElementById("modaleMainButton")
-  buttonMainModale.addEventListener("Click", function(){
-    alert("error!")
-})
-}
 
 function errorEmptyFields(){
   const valueEmpty = updateContentForm_input.value
@@ -346,5 +354,33 @@ function errorEmptyFields(){
     let paragraphErrorEmptyFields = document.createElement("p")
     paragraphErrorEmptyFields.innerHTML = "Merci de compléter tous les champs !"
     paragraphErrorEmptyFields.classList.add("paragraphErrorEmptyFields")
+  }
+} */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  // Gérer l'affichage ou non de la modale selon Manu
+/* function toggleModale(){
+  let modale = document.getElementById("modale")
+  let modale_overlay = document.getElementById("modale_overlay")
+  if (modale.classList.contains("modale")){
+    modale.classList.remove("modale")
+    modale_overlay.classList.remove("modale_overlay_active") 
+  } else {
+    modale.classList.add("modale")
+    modale_overlay.classList.add("modale_overlay_active") 
   }
 } */
