@@ -372,6 +372,9 @@ function createUploadModaleFORM(classToAdd, classToRemove){
 
   let modaleForm_title_input = document.createElement("input")
   modaleForm_title_input.classList.add("modaleForm_input")
+  modaleForm_title_input.addEventListener("click", function(event){
+    event.stopPropagation()
+  })
 
   let modaleForm_title_category = document.createElement("label")
   modaleForm_title_category.innerHTML= "Catégorie"
@@ -379,6 +382,9 @@ function createUploadModaleFORM(classToAdd, classToRemove){
 
   let modaleForm_selectCategory = document.createElement("select")
   modaleForm_selectCategory.classList.add("modaleForm_input")
+  modaleForm_selectCategory.addEventListener("click", function(event){
+    event.stopPropagation()
+  })
 
   extractCategoryModale(modaleForm_selectCategory)
 
