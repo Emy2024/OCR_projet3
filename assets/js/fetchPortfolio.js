@@ -41,7 +41,7 @@ export async function fetchCategoryAPI() {
 
 
 // Fetch delete pour supprimer les images présentes dans l'API, partie createGalleryModale()
-export async function imageDelete(id, imgElement) {
+export async function imageDelete(id, container) {
   fetch (`http://localhost:5678/api/works/${id}`, {
     method: "DELETE",
      headers: {
@@ -52,14 +52,15 @@ export async function imageDelete(id, imgElement) {
     if (!response.ok) {
       throw new Error(`Erreur HTTP :  ${response.status}`)
     }
-    return response.json();
   })
   .then(data => {
     console.log(data)
-    imgElement.remove() 
+    /* imgElement.remove()  */
+    container.remove()
     console.log(`L'image numéro ${id} a été supprimée`)
   })
   .catch(error => {
     console.log(`L'image numéro ${id} n'a pas été supprimée`, error)
   }) 
 }
+
