@@ -263,10 +263,6 @@ async function createGalleryModale(classToAdd, classToRemove){
     }
 }
 
-
-
-
-
 // Affiche le bouton prinicpal et son contenu :
 function displayModaleMainButtonContent() {
   let modaleMainButton = document.getElementById("modaleMainButton")
@@ -323,7 +319,8 @@ function createUploadModale(classToAdd, classToRemove){
   let previewNewPicture = document.createElement("div")
 
   //J'assigne mon nouveau bouton à l'input caché et je lis le fichier
-  upload_modale_button.addEventListener("click", function(){
+  upload_modale_button.addEventListener("click", function(event){
+    event.stopPropagation()
     let input = document.getElementById("upload_modale_input_id")
     input.click()
 
