@@ -48,13 +48,7 @@ function initEvents(){
   let modale_close_button = document.getElementById("modaleCloseButton")
   modale_close_button.addEventListener("click", function(){
     toggleDisplayModale("modale_overlay_inactive", "modale_inactive", "modale_overlay_active", "modale_active")
-    //location.reload()
-  })
-
-  // Clique sur l'overlay de la modale pour cacher son contenu
-  let overlay_modale_close = document.getElementById("modale_overlay")
-  overlay_modale_close.addEventListener("click", function(){
-    toggleDisplayModale("modale_overlay_inactive", "modale_inactive", "modale_overlay_active", "modale_active")
+    location.reload()
   })
 
   // Clique sur le bouton "précédent" de la modale et affiche son contenu
@@ -197,7 +191,7 @@ async function createGalleryModale(classToAdd, classToRemove){
       trashIconModale.dataset.id = imageModale.id  //pour chaque icon, met un id et associe-le à un id de l'image
 
       trashElementModale.addEventListener("click", function(event){
-        let modaleOverlayDivDeletePicture = document.querySelector("div")
+        let modaleOverlayDivDeletePicture = document.createElement("div")
         modaleOverlayDivDeletePicture.classList.add("modaleOverlayDivDeletePicture")
         let modaleDivDeletePicture = document.createElement("div")
         modaleDivDeletePicture.classList.add("modaleDivDeletePicture")
@@ -256,6 +250,10 @@ async function createGalleryModale(classToAdd, classToRemove){
       trashElementModale.appendChild(trashIconModale)
     }
 }
+
+
+
+
 
 // Affiche le bouton prinicpal et son contenu :
 function displayModaleMainButtonContent() {
