@@ -1,6 +1,8 @@
 import { fetchDataAPI, fetchCategoryAPI, imageDelete } from "./fetchPortfolio.js"
+
 let DATA = await fetchDataAPI() 
 let DATA_CATEGORY = await fetchCategoryAPI() 
+
 
 let BTN_LOGIN = document.querySelector(".btn_loginLogout")
 let MODALE_OPEN_BUTTON = document.createElement("a")
@@ -46,6 +48,13 @@ function initEvents(){
   let modale_close_button = document.getElementById("modaleCloseButton")
   modale_close_button.addEventListener("click", function(){
     toggleDisplayModale("modale_overlay_inactive", "modale_inactive", "modale_overlay_active", "modale_active")
+    //location.reload()
+  })
+
+  // Clique sur l'overlay de la modale pour cacher son contenu
+  let overlay_modale_close = document.getElementById("modale_overlay")
+  overlay_modale_close.addEventListener("click", function(){
+    toggleDisplayModale("modale_overlay_inactive", "modale_inactive", "modale_overlay_active", "modale_active")
   })
 
   // Clique sur le bouton "précédent" de la modale et affiche son contenu
@@ -53,7 +62,6 @@ function initEvents(){
   modale_previous_button.addEventListener("click", function(){
     showGalleryModale()
   })
-
 }
 
 // Affiche le contenu du bouton Logout
@@ -165,41 +173,87 @@ async function createGalleryModale(classToAdd, classToRemove){
     galleryContainer_modale.classList.add(classToAdd)
     galleryContainer_modale.classList.remove(classToRemove)
       
-    let containerImage
-    let trashElement 
-    let trashIcon
-    let image
+    let containerImageModale
+    let trashElementModale
+    let trashIconModale
+    let imageModale
    
     for(let i=0;i <DATA.length;i++){
-      containerImage = document.createElement("div")
-      containerImage.classList.add("containerImage") 
-      containerImage.id = "containerImageModale_"+DATA[i].id
-      //console.log(containerImage.id)
-      trashElement = document.createElement("a")
-      trashIcon = document.createElement("i")
+      containerImageModale = document.createElement("div")
+      containerImageModale.classList.add("containerImageModale") 
+      containerImageModale.id = "containerImageModale_"+DATA[i].id
+
+      trashElementModale = document.createElement("a")
+      trashIconModale = document.createElement("i")
     
-      image = document.createElement("img")
-      image.src = DATA[i].imageUrl
-      //console.log(image.src)
-      image.id = DATA[i].id // tous les id de mes images
-  
-      image.classList.add("galleryContainer_modale_image")  
+      imageModale = document.createElement("img")
+      imageModale.src = DATA[i].imageUrl
+      imageModale.id = DATA[i].id // tous les id de mes images
 
-      trashElement.classList.add("trashElement") 
-      trashIcon.classList.add("fa-solid", "fa-trash", "trashIcon") 
-      trashIcon.dataset.id = image.id  //pour chaque icon, met un id et associe-le à un id de l'image
+      imageModale.classList.add("imageModale")  
 
-      trashElement.addEventListener("click", function(event){
-        let containerId = event.target.closest('.containerImage'); //remonte jusqu'au bouton parent le plus proche
-        console.log("Si je clique sur le trash, l'id de la photo est : ", event.target.dataset.id)
-        console.log("Si je clique sur l'image, l'id du container de l'image est : ", containerId)
-        imageDelete(event.target.dataset.id, containerId)       
+      trashElementModale.classList.add("trashElementModale") 
+      trashIconModale.classList.add("fa-solid", "fa-trash", "trashIconModale") 
+      trashIconModale.dataset.id = imageModale.id  //pour chaque icon, met un id et associe-le à un id de l'image
+
+      trashElementModale.addEventListener("click", function(event){
+        let modaleOverlayDivDeletePicture = document.querySelector("div")
+        modaleOverlayDivDeletePicture.classList.add("modaleOverlayDivDeletePicture")
+        let modaleDivDeletePicture = document.createElement("div")
+        modaleDivDeletePicture.classList.add("modaleDivDeletePicture")
+        let modaleDeleteQuestionTitle = document.createElement("h3")
+        modaleDeleteQuestionTitle.innerHTML = "Souhaitez-vous vraiment supprimer cette image ?"
+        modaleDeleteQuestionTitle.classList.add("modaleDeleteQuestionTitle")
+        let modaleDeleteQuestionParagraph = document.createElement("p")
+        modaleDeleteQuestionParagraph.innerHTML="Une fois l'image supprimée, il ne sera plus possible de la récupérer."
+        modaleDeleteQuestionParagraph.classList.add("modaleDeleteQuestionParagraph")
+        let modaleContainerButtonDeleteAnswer = document.createElement("div")
+        modaleContainerButtonDeleteAnswer.classList.add("modaleContainerButtonDeleteAnswer")
+        let buttonYesDeleteAnswer = document.createElement("button")
+        buttonYesDeleteAnswer.innerHTML = "Oui, supprimer définitivement"
+        buttonYesDeleteAnswer.classList.add("buttonYesDeleteAnswer")
+        let buttonNoDeleteAnswer = document.createElement("button")
+        buttonNoDeleteAnswer.innerHTML = "Non, revenir en arrière"
+        buttonNoDeleteAnswer.classList.add("buttonNoDeleteAnswer")
+
+        modale.appendChild(modaleOverlayDivDeletePicture)
+        modale.appendChild(modaleDivDeletePicture)
+        modaleDivDeletePicture.appendChild(modaleDeleteQuestionTitle)
+        modaleDeleteQuestionTitle.appendChild(modaleDeleteQuestionParagraph)
+        modaleDeleteQuestionTitle.appendChild(modaleContainerButtonDeleteAnswer)
+        modaleContainerButtonDeleteAnswer.appendChild(buttonYesDeleteAnswer)
+        modaleContainerButtonDeleteAnswer.appendChild(buttonNoDeleteAnswer)
+
+        buttonYesDeleteAnswer.addEventListener("click", function(){
+          let containerId = event.target.closest('.containerImageModale'); //remonte jusqu'au bouton parent le plus proche pour récupérer l'id
+          console.log("Si je clique sur le trash, l'id de la photo est : ", event.target.dataset.id)
+          console.log("Si je clique sur l'image, l'id du container de l'image est : ", containerId)
+          imageDelete(event.target.dataset.id, containerId)
+          
+          modale.removeChild(modaleOverlayDivDeletePicture)
+          modale.removeChild(modaleDivDeletePicture)
+          modaleDivDeletePicture.removeChild(modaleDeleteQuestionTitle)
+          modaleDeleteQuestionTitle.removeChild(modaleDeleteQuestionParagraph)
+          modaleDeleteQuestionTitle.removeChild(modaleContainerButtonDeleteAnswer)
+          modaleContainerButtonDeleteAnswer.removeChild(buttonYesDeleteAnswer)
+          modaleContainerButtonDeleteAnswer.removeChild(buttonNoDeleteAnswer)
+        })
+
+        buttonNoDeleteAnswer.addEventListener("click", function(){
+          modale.removeChild(modaleOverlayDivDeletePicture)
+          modale.removeChild(modaleDivDeletePicture)
+          modaleDivDeletePicture.removeChild(modaleDeleteQuestionTitle)
+          modaleDeleteQuestionTitle.removeChild(modaleDeleteQuestionParagraph)
+          modaleDeleteQuestionTitle.removeChild(modaleContainerButtonDeleteAnswer)
+          modaleContainerButtonDeleteAnswer.removeChild(buttonYesDeleteAnswer)
+          modaleContainerButtonDeleteAnswer.removeChild(buttonNoDeleteAnswer)
+        })
       }) 
 
-      galleryContainer_modale.appendChild(containerImage)
-      containerImage.appendChild(image)
-      containerImage.appendChild(trashElement)
-      trashElement.appendChild(trashIcon)
+      galleryContainer_modale.appendChild(containerImageModale)
+      containerImageModale.appendChild(imageModale)
+      containerImageModale.appendChild(trashElementModale)
+      trashElementModale.appendChild(trashIconModale)
     }
 }
 
