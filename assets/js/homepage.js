@@ -174,6 +174,7 @@ async function createGalleryModale(classToAdd, classToRemove){
       containerImage = document.createElement("div")
       containerImage.classList.add("containerImage") 
       containerImage.id = "containerImageModale_"+DATA[i].id
+      //console.log(containerImage.id)
       trashElement = document.createElement("a")
       trashIcon = document.createElement("i")
     
@@ -189,8 +190,10 @@ async function createGalleryModale(classToAdd, classToRemove){
       trashIcon.dataset.id = image.id  //pour chaque icon, met un id et associe-le à un id de l'image
 
       trashElement.addEventListener("click", function(event){
+        let containerId = event.target.closest('.containerImage'); //remonte jusqu'au bouton parent le plus proche
         console.log("Si je clique sur le trash, l'id de la photo est : ", event.target.dataset.id)
-        imageDelete(event.target.dataset.id, image)
+        console.log("Si je clique sur l'image, l'id du container de l'image est : ", containerId)
+        imageDelete(event.target.dataset.id, containerId)       
       }) 
 
       galleryContainer_modale.appendChild(containerImage)
