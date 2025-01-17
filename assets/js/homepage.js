@@ -1,4 +1,4 @@
-import { fetchDataAPI, fetchCategoryAPI, imageDelete } from "./fetchPortfolio.js";
+import { fetchDataAPI, fetchCategoryAPI, imageDelete } from "./fetchPortfolio.js"
 let DATA = await fetchDataAPI() 
 let DATA_CATEGORY = await fetchCategoryAPI() 
 
@@ -7,11 +7,10 @@ let MODALE_OPEN_BUTTON = document.createElement("a")
 
 function main(){
   if (localStorage.getItem("token")) {
-    createAdminLogout()
+    displayAdminLogout()
     createAdminModeEdition()
     createButtonOpenModale()
-    modale("modale_inactive", "modale_active")
-    modaleCloseButton()
+    toggleDisplayModale("modale_overlay_inactive", "modale_inactive", "modale_overlay_active", "modale_active")
     initEvents()
   }
  else {
@@ -23,58 +22,47 @@ main()
 //C'est ici que j'initialise tous mes évènements.
 function initEvents(){
   
-  // Ce que je vois quand je clique sur le bouton login
+  // Clique sur le bouton login et affiche le bouton logout
   BTN_LOGIN.addEventListener("click", function(){
     localStorage.removeItem("token")
     window.open("index.html","_self")
-    createAdminLogout()
+    displayAdminLogout()
   })
 
-  // Ce que je vois quand je clique sur le bouton pour ouvrir la modale
+  // Clique sur le bouton modale pour ouvrir la modale et afficher son contenu
   MODALE_OPEN_BUTTON.addEventListener("click", function(event){
     event.preventDefault()
     showGalleryModale()
   })
 
-  // Ce que je vois quand je clique sur le bouton principal de la modale
+  // Clique sur le bouton principal de la modale pour afficher un nouveau contenu
   let modaleMainButton = document.getElementById("modaleMainButton")
   modaleMainButton.addEventListener("click", function(event){
     event.preventDefault()
-    modaleTitle("Ajout photo")
-    modaleMainButtonContent();
-    modalePreviousButton()
-    createGalleryModale("galleryContainer_modale_inactive", "galleryContainer_modale_active")
-    createUploadModale("uploadModale_active", "uploadModale_inactive")
-    createUploadModaleFORM("formModale_active", "formModale_inactive")
+    showEditGalleryModale()
   })
 
-  // Ce que je vois quand je clique sur le bouton "fermé" de la modale
+  // Clique sur le bouton Fermé de la modale et cache son contenu
   let modale_close_button = document.getElementById("modaleCloseButton")
-    modale_close_button.addEventListener("click", function(){
-      modaleOverlay("modale_overlay_inactive", "modale_overlay_active")
-      modale("modale_inactive", "modale_active")
+  modale_close_button.addEventListener("click", function(){
+    toggleDisplayModale("modale_overlay_inactive", "modale_inactive", "modale_overlay_active", "modale_active")
   })
 
-  // Ce que je vois quand je clique sur le bouton "précédent" de la modale
+  // Clique sur le bouton "précédent" de la modale et affiche son contenu
   let modale_previous_button = document.getElementById("modalePreviousButton")
   modale_previous_button.addEventListener("click", function(){
-    modaleTitle("Galerie photo")
-    createGalleryModale("galleryContainer_modale_active", "galleryContainer_modale_inactive")
-    modaleMainButtonContent();
-    modalePreviousButton()
-    modaleCloseButton()
-    createUploadModale("uploadModale_inactive", "uploadModale_active")
-    createUploadModaleFORM("formModale_inactive", "formModale_active")
+    showGalleryModale()
   })
+
 }
 
-// Création du contenu du bouton Logout
-function createAdminLogout(){
+// Affiche le contenu du bouton Logout
+function displayAdminLogout(){
   BTN_LOGIN.innerHTML = "logout"
   BTN_LOGIN.classList.add("logout")
 }
 
-// Création de l'icône Mode Edition
+// Créé et affiche l'icône Mode Edition
 function createAdminModeEdition(){
   let id_modeEdition = document.querySelector("#divModeEdition")
   let sous_div_modeEdition = document.createElement("div") 
@@ -87,7 +75,7 @@ function createAdminModeEdition(){
   sous_div_modeEdition.appendChild(icon_modeEdition)
 }
 
-// Création du bouton d'ouverture de la modale
+// Créé et affiche le bouton d'ouverture de la modale
 function createButtonOpenModale(){
   let retriveId = document.getElementById("modale_open_button")
 
@@ -102,45 +90,50 @@ function createButtonOpenModale(){
   MODALE_OPEN_BUTTON.appendChild(modifier_icone)
 }
 
+// Affiche la modale et son arrière plan
+function toggleDisplayModale(classToAddOverlay, classToAddModale,classToRemoveOverlay,classToRemoveModale){
+  let modale_overlay = document.getElementById("modale_overlay")
+  let modale = document.getElementById("modale")
+
+  modale_overlay.classList.add(classToAddOverlay)
+  modale.classList.add(classToAddModale)
+
+  modale_overlay.classList.remove(classToRemoveOverlay)
+  modale.classList.remove(classToRemoveModale)
+}
+
+// Affiche la Modale "Gallery" et son contenu
 function showGalleryModale(){
-  modaleOverlay("modale_overlay_active", "modale_overlay_inactive")
-  modale("modale_active", "modale_inactive")
+  toggleDisplayModale("modale_overlay_active", "modale_active", "modale_overlay_inactive", "modale_inactive")
   createFixedContentModale()
-  modaleTitle("Galerie photo")
+  displayModaleTitle("Galerie photo")
   createGalleryModale("galleryContainer_modale_active", "galleryContainer_modale_inactive")
-  modaleCloseButton()
-  modalePreviousButton()
-  modaleMainButtonContent();
+  displayModaleCloseButton()
+  displayModalePreviousButton()
+  displayModaleMainButtonContent()
   createUploadModale("uploadModale_inactive", "uploadModale_active")
   createUploadModaleFORM("formModale_inactive", "formModale_active")
 }
 
-
-
-
-// Comportement de l'arrière plan de la modale
-function modaleOverlay(classToAdd, classToRemove){
-  let modale_overlay = document.getElementById("modale_overlay")
-  modale_overlay.classList.add(classToAdd)
-  modale_overlay.classList.remove(classToRemove)
-} 
-
-// Comportement de la modale
-function modale(classToAdd,classToRemove){
-  let modale = document.getElementById("modale")
-  modale.classList.add(classToAdd)
-  modale.classList.remove(classToRemove)
+// Affiche la Modale "Ajout Photo" et son contenu
+function showEditGalleryModale(){
+  displayModaleTitle("Ajout photo")
+  displayModaleMainButtonContent()
+  displayModalePreviousButton()
+  createGalleryModale("galleryContainer_modale_inactive", "galleryContainer_modale_active")
+  createUploadModale("uploadModale_active", "uploadModale_inactive")
+  createUploadModaleFORM("formModale_active", "formModale_inactive")
 }
 
-//Titre de la modale
-function modaleTitle(text){
+// Affiche le titre de la modale
+function displayModaleTitle(text){
   let modaleTitle = document.getElementById("modaleTitle")
   modaleTitle.innerHTML = text
   modaleTitle.classList.add("modaleTitle")
 }
 
-// Comportement du bouton fermé dans la modale
-function modaleCloseButton(){
+// Affiche ou cache le bouton "fermé" de la modale
+function displayModaleCloseButton(){
   let modale = document.getElementById("modale")
   let modale_close_button = document.getElementById("modaleCloseButton")
   if (modale.classList.contains("modale_inactive")){
@@ -152,7 +145,7 @@ function modaleCloseButton(){
   }
 }  
 
-// Création des éléments fixes de la modale (localisation du contenu dynamique, ligne et bouton fermé)
+// Créé les éléments récurrents de la modale 
 function createFixedContentModale(){
     let modaleMainContent = document.getElementById("modaleMainContent")
     modaleMainContent.classList.add("modaleMainContent")
@@ -165,7 +158,7 @@ function createFixedContentModale(){
     modaleCloseButton.classList.add("modale_close_button_active")
 } 
 
-// Création et comportement de la gallerie photo dans la modale; 
+// Créé la Galerie Modale et son contenu
 async function createGalleryModale(classToAdd, classToRemove){
     let galleryContainer_modale = document.getElementById("galleryContainer_modale")
     galleryContainer_modale.innerHTML = ""
@@ -207,24 +200,24 @@ async function createGalleryModale(classToAdd, classToRemove){
     }
 }
 
-// Gestion du bouton principal de la modale en fonction du titre de la modale :
-function modaleMainButtonContent() {
-  let modaleMainButton = document.getElementById("modaleMainButton");
+// Affiche le bouton prinicpal et son contenu :
+function displayModaleMainButtonContent() {
+  let modaleMainButton = document.getElementById("modaleMainButton")
   let modaleTitle = document.getElementById("modaleTitle")
   
   if(modaleTitle.innerHTML === "Galerie photo"){
-    modaleMainButton.innerHTML = "Ajouter une photo";
-    modaleMainButton.classList.remove("modaleMainButton_inactive");
-    modaleMainButton.classList.add("modaleMainButton_active");
+    modaleMainButton.innerHTML = "Ajouter une photo"
+    modaleMainButton.classList.remove("modaleMainButton_inactive")
+    modaleMainButton.classList.add("modaleMainButton_active")
   } else {
-    modaleMainButton.innerHTML = "Valider";
-    modaleMainButton.classList.remove("modaleMainButton_active");
-    modaleMainButton.classList.add("modaleMainButton_inactive");
+    modaleMainButton.innerHTML = "Valider"
+    modaleMainButton.classList.remove("modaleMainButton_active")
+    modaleMainButton.classList.add("modaleMainButton_inactive")
   }
 }
   
-// Gestion du bouton précédent en fonction du titre de la modale :
-function modalePreviousButton(){
+// Affiche le bouton précédent en fonction du titre de la modale :
+function displayModalePreviousButton(){
   let modalePreviousButton = document.getElementById("modalePreviousButton")
   let modaleTitle = document.getElementById("modaleTitle")
  
@@ -239,7 +232,7 @@ function modalePreviousButton(){
   }
 }
 
-// Création de la partie upload dans la modale
+// Créé et affiche la partie upload dans la modale
 function createUploadModale(classToAdd, classToRemove){
   let upload_modale = document.getElementById("upload_modale")
   upload_modale.innerHTML = ""
@@ -302,7 +295,7 @@ function createUploadModale(classToAdd, classToRemove){
 
 } 
 
-// Création de la partie form upload dans la modale (formulaire)
+// Créé et affiche la partie formulaire "upload" dans la modale
 function createUploadModaleFORM(classToAdd, classToRemove){
   let upload_modale_form = document.getElementById("upload_modale_form")
   upload_modale_form.innerHTML = ""
@@ -331,10 +324,10 @@ function createUploadModaleFORM(classToAdd, classToRemove){
   upload_modale_form.appendChild(modaleForm_selectCategory) 
 }
 
-// Extraction des catégories pour la partie form upload dans la modale (formulaire)
+// Extraits des catégories pour la partie formulaire upload dans la modale (formulaire)
  async function extractCategoryModale(parentElement){
   for (let i = 0; i < DATA_CATEGORY.length; i++) {
-    let category = DATA_CATEGORY[i].name;
+    let category = DATA_CATEGORY[i].name
     let modaleForm_category_option = document.createElement("option")
     modaleForm_category_option.value = category
     modaleForm_category_option.textContent = category   
