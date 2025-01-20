@@ -66,8 +66,6 @@ function initEvents(){
     event.stopPropagation()
     showGalleryModale()
   })
-
-
 }
 
 // Affiche le contenu du bouton Logout
@@ -290,6 +288,13 @@ function displayModaleMainButtonContent() {
     modaleMainButton.type = "submit" 
     modaleMainButton.classList.remove("modaleMainButton_active")
     modaleMainButton.classList.add("modaleMainButton_inactive")
+    
+    modaleMainButton.addEventListener("click", function(){
+      if(modaleForm_title_input.value!=="" && upload_modale_input.value !==""){
+        modaleMainButton.classList.remove("modaleMainButton_inactive")
+        modaleMainButton.classList.add("modaleMainButton_active")
+      }
+    })
   }
 }
   
@@ -309,6 +314,9 @@ function displayModalePreviousButton(){
   }
 }
 
+
+
+let upload_modale_input
 // Créé et affiche la partie upload dans la modale
 function createUploadModalePICTURE(classToAdd, classToRemove){
   let upload_modale = document.getElementById("upload_modale")
@@ -327,20 +335,15 @@ function createUploadModalePICTURE(classToAdd, classToRemove){
   upload_modale_button.classList.add("upload_modale_button")
 
  // input.type="file" va créer automatiquement un bouton Browser.Je dois donc le cacher
-  let upload_modale_input = document.createElement("input")
+  upload_modale_input = document.createElement("input")
+  //let upload_modale_input = document.createElement("input")
   upload_modale_input.type = "file" 
   upload_modale_input.accept="image/*"
   upload_modale_input.style.display = 'none'
   upload_modale_input.id ="upload_modale_input_id"
  
-  // Clique sur le bouton
-  upload_modale_button.addEventListener("click", function(event){
-    event.stopPropagation()
-    event.preventDefault()
-    upload_modale_input.click()
-  })
-
-  handleUploadInputPICTURE(upload_modale_input, upload_modale_container)
+  sendNewPICTURE(upload_modale_button, upload_modale_input)
+  handleNewPICTURE(upload_modale_input, upload_modale_container)
 
   let upload_modale_paragraph = document.createElement("p")
   upload_modale_paragraph.innerHTML = "jpg, png : 4mo max"
@@ -351,14 +354,20 @@ function createUploadModalePICTURE(classToAdd, classToRemove){
   upload_modale_container.appendChild(upload_modale_button)
   upload_modale_container.appendChild(upload_modale_input)
   upload_modale_container.appendChild(upload_modale_paragraph)
-
 } 
 
-// Gère la lecture de la nouvelle photo 
-function handleUploadInputPICTURE(nameInput, nameContainer){
-  nameInput.addEventListener("change", function(event){
+function sendNewPICTURE(nameButton, nameInput){
+  nameButton.addEventListener("click", function(event){
     event.stopPropagation()
     event.preventDefault()
+    nameInput.click()
+  })
+}
+
+// Gère la lecture de la nouvelle photo 
+function handleNewPICTURE(nameInput, nameContainer){
+  nameInput.addEventListener("change", function(event){
+    event.stopPropagation()
     let file = event.target.files[0];
     if (file) {
       let imageOverview = document.createElement('img')
@@ -387,6 +396,10 @@ function handleUploadInputPICTURE(nameInput, nameContainer){
   })
 }
 
+
+
+
+let modaleForm_title_input
 // Créé et affiche la partie formulaire "upload" dans la modale
 function createUploadModaleFORM(classToAdd, classToRemove){
   let upload_modale_form = document.getElementById("upload_modale_form")
@@ -398,7 +411,8 @@ function createUploadModaleFORM(classToAdd, classToRemove){
   modaleForm_title_label.innerHTML= "Titre"
   modaleForm_title_label.classList.add("modaleForm_label")
 
-  let modaleForm_title_input = document.createElement("input")
+  //let modaleForm_title_input = document.createElement("input")
+  modaleForm_title_input = document.createElement("input")
   modaleForm_title_input.classList.add("modaleForm_input")
 
   let modaleForm_title_category = document.createElement("label")
@@ -409,7 +423,7 @@ function createUploadModaleFORM(classToAdd, classToRemove){
   modaleForm_selectCategory.classList.add("modaleForm_input") 
   
   extractCategoryModaleFORM(modaleForm_selectCategory)
-  emptyFieldsFORM(modaleForm_title_input, modaleForm_title_label)
+  //createErrorMessagesModaleFORM(modaleForm_title_input, modaleForm_title_label)
   
   upload_modale_form.appendChild(modaleForm_title_label)
   upload_modale_form.appendChild(modaleForm_title_input)
@@ -430,12 +444,9 @@ async function extractCategoryModaleFORM(parentElement){
   }
 }
 
-function createFormValidation(){
-
-}
 
 // Affiche une erreur si un input du formulaire upload est vide
-/* function emptyFieldsFORM(inputName, parent){
+/* function createErrorMessagesModaleFORM(inputName, parent){
   let modaleForm_title_input_error = document.createElement("p")
   inputName.addEventListener("click", function(){
     if(inputName.value ===""){
