@@ -287,6 +287,7 @@ function displayModaleMainButtonContent() {
     modaleMainButton.classList.add("modaleMainButton_active")
   } else {
     modaleMainButton.innerHTML = "Valider"
+    modaleMainButton.type = "submit" 
     modaleMainButton.classList.remove("modaleMainButton_active")
     modaleMainButton.classList.add("modaleMainButton_inactive")
   }
@@ -339,7 +340,7 @@ function createUploadModalePICTURE(classToAdd, classToRemove){
     upload_modale_input.click()
   })
 
-  handleUploadInput(upload_modale_input, upload_modale_container)
+  handleUploadInputPICTURE(upload_modale_input, upload_modale_container)
 
   let upload_modale_paragraph = document.createElement("p")
   upload_modale_paragraph.innerHTML = "jpg, png : 4mo max"
@@ -354,7 +355,7 @@ function createUploadModalePICTURE(classToAdd, classToRemove){
 } 
 
 // Gère la lecture de la nouvelle photo 
-function handleUploadInput(nameInput, nameContainer){
+function handleUploadInputPICTURE(nameInput, nameContainer){
   nameInput.addEventListener("change", function(event){
     event.stopPropagation()
     event.preventDefault()
@@ -408,8 +409,8 @@ function createUploadModaleFORM(classToAdd, classToRemove){
   modaleForm_selectCategory.classList.add("modaleForm_input") 
   
   extractCategoryModaleFORM(modaleForm_selectCategory)
-
-
+  emptyFieldsFORM(modaleForm_title_input, modaleForm_title_label)
+  
   upload_modale_form.appendChild(modaleForm_title_label)
   upload_modale_form.appendChild(modaleForm_title_input)
   upload_modale_form.appendChild(modaleForm_title_category)
@@ -429,22 +430,28 @@ async function extractCategoryModaleFORM(parentElement){
   }
 }
 
+function createFormValidation(){
 
-function emptyFieldsFORM(inputName, parent){
-  if(inputName.value ===""){
-    let modaleForm_title_input_error = document.createElement("p")
-    modaleForm_title_input_error.innerHTML ="Veuillez complétez le champ titre."
-    modaleForm_title_input_error.classList.add("modaleForm_title_input_error_active")
-    modaleForm_title_input_error.classList.remove("modaleForm_title_input_error_inactive")
-    parent.appendChild(modaleForm_title_input_error)
-  } else {
-    modaleForm_title_input_error.innerHTML = ""
-    modaleForm_title_input_error.classList.remove("modaleForm_title_input_error_active")
-    modaleForm_title_input_error.classList.add("modaleForm_title_input_error_inactive")
-    parent.removeChild(modaleForm_title_input_error)
-  }
 }
 
+// Affiche une erreur si un input du formulaire upload est vide
+/* function emptyFieldsFORM(inputName, parent){
+  let modaleForm_title_input_error = document.createElement("p")
+  inputName.addEventListener("click", function(){
+    if(inputName.value ===""){
+      modaleForm_title_input_error.innerHTML ="Merci de compléter le champ titre."
+      modaleForm_title_input_error.classList.add("modaleForm_title_input_error_active")
+      modaleForm_title_input_error.classList.remove("modaleForm_title_input_error_inactive")
+    } else {
+      modaleForm_title_input_error.innerHTML = ""
+      modaleForm_title_input_error.classList.remove("modaleForm_title_input_error_active")
+      modaleForm_title_input_error.classList.add("modaleForm_title_input_error_inactive")
+    }
+    parent.appendChild(modaleForm_title_input_error)
+  })
+  
+}
+ */
   
 
 
