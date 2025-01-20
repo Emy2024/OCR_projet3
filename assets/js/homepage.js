@@ -66,6 +66,8 @@ function initEvents(){
     event.stopPropagation()
     showGalleryModale()
   })
+
+
 }
 
 // Affiche le contenu du bouton Logout
@@ -123,7 +125,7 @@ function showGalleryModale(){
   displayModaleCloseButton()
   displayModalePreviousButton()
   displayModaleMainButtonContent()
-  createUploadModale("uploadModale_inactive", "uploadModale_active")
+  createUploadModalePICTURE("uploadModale_inactive", "uploadModale_active")
   createUploadModaleFORM("formModale_inactive", "formModale_active")
 }
 
@@ -133,7 +135,7 @@ function showEditGalleryModale(){
   displayModaleMainButtonContent()
   displayModalePreviousButton()
   createGalleryModale("galleryContainer_modale_inactive", "galleryContainer_modale_active")
-  createUploadModale("uploadModale_active", "uploadModale_inactive")
+  createUploadModalePICTURE("uploadModale_active", "uploadModale_inactive")
   createUploadModaleFORM("formModale_active", "formModale_inactive")
 }
 
@@ -307,7 +309,7 @@ function displayModalePreviousButton(){
 }
 
 // Créé et affiche la partie upload dans la modale
-function createUploadModale(classToAdd, classToRemove){
+function createUploadModalePICTURE(classToAdd, classToRemove){
   let upload_modale = document.getElementById("upload_modale")
   upload_modale.innerHTML = ""
   upload_modale.classList.add(classToAdd) 
@@ -337,7 +339,7 @@ function createUploadModale(classToAdd, classToRemove){
     upload_modale_input.click()
   })
 
-  handleUploadInput(upload_modale_input , upload_modale_container)
+  handleUploadInput(upload_modale_input, upload_modale_container)
 
   let upload_modale_paragraph = document.createElement("p")
   upload_modale_paragraph.innerHTML = "jpg, png : 4mo max"
@@ -353,31 +355,30 @@ function createUploadModale(classToAdd, classToRemove){
 
 // Gère la lecture de la nouvelle photo 
 function handleUploadInput(nameInput, nameContainer){
-  // Lire et récupérer l'input
   nameInput.addEventListener("change", function(event){
     event.stopPropagation()
     event.preventDefault()
     let file = event.target.files[0];
     if (file) {
+      let imageOverview = document.createElement('img')
+      let errorSizeImage = document.createElement("p")
       if (file.size > 4 * 1024 * 1024) { 
-        let errorSizeImage = document.createElement("p")
-        errorSizeImage.innerHTML = "L'image est trop volumineuse. Elle ne doit pas dépasser 4MO."
+        errorSizeImage.innerHTML = "L'image est trop volumineuse. Elle ne doit pas dépasser 4mo."
         errorSizeImage.classList.add("errorSizeImage_active")
         nameContainer.appendChild(errorSizeImage)
         nameContainer.classList.add("upload_modale_container_active")
         nameContainer.classList.remove("upload_modale_container_inactive")
-        upload_modale.removeChild(imageOverview);
+        imageOverview.classList.remove("imageOverview")
       } else {
         let reader = new FileReader();
-        reader.onload = (e) => {
-            let imageOverview = document.createElement('img');
-            imageOverview.src = e.target.result;
-            imageOverview.classList.add("imageOverview")
-            nameContainer.classList.remove("upload_modale_container_active")
-            nameContainer.classList.add("upload_modale_container_inactive")
-            upload_modale.appendChild(imageOverview);
-            errorSizeImage.classList.remove("errorSizeImage_active")
-            errorSizeImage.classList.add("errorSizeImage_inactive")
+        reader.onload = (event) => {
+          imageOverview.src = event.target.result;
+          imageOverview.classList.add("imageOverview")
+          nameContainer.classList.remove("upload_modale_container_active")
+          nameContainer.classList.add("upload_modale_container_inactive")
+          upload_modale.appendChild(imageOverview);
+          errorSizeImage.classList.remove("errorSizeImage_active")
+          errorSizeImage.classList.add("errorSizeImage_inactive")
         };
         reader.readAsDataURL(file);
       }
@@ -398,21 +399,16 @@ function createUploadModaleFORM(classToAdd, classToRemove){
 
   let modaleForm_title_input = document.createElement("input")
   modaleForm_title_input.classList.add("modaleForm_input")
-  modaleForm_title_input.addEventListener("click", function(event){
-    event.stopPropagation()
-  })
 
   let modaleForm_title_category = document.createElement("label")
   modaleForm_title_category.innerHTML= "Catégorie"
   modaleForm_title_category.classList.add("modaleForm_label")
 
   let modaleForm_selectCategory = document.createElement("select")
-  modaleForm_selectCategory.classList.add("modaleForm_input")
-  modaleForm_selectCategory.addEventListener("click", function(event){
-    event.stopPropagation()
-  })
+  modaleForm_selectCategory.classList.add("modaleForm_input") 
+  
+  extractCategoryModaleFORM(modaleForm_selectCategory)
 
-  extractCategoryModale(modaleForm_selectCategory)
 
   upload_modale_form.appendChild(modaleForm_title_label)
   upload_modale_form.appendChild(modaleForm_title_input)
@@ -421,20 +417,35 @@ function createUploadModaleFORM(classToAdd, classToRemove){
 }
 
 // Extraits des catégories pour la partie formulaire upload dans la modale (formulaire)
- async function extractCategoryModale(parentElement){
+async function extractCategoryModaleFORM(parentElement){
+  parentElement.addEventListener("click", function(event){
+    event.stopPropagation()
+  })
   for (let i = 0; i < DATA_CATEGORY.length; i++) {
-    let category = DATA_CATEGORY[i].name
     let modaleForm_category_option = document.createElement("option")
-    modaleForm_category_option.value = category
-    modaleForm_category_option.textContent = category   
+    modaleForm_category_option.value = DATA_CATEGORY[i].name
+    modaleForm_category_option.innerHTML = DATA_CATEGORY[i].name 
     parentElement.appendChild(modaleForm_category_option)
   }
 }
 
 
+function emptyFieldsFORM(inputName, parent){
+  if(inputName.value ===""){
+    let modaleForm_title_input_error = document.createElement("p")
+    modaleForm_title_input_error.innerHTML ="Veuillez complétez le champ titre."
+    modaleForm_title_input_error.classList.add("modaleForm_title_input_error_active")
+    modaleForm_title_input_error.classList.remove("modaleForm_title_input_error_inactive")
+    parent.appendChild(modaleForm_title_input_error)
+  } else {
+    modaleForm_title_input_error.innerHTML = ""
+    modaleForm_title_input_error.classList.remove("modaleForm_title_input_error_active")
+    modaleForm_title_input_error.classList.add("modaleForm_title_input_error_inactive")
+    parent.removeChild(modaleForm_title_input_error)
+  }
+}
 
-
-
+  
 
 
 

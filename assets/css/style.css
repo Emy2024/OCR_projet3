@@ -600,6 +600,16 @@ footer nav ul {
 
 /*********** Modale Upload ***********/
 
+.upload_modale_container_active{
+  display: flex;
+  width: 100%;
+  justify-content: center;
+}
+
+.upload_modale_container_inactive{
+	display: none;
+}
+
 .upload_modale_icon{
 	position: absolute;
 	top: 12%;
@@ -760,15 +770,37 @@ footer nav ul {
 
 
 
+/*********** Modale overview new picture***********/
+.imageOverview{
+	max-width: 50%;
+	height: 200px;
+}
+
+/*********** Modale overview new picture - size too big***********/
+.errorSizeImage_active{
+	position: absolute;
+	bottom: -16px;
+	color: red;
+	font-size: small;
+}
+
+.errorSizeImage_inactive{
+	display: none;
+}
 
 
 
 
 
+/*********** Modale new picture - champs erreurs ***********/
+.modaleForm_title_input_error_active{
+	color: red;
+	font-size: small;
+}
 
-
-
-
+.modaleForm_title_input_error_inactive{
+	display: none;
+}
 
 
 
