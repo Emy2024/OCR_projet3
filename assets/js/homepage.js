@@ -51,14 +51,14 @@ function initEvents(){
     location.reload()
   })
 
-  //************************************en cours *****************************/
-  let modale_overlay = document.getElementById("modale_overlay")
+  // Clicque sur l'overlay de la modale pour fermer la modale et son overlay
+ /*  let modale_overlay = document.getElementById("modale_overlay")
   modale_overlay.addEventListener("click", function(event){
     event.stopPropagation()
     let modale = document.getElementById("modale")
-    modale.classList.replace("modale_active", "modale_inactive")
-    modale_overlay.classList.replace("modale_overlay_active", "modale_overlay_inactive")
-  })
+    modale.classList.add("modale_inactive")
+    modale_overlay.classList.add("modale_overlay_inactive")
+  }) */
 
   // Clique sur le bouton "précédent" de la modale et affiche son contenu
   let modale_previous_button = document.getElementById("modalePreviousButton")
@@ -211,6 +211,7 @@ async function createGalleryModale(classToAdd, classToRemove){
     }
 }
 
+// Créé la Modale delete pour supprimer des photos de la galerie
 function createDeleteModale(nameButton){
   nameButton.addEventListener("click", function(event){
     event.stopPropagation()
@@ -273,7 +274,7 @@ function createDeleteModale(nameButton){
   }) 
 }
 
-// Affiche le bouton prinicpal et son contenu :
+// Affiche le bouton prinicpal de la modale et son contenu :
 function displayModaleMainButtonContent() {
   let modaleMainButton = document.getElementById("modaleMainButton")
   let modaleTitle = document.getElementById("modaleTitle")
@@ -312,6 +313,9 @@ function createUploadModale(classToAdd, classToRemove){
   upload_modale.classList.add(classToAdd) 
   upload_modale.classList.remove(classToRemove) 
 
+  let upload_modale_container = document.createElement("div")
+  upload_modale_container.classList.add("upload_modale_container_active")
+
   let upload_modale_icon = document.createElement("i")
   upload_modale_icon.classList.add("fa-regular", "fa-image", "upload_modale_icon") 
   
@@ -325,49 +329,61 @@ function createUploadModale(classToAdd, classToRemove){
   upload_modale_input.accept="image/*"
   upload_modale_input.style.display = 'none'
   upload_modale_input.id ="upload_modale_input_id"
-
-  let previewNewPicture = document.createElement("div")
-
-  //J'assigne mon nouveau bouton à l'input caché et je lis le fichier
+ 
+  // Clique sur le bouton
   upload_modale_button.addEventListener("click", function(event){
     event.stopPropagation()
-    let input = document.getElementById("upload_modale_input_id")
-    input.click()
+    event.preventDefault()
+    upload_modale_input.click()
+  })
 
-    let file = input.files[0] // récupère le fichier sélectionné
-    
-    if (file && file.type.startsWith('image/')) {  // Vérifie que c'est une image
-      let reader = new FileReader() // Crée le lecteur de fichier
-      
-      reader.onload = function(event){
-        let newImage = document.createElement('img')
-        newImage.src = event.target.result
-        upload_modale.appendChild(previewNewPicture)
-
-        previewNewPicture = ""
-        previewNewPicture.appendChild(img)
-      }
-    }
-    })
- /*   
-    reader.onload = function(event) {
-      let img = document.createElement('img')
-      img.src = event.target.result
-      upload_modale.appendChild(img) 
-    } */
-
-
-  //listenerUploadImage(modaleUpload_btn, modaleUpload_btn_input)
+  handleUploadInput(upload_modale_input , upload_modale_container)
 
   let upload_modale_paragraph = document.createElement("p")
   upload_modale_paragraph.innerHTML = "jpg, png : 4mo max"
   upload_modale_paragraph.classList.add("upload_modale_paragraph") 
-  upload_modale.appendChild(upload_modale_icon)
-  upload_modale.appendChild(upload_modale_button)
-  upload_modale_button.appendChild(upload_modale_input)
-  upload_modale.appendChild(upload_modale_paragraph)
+
+  upload_modale.appendChild(upload_modale_container)
+  upload_modale_container.appendChild(upload_modale_icon)
+  upload_modale_container.appendChild(upload_modale_button)
+  upload_modale_container.appendChild(upload_modale_input)
+  upload_modale_container.appendChild(upload_modale_paragraph)
 
 } 
+
+// Gère la lecture de la nouvelle photo 
+function handleUploadInput(nameInput, nameContainer){
+  // Lire et récupérer l'input
+  nameInput.addEventListener("change", function(event){
+    event.stopPropagation()
+    event.preventDefault()
+    let file = event.target.files[0];
+    if (file) {
+      if (file.size > 4 * 1024 * 1024) { 
+        let errorSizeImage = document.createElement("p")
+        errorSizeImage.innerHTML = "L'image est trop volumineuse. Elle ne doit pas dépasser 4MO."
+        errorSizeImage.classList.add("errorSizeImage_active")
+        nameContainer.appendChild(errorSizeImage)
+        nameContainer.classList.add("upload_modale_container_active")
+        nameContainer.classList.remove("upload_modale_container_inactive")
+        upload_modale.removeChild(imageOverview);
+      } else {
+        let reader = new FileReader();
+        reader.onload = (e) => {
+            let imageOverview = document.createElement('img');
+            imageOverview.src = e.target.result;
+            imageOverview.classList.add("imageOverview")
+            nameContainer.classList.remove("upload_modale_container_active")
+            nameContainer.classList.add("upload_modale_container_inactive")
+            upload_modale.appendChild(imageOverview);
+            errorSizeImage.classList.remove("errorSizeImage_active")
+            errorSizeImage.classList.add("errorSizeImage_inactive")
+        };
+        reader.readAsDataURL(file);
+      }
+    }
+  })
+}
 
 // Créé et affiche la partie formulaire "upload" dans la modale
 function createUploadModaleFORM(classToAdd, classToRemove){
@@ -453,15 +469,4 @@ function errorEmptyFields(){
 
 
 
-  // Gérer l'affichage ou non de la modale selon Manu
-/* function toggleModale(){
-  let modale = document.getElementById("modale")
-  let modale_overlay = document.getElementById("modale_overlay")
-  if (modale.classList.contains("modale")){
-    modale.classList.remove("modale")
-    modale_overlay.classList.remove("modale_overlay_active") 
-  } else {
-    modale.classList.add("modale")
-    modale_overlay.classList.add("modale_overlay_active") 
-  }
-} */
+
