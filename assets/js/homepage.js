@@ -45,7 +45,8 @@ function initEvents(){
 
   // Clique sur le bouton Fermé de la modale et cache son contenu
   let modale_close_button = document.getElementById("modaleCloseButton")
-  modale_close_button.addEventListener("click", function(){
+  modale_close_button.addEventListener("click", function(event){
+    event.stopPropagation()
     toggleDisplayModale("modale_overlay_inactive", "modale_inactive", "modale_overlay_active", "modale_active")
     location.reload()
   })
@@ -185,19 +186,21 @@ async function createGalleryModale(classToAdd, classToRemove){
       containerImageModale = document.createElement("div")
       containerImageModale.classList.add("containerImageModale") 
       containerImageModale.id = "containerImageModale_"+DATA[i].id
-
+      //console.log("Container image id: ",containerImageModale.id)
       trashElementModale = document.createElement("a")
       trashIconModale = document.createElement("i")
     
       imageModale = document.createElement("img")
       imageModale.src = DATA[i].imageUrl
       imageModale.id = DATA[i].id // tous les id de mes images
+      //console.log("Image id: ", imageModale.id)
 
       imageModale.classList.add("imageModale")  
 
       trashElementModale.classList.add("trashElementModale") 
       trashIconModale.classList.add("fa-solid", "fa-trash", "trashIconModale") 
       trashIconModale.dataset.id = imageModale.id  //pour chaque icon, met un id et associe-le à un id de l'image
+      //console.log("Trash id: ",trashIconModale.dataset.id)
 
       trashElementModale.addEventListener("click", function(event){
         event.stopPropagation()
@@ -227,13 +230,16 @@ async function createGalleryModale(classToAdd, classToRemove){
         modaleDeleteQuestionTitle.appendChild(modaleContainerButtonDeleteAnswer)
         modaleContainerButtonDeleteAnswer.appendChild(buttonYesDeleteAnswer)
         modaleContainerButtonDeleteAnswer.appendChild(buttonNoDeleteAnswer)
+        
+        /*  Je remonte jusqu'au bouton parent le plus proche pour récupérer l'id. Je récupère l'id du trash une fois cliqué*/
+        let containerId = event.target.closest('.containerImageModale') 
+        let trashId = event.target.dataset.id
 
         buttonYesDeleteAnswer.addEventListener("click", function(event){
           event.stopPropagation()
-          let containerId = event.target.closest('.containerImageModale'); //remonte jusqu'au bouton parent le plus proche pour récupérer l'id
-          console.log("Si je clique sur le trash, l'id de la photo est : ", event.target.dataset.id)
-          console.log("Si je clique sur l'image, l'id du container de l'image est : ", containerId)
-          imageDelete(event.target.dataset.id, containerId)
+          console.log("Si je clique sur le trash, l'id de la photo est : ", trashId)
+          console.log("Si je clique sur l'image, l'id du container de l'image est : ", containerId.id)
+          imageDelete(trashId, containerId)
           
           modale.removeChild(modaleOverlayDivDeletePicture)
           modale.removeChild(modaleDivDeletePicture)
@@ -262,6 +268,8 @@ async function createGalleryModale(classToAdd, classToRemove){
       trashElementModale.appendChild(trashIconModale)
     }
 }
+
+
 
 // Affiche le bouton prinicpal et son contenu :
 function displayModaleMainButtonContent() {
