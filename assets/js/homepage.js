@@ -202,65 +202,7 @@ async function createGalleryModale(classToAdd, classToRemove){
       trashIconModale.dataset.id = imageModale.id  //pour chaque icon, met un id et associe-le à un id de l'image
       //console.log("Trash id: ",trashIconModale.dataset.id)
 
-      trashElementModale.addEventListener("click", function(event){
-        event.stopPropagation()
-        let modaleOverlayDivDeletePicture = document.createElement("div")
-        modaleOverlayDivDeletePicture.classList.add("modaleOverlayDivDeletePicture")
-        let modaleDivDeletePicture = document.createElement("div")
-        modaleDivDeletePicture.classList.add("modaleDivDeletePicture")
-        let modaleDeleteQuestionTitle = document.createElement("h3")
-        modaleDeleteQuestionTitle.innerHTML = "Souhaitez-vous vraiment supprimer cette image ?"
-        modaleDeleteQuestionTitle.classList.add("modaleDeleteQuestionTitle")
-        let modaleDeleteQuestionParagraph = document.createElement("p")
-        modaleDeleteQuestionParagraph.innerHTML="Une fois l'image supprimée, il ne sera plus possible de la récupérer."
-        modaleDeleteQuestionParagraph.classList.add("modaleDeleteQuestionParagraph")
-        let modaleContainerButtonDeleteAnswer = document.createElement("div")
-        modaleContainerButtonDeleteAnswer.classList.add("modaleContainerButtonDeleteAnswer")
-        let buttonYesDeleteAnswer = document.createElement("button")
-        buttonYesDeleteAnswer.innerHTML = "Oui, supprimer définitivement"
-        buttonYesDeleteAnswer.classList.add("buttonYesDeleteAnswer")
-        let buttonNoDeleteAnswer = document.createElement("button")
-        buttonNoDeleteAnswer.innerHTML = "Non, revenir en arrière"
-        buttonNoDeleteAnswer.classList.add("buttonNoDeleteAnswer")
-
-        modale.appendChild(modaleOverlayDivDeletePicture)
-        modale.appendChild(modaleDivDeletePicture)
-        modaleDivDeletePicture.appendChild(modaleDeleteQuestionTitle)
-        modaleDeleteQuestionTitle.appendChild(modaleDeleteQuestionParagraph)
-        modaleDeleteQuestionTitle.appendChild(modaleContainerButtonDeleteAnswer)
-        modaleContainerButtonDeleteAnswer.appendChild(buttonYesDeleteAnswer)
-        modaleContainerButtonDeleteAnswer.appendChild(buttonNoDeleteAnswer)
-        
-        /*  Je remonte jusqu'au bouton parent le plus proche pour récupérer l'id. Je récupère l'id du trash une fois cliqué*/
-        let containerId = event.target.closest('.containerImageModale') 
-        let trashId = event.target.dataset.id
-
-        buttonYesDeleteAnswer.addEventListener("click", function(event){
-          event.stopPropagation()
-          console.log("Si je clique sur le trash, l'id de la photo est : ", trashId)
-          console.log("Si je clique sur l'image, l'id du container de l'image est : ", containerId.id)
-          imageDelete(trashId, containerId)
-          
-          modale.removeChild(modaleOverlayDivDeletePicture)
-          modale.removeChild(modaleDivDeletePicture)
-          modaleDivDeletePicture.removeChild(modaleDeleteQuestionTitle)
-          modaleDeleteQuestionTitle.removeChild(modaleDeleteQuestionParagraph)
-          modaleDeleteQuestionTitle.removeChild(modaleContainerButtonDeleteAnswer)
-          modaleContainerButtonDeleteAnswer.removeChild(buttonYesDeleteAnswer)
-          modaleContainerButtonDeleteAnswer.removeChild(buttonNoDeleteAnswer)
-        })
-
-        buttonNoDeleteAnswer.addEventListener("click", function(event){
-          event.stopPropagation()
-          modale.removeChild(modaleOverlayDivDeletePicture)
-          modale.removeChild(modaleDivDeletePicture)
-          modaleDivDeletePicture.removeChild(modaleDeleteQuestionTitle)
-          modaleDeleteQuestionTitle.removeChild(modaleDeleteQuestionParagraph)
-          modaleDeleteQuestionTitle.removeChild(modaleContainerButtonDeleteAnswer)
-          modaleContainerButtonDeleteAnswer.removeChild(buttonYesDeleteAnswer)
-          modaleContainerButtonDeleteAnswer.removeChild(buttonNoDeleteAnswer)
-        })
-      }) 
+      createDeleteModale(trashElementModale)
 
       galleryContainer_modale.appendChild(containerImageModale)
       containerImageModale.appendChild(imageModale)
@@ -269,7 +211,67 @@ async function createGalleryModale(classToAdd, classToRemove){
     }
 }
 
+function createDeleteModale(nameButton){
+  nameButton.addEventListener("click", function(event){
+    event.stopPropagation()
+    let modaleOverlayDivDeletePicture = document.createElement("div")
+    modaleOverlayDivDeletePicture.classList.add("modaleOverlayDivDeletePicture")
+    let modaleDivDeletePicture = document.createElement("div")
+    modaleDivDeletePicture.classList.add("modaleDivDeletePicture")
+    let modaleDeleteQuestionTitle = document.createElement("h3")
+    modaleDeleteQuestionTitle.innerHTML = "Souhaitez-vous vraiment supprimer cette image ?"
+    modaleDeleteQuestionTitle.classList.add("modaleDeleteQuestionTitle")
+    let modaleDeleteQuestionParagraph = document.createElement("p")
+    modaleDeleteQuestionParagraph.innerHTML="Une fois l'image supprimée, il ne sera plus possible de la récupérer."
+    modaleDeleteQuestionParagraph.classList.add("modaleDeleteQuestionParagraph")
+    let modaleContainerButtonDeleteAnswer = document.createElement("div")
+    modaleContainerButtonDeleteAnswer.classList.add("modaleContainerButtonDeleteAnswer")
+    let buttonYesDeleteAnswer = document.createElement("button")
+    buttonYesDeleteAnswer.innerHTML = "Oui, supprimer définitivement"
+    buttonYesDeleteAnswer.classList.add("buttonYesDeleteAnswer")
+    let buttonNoDeleteAnswer = document.createElement("button")
+    buttonNoDeleteAnswer.innerHTML = "Non, revenir en arrière"
+    buttonNoDeleteAnswer.classList.add("buttonNoDeleteAnswer")
 
+    modale.appendChild(modaleOverlayDivDeletePicture)
+    modale.appendChild(modaleDivDeletePicture)
+    modaleDivDeletePicture.appendChild(modaleDeleteQuestionTitle)
+    modaleDeleteQuestionTitle.appendChild(modaleDeleteQuestionParagraph)
+    modaleDeleteQuestionTitle.appendChild(modaleContainerButtonDeleteAnswer)
+    modaleContainerButtonDeleteAnswer.appendChild(buttonYesDeleteAnswer)
+    modaleContainerButtonDeleteAnswer.appendChild(buttonNoDeleteAnswer)
+    
+    /*  Je remonte jusqu'au bouton parent le plus proche pour récupérer l'id. Je récupère l'id du trash une fois cliqué*/
+    let containerId = event.target.closest('.containerImageModale') 
+    let trashId = event.target.dataset.id
+
+    buttonYesDeleteAnswer.addEventListener("click", function(event){
+      event.stopPropagation()
+      console.log("Si je clique sur le trash, l'id de la photo est : ", trashId)
+      console.log("Si je clique sur l'image, l'id du container de l'image est : ", containerId.id)
+      imageDelete(trashId, containerId)
+      
+      modale.removeChild(modaleOverlayDivDeletePicture)
+      modale.removeChild(modaleDivDeletePicture)
+      modaleDivDeletePicture.removeChild(modaleDeleteQuestionTitle)
+      modaleDeleteQuestionTitle.removeChild(modaleDeleteQuestionParagraph)
+      modaleDeleteQuestionTitle.removeChild(modaleContainerButtonDeleteAnswer)
+      modaleContainerButtonDeleteAnswer.removeChild(buttonYesDeleteAnswer)
+      modaleContainerButtonDeleteAnswer.removeChild(buttonNoDeleteAnswer)
+    })
+
+    buttonNoDeleteAnswer.addEventListener("click", function(event){
+      event.stopPropagation()
+      modale.removeChild(modaleOverlayDivDeletePicture)
+      modale.removeChild(modaleDivDeletePicture)
+      modaleDivDeletePicture.removeChild(modaleDeleteQuestionTitle)
+      modaleDeleteQuestionTitle.removeChild(modaleDeleteQuestionParagraph)
+      modaleDeleteQuestionTitle.removeChild(modaleContainerButtonDeleteAnswer)
+      modaleContainerButtonDeleteAnswer.removeChild(buttonYesDeleteAnswer)
+      modaleContainerButtonDeleteAnswer.removeChild(buttonNoDeleteAnswer)
+    })
+  }) 
+}
 
 // Affiche le bouton prinicpal et son contenu :
 function displayModaleMainButtonContent() {
