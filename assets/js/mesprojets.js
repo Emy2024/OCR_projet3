@@ -1,4 +1,4 @@
-import { fetchDataAPI } from "./fetchPortfolio.js";
+import { fetchDataAPI, imageDelete } from "./fetchPortfolio.js";
 const URL_API = "http://localhost:5678/api/works" 
 const BTN_TOUSLESITEMS = document.createElement("button")
 const BTN_OBJETS = document.createElement("button")
@@ -20,8 +20,9 @@ async function displayGallery(data){
   
     data.forEach(item => {
       let figureGallery = document.createElement("figure")
+      figureGallery.classList.add("figureGallery")
       figureGallery.id = "mainFigure_"+item.id
-    
+
       let imgGallery = document.createElement("img")
       imgGallery.src = item.imageUrl
    
@@ -55,6 +56,15 @@ async function displayFilter(data){
   filterElement.appendChild(BTN_APPARTEMENTS)
   filterElement.appendChild(BTN_HOTELS_RESTAURANTS)
 }
+
+/* function handleUndefinedValue(){
+  if (BTN_HOTELS_RESTAURANTS === undefined){
+    BTN_HOTELS_RESTAURANTS.innerHTML= "coucou"
+  } else {
+    BTN_HOTELS_RESTAURANTS.innerText=filtreHotelEtRestaurant
+  }
+} */
+
 
 async function filter(data, filterName){
   displayGallery(data.filter(obj => obj.category.name ===filterName))
