@@ -289,12 +289,6 @@ function displayModaleMainButtonContent() {
     modaleMainButton.classList.remove("modaleMainButton_active")
     modaleMainButton.classList.add("modaleMainButton_inactive")
     
-    modaleMainButton.addEventListener("click", function(){
-      if(modaleForm_title_input.value!=="" && upload_modale_input.value !==""){
-        modaleMainButton.classList.remove("modaleMainButton_inactive")
-        modaleMainButton.classList.add("modaleMainButton_active")
-      }
-    })
   }
 }
   
@@ -314,10 +308,9 @@ function displayModalePreviousButton(){
   }
 }
 
-
-
-let upload_modale_input
 // Créé et affiche la partie upload dans la modale
+ // input.type="file" va créer automatiquement un bouton Browser.Je dois donc le cacher
+
 function createUploadModalePICTURE(classToAdd, classToRemove){
   let upload_modale = document.getElementById("upload_modale")
   upload_modale.innerHTML = ""
@@ -334,8 +327,7 @@ function createUploadModalePICTURE(classToAdd, classToRemove){
   upload_modale_button.innerHTML = "+ Ajouter photo"
   upload_modale_button.classList.add("upload_modale_button")
 
- // input.type="file" va créer automatiquement un bouton Browser.Je dois donc le cacher
-  upload_modale_input = document.createElement("input")
+  let upload_modale_input = document.createElement("input")
   //let upload_modale_input = document.createElement("input")
   upload_modale_input.type = "file" 
   upload_modale_input.accept="image/*"
@@ -397,9 +389,6 @@ function handleNewPICTURE(nameInput, nameContainer){
 }
 
 
-
-
-let modaleForm_title_input
 // Créé et affiche la partie formulaire "upload" dans la modale
 function createUploadModaleFORM(classToAdd, classToRemove){
   let upload_modale_form = document.getElementById("upload_modale_form")
@@ -411,8 +400,7 @@ function createUploadModaleFORM(classToAdd, classToRemove){
   modaleForm_title_label.innerHTML= "Titre"
   modaleForm_title_label.classList.add("modaleForm_label")
 
-  //let modaleForm_title_input = document.createElement("input")
-  modaleForm_title_input = document.createElement("input")
+  let modaleForm_title_input = document.createElement("input")
   modaleForm_title_input.classList.add("modaleForm_input")
 
   let modaleForm_title_category = document.createElement("label")
@@ -422,8 +410,9 @@ function createUploadModaleFORM(classToAdd, classToRemove){
   let modaleForm_selectCategory = document.createElement("select")
   modaleForm_selectCategory.classList.add("modaleForm_input") 
   
+  blankOptionCategoryModaleFORM(modaleForm_selectCategory)
   extractCategoryModaleFORM(modaleForm_selectCategory)
-  //createErrorMessagesModaleFORM(modaleForm_title_input, modaleForm_title_label)
+/*   createErrorMessagesModaleFORM(modaleForm_title_input, modaleForm_title_label) */
   
   upload_modale_form.appendChild(modaleForm_title_label)
   upload_modale_form.appendChild(modaleForm_title_input)
@@ -436,6 +425,7 @@ async function extractCategoryModaleFORM(parentElement){
   parentElement.addEventListener("click", function(event){
     event.stopPropagation()
   })
+
   for (let i = 0; i < DATA_CATEGORY.length; i++) {
     let modaleForm_category_option = document.createElement("option")
     modaleForm_category_option.value = DATA_CATEGORY[i].name
@@ -443,6 +433,14 @@ async function extractCategoryModaleFORM(parentElement){
     parentElement.appendChild(modaleForm_category_option)
   }
 }
+
+// Ajout d'une partie vide au début du formulaire "catégories" 
+function blankOptionCategoryModaleFORM(parentElement){
+  let blankOption = document.createElement("option");
+  blankOption.value = "";
+  parentElement.appendChild(blankOption);
+}
+
 
 
 // Affiche une erreur si un input du formulaire upload est vide
@@ -460,9 +458,8 @@ async function extractCategoryModaleFORM(parentElement){
     }
     parent.appendChild(modaleForm_title_input_error)
   })
-  
-}
- */
+} */
+
   
 
 
