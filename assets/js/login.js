@@ -90,7 +90,6 @@ function isMailFormatValid(emailValue) {
 } 
 
 
-
 // Faut-il déplacer cette fonction dans mon fichier fetchPortfolio?
 async function postData() {
 
