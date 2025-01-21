@@ -55,7 +55,6 @@ export async function imageDelete(id, container) {
   })
   .then(data => {
     console.log(data)
-    /* imgElement.remove()  */
     container.remove()
     console.log(`L'image numéro ${id} a été supprimée`)
   })
