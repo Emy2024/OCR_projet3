@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+	<meta charset="UTF-8">
+	<title>Sophie Bluel - Architecte d'intérieur</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Work+Sans&display=swap" rel="stylesheet">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w==" crossorigin="anonymous" referrerpolicy="no-referrer"> 
+	<meta name="description" content="">
+	<link rel="stylesheet" href="./assets/css/style.css">
+</head>
+
+<body>
+	
+<div id="divModeEdition"></div>
+<header>
+	<h1>Sophie Bluel <span>Architecte d'intérieur</span></h1>
+	<nav>
+		<ul>
+			<li>projets</li>
+			<li>contact</li>
+			<li id="btn_loginLogout">
+				<a href="login.html" id="login" class="login">login</a>
+				<a href="index.html" id="logout" class="logout" style="display: none;">logout</a>
+			</li>
+			<li><img src="./assets/icons/instagram.png" alt="Instagram"></li>
+		</ul>
+	</nav>
+</header>
+
+
+<!-- Main modale mg (Main Gallery) -->
+<div id="modale_overlay_mg" style="display: none;">
+</div>
+<div class="modale_mg_wrapper">
+	<div id="modale_mg" style="display: none;">
+		<p class="modale_close_button">x</p>
+		<p class="modaleTitle">Galerie photo</p>
+		<div class="modaleMainContent">
+			<div id="mg_container" class="galleryContainer_modale"></div>
+		</div>
+		<div class="modaleLine"></div>
+		<button id="mg_btn_valid" class="modaleMainButton activeButton">Ajouter une photo</button>
+	</div>
+</div>
+
+<!-- Main modale mf (Main Form) -->
+<div id="modale_overlay_mf" style="display: none;">
+</div>
+<div class="modale_mf_wrapper">
+	<div id="modale_mf" style="display: none;">
+		<p class="modale_close_button">x</p>
+		<p class="modaleTitle">Ajout photo</p>
+		<div class="modaleMainContent"></div>
+			<div class="form_modale">
+
+				<form method="post" id="upload_modale_form">
+					<div class="upload_modale_container_picture">
+						<div class="upload_modale_sub_container_picture" id="upload_modale_sub_container_picture">
+							<input type="file" name="file_input" id="file_input" accept="image/*" style="display: none;">
+							<i class="fa-regular fa-image upload_modale_icon"></i>
+							<button class="upload_modale_button" id="upload_button">+ Ajouter photo</button>
+							<p class="upload_modale_paragraph">jpg, png : 4mo max</p>
+							<p class="error_size_image" id="error_size_image" style="display: none;">L'image est trop volumineuse. Elle ne doit pas dépasser 4mo.</p>
+							<p class="error_size_image" id="error_empty_image" style="display: none;">Merci d'ajouter une image.</p>
+						</div>
+						<img id="image_overview" class="image_overview" src="#" alt="" style="display: none;">
+					</div>
+
+					<div class="upload_modale_container_subform">
+						<label class="modaleForm_label" id="modaleForm_label_title">Titre</label>
+						<p class="modaleForm_error" id="error_title" style="display: none;">Merci de compléter le champ titre.</p>
+						<input type="text" name="modaleForm_input_title" class="modaleForm_input" id="modaleForm_input_title">
+						
+						<label class="modaleForm_label" id="modaleForm_label_cat">Catégorie</label>
+						<p class="modaleForm_error"  id="error_select"  style="display: none;">Merci de sélectionner une catégorie.</p>
+						<select name="modaleForm_input_select" class="modaleForm_input" id="modaleForm_input_select"></select>
+					</div>
+				</form>
+
+			</div>
+		<div class="modaleLine"></div>
+		<button id="mf_btn_valid" class="modaleMainButton" type="submit" value="SUBMIT" disabled>Valider</button>
+		<i class="modale_previous_button fa-solid fa-arrow-left"></i>
+	</div>	
+</div>
+
+<!-- Delete Modale -->
+<div id="modaleDelete_overlay" class="modaleOverlayDivDeletePicture" style="display: none;">
+</div>
+<div class="modale_delete_wrapper">
+	<div id="modaleDivDeletePicture" class="modaleDivDeletePicture" style="display: none;">
+		<div class="modaleDivDeletePicture_awaiting_confirmation">
+			<h3 class="modaleDeleteQuestionTitle">Souhaitez-vous vraiment supprimer cette image ?</h3>
+			<p class="modaleDeleteQuestionParagraph">Une fois l'image supprimée, il ne sera plus possible de la récupérer.</p>
+			<div class="modaleContainerButtonDeleteAnswer">
+				<button class="buttonYesDeleteAnswer">Oui, supprimer définitivement</button>
+				<button class="buttonNoDeleteAnswer">Non, revenir en arrière</button>
+			</div>
+		</div>
+		<div class="modaleDivDeletePicture_confirmation" id="modaleDivDeletePicture_confirmation" style="display: none;">
+			<p class="modale_close_button_confirmed">x</p>
+			<i class="fa-solid fa-check confirmationDeleteIcon"></i>
+			<p>L'image vient d'être supprimée.</p>
+		</div>	
+	</div>
+</div>
+
+<!--Confirmed Modale : picture added -->
+<div id="modalePictureAdded_overlay" class="modalePictureAdded_overlay" style="display: none;">
+</div>
+<div class="modalePictureAdded_wrapper" id="modalePictureAdded_wrapper" style="display: none;">
+	<div class="modalePictureAdded_confirmation" >
+		<p class="modalePictureAdded_wrapper_closeBtn" id="modalePictureAdded_wrapper_closeBtn">x</p>
+		<i class="fa-solid fa-check confirmationDeleteIcon"></i>
+		<p>L'image vient d'être ajoutée.</p>
+	</div>
+</div>
+
+<main>
+	<div id="introduction">
+		<figure>
+			<img src="./assets/images/sophie-bluel.png" alt="">
+		</figure>
+		<article>
+			<h2>Designer d'espace</h2>
+			<p>Je raconte votre histoire, je valorise vos idées. Je vous accompagne de la conception à la livraison finale du chantier.</p>
+			<p>Chaque projet sera étudié en commun, de façon à mettre en valeur les volumes, les matières et les couleurs dans le respect de l’esprit des lieux et le choix adapté des matériaux. Le suivi du chantier sera assuré dans le souci du détail, le respect du planning et du budget.</p>
+			<p>En cas de besoin, une équipe pluridisciplinaire peut-être constituée : architecte DPLG, décorateur(trice)</p>
+		</article>
+	</div>
+	<div id="portfolio">
+		<h2>Mes Projets <span><a href="index.html" id="modale_open_button"></a></span></h2> 
+		<div class="filter">
+		</div>
+		<div id="mainFigure" class="gallery"></div>
+	</div>
+	<div class="contact">
+		<h2>Contact</h2>
+		<p>Vous avez un projet ? Discutons-en !</p>
+		<form action="#" method="post">
+			<label for="name">Nom</label>
+			<input type="text" name="name" id="name">
+			<label for="email">Email</label>
+			<input type="email" name="email" id="email">
+			<label for="message">Message</label>
+			<textarea name="message" id="message" cols="30" rows="10"></textarea>
+			<input type="submit" value="Envoyer">
+		</form>
+	</div>
+</main>
+<footer>
+	<nav>
+		<ul>
+			<li>Mentions Légales</li>
+		</ul>
+	</nav>
+</footer>
+
+
+<script type="module" src="./assets/js/index.js"></script> 
+
+</body>
+
+
+</html>
+
